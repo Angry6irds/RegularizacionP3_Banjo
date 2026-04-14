@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///C:/Users/A106_2/Downloads/steering-guide.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steering Behaviors — Guía de Arquitectura en Unity</title>
+<link href="./Steering Behaviors — Guía de Arquitectura en Unity_files/css2" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #13161f;
+  --surface2: #1a1e2a;
+  --border: #252836;
+  --accent: #00e5a0;
+  --accent2: #4f9dff;
+  --accent3: #ff6b6b;
+  --accent4: #ffd166;
+  --text: #e2e8f0;
+  --text-muted: #7c8598;
+  --text-dim: #4a5268;
+  --code-bg: #0a0c12;
+  --radius: 10px;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ─── GRAIN OVERLAY ───────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .4;
+}
+
+/* ─── HEADER ─────────────────────────── */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  background: rgba(13,15,20,.92);
+  backdrop-filter: blur(16px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  height: 60px;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.logo span { color: var(--text-muted); font-size: 1rem; }
+
+/* ─── TABS ──────────────────────────── */
+.tab-nav {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 4px;
+}
+
+.tab-btn {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  padding: .35rem 1.1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all .2s;
+  letter-spacing: .5px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active {
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
+/* ─── PROGRESS ──────────────────────── */
+.progress-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  min-width: 160px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 99px;
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+.progress-label {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* ─── MAIN ──────────────────────────── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── CONCEPTS LAYOUT ───────────────── */
+.concepts-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 60px);
+}
+
+.concepts-sidebar {
+  border-right: 1px solid var(--border);
+  padding: 2rem 0;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.sidebar-label {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  padding: 0 1.25rem .75rem;
+  text-transform: uppercase;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem 1.25rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: .82rem;
+  transition: all .15s;
+  border-left: 2px solid transparent;
+}
+
+.sidebar-link:hover { color: var(--text); background: var(--surface); }
+.sidebar-link.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,229,160,.06); }
+
+.sidebar-icon { font-size: .8rem; width: 16px; text-align: center; }
+
+.concepts-content {
+  padding: 3rem 4rem;
+  max-width: 860px;
+}
+
+/* ─── SECTION HEADERS ───────────────── */
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.section-lead {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  max-width: 640px;
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+}
+
+/* ─── CONCEPT CARD ──────────────────── */
+.concept-section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 80px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.card-title {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  color: var(--accent2);
+  margin-bottom: .6rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.card-title::before {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--accent2);
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.card p { color: var(--text-muted); margin-bottom: .75rem; }
+.card p:last-child { margin-bottom: 0; }
+.card strong { color: var(--text); }
+
+/* ─── CODE BLOCKS ───────────────────── */
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 1.25rem 0;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+
+.code-filename {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--accent);
+}
+
+.code-lang {
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  color: var(--text-dim);
+  background: var(--bg);
+  padding: .15rem .5rem;
+  border-radius: 4px;
+}
+
+.code-block pre {
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  line-height: 1.7;
+  color: #c9d1d9;
+}
+
+/* Syntax highlighting */
+.kw { color: #ff79c6; }
+.kw2 { color: #bd93f9; }
+.type { color: #8be9fd; }
+.str { color: #f1fa8c; }
+.cmt { color: #6272a4; font-style: italic; }
+.num { color: #ffb86c; }
+.fn { color: #50fa7b; }
+.prop { color: #ff79c6; }
+
+/* ─── SOLID CARDS ───────────────────── */
+.solid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.solid-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+
+.solid-card:hover { border-color: var(--accent); }
+
+.solid-letter {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: rgba(0,229,160,.08);
+  position: absolute;
+  top: .5rem; right: .75rem;
+}
+
+.solid-card-title {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  color: var(--accent);
+  margin-bottom: .4rem;
+}
+
+.solid-card p { color: var(--text-muted); font-size: .88rem; }
+
+/* ─── SVG DIAGRAM ───────────────────── */
+.diagram-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.diagram-wrap svg { max-width: 100%; display: block; margin: 0 auto; }
+
+/* ─── UNITY INSPECTOR SIM ───────────── */
+.inspector-sim {
+  background: #1e2228;
+  border: 1px solid #2d3339;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 1.5rem 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .82rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+}
+
+.inspector-header {
+  background: #252a30;
+  padding: .5rem .75rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  border-bottom: 1px solid #2d3339;
+}
+
+.inspector-dot { width: 10px; height: 10px; border-radius: 50%; }
+.inspector-dot.r { background: #ff5f57; }
+.inspector-dot.y { background: #febc2e; }
+.inspector-dot.g { background: #28c840; }
+
+.inspector-title { color: #8a9bb0; font-size: .75rem; margin-left: .5rem; }
+
+.inspector-component {
+  border-bottom: 1px solid #1a1e24;
+}
+
+.inspector-comp-header {
+  display: flex;
+  align-items: center;
+  padding: .4rem .75rem;
+  background: #22272e;
+  gap: .5rem;
+  cursor: pointer;
+  color: #c5cdd8;
+}
+
+.inspector-arrow { color: #5a6575; font-size: .7rem; transition: transform .2s; }
+.inspector-arrow.open { transform: rotate(90deg); }
+
+.inspector-comp-icon { font-size: .8rem; }
+.inspector-comp-name { font-size: .82rem; font-weight: 500; }
+
+.inspector-fields { padding: .25rem 0 .5rem; }
+
+.inspector-field {
+  display: flex;
+  align-items: center;
+  padding: .2rem 1rem .2rem 1.75rem;
+  gap: .75rem;
+}
+
+.inspector-field:hover { background: rgba(255,255,255,.03); }
+
+.inspector-field-name { color: #8a9bb0; min-width: 130px; font-size: .78rem; }
+
+.inspector-field-val {
+  background: #1a1e24;
+  border: 1px solid #2d3339;
+  border-radius: 3px;
+  padding: .1rem .5rem;
+  color: #c5cdd8;
+  font-size: .78rem;
+  min-width: 80px;
+}
+
+.inspector-field-val.green { color: #5dde87; }
+.inspector-field-val.blue { color: #5eaeff; }
+.inspector-field-val.ref {
+  display: flex; align-items: center; gap: .4rem;
+  color: #5eaeff;
+}
+
+.inspector-sub {
+  background: #191d23;
+  border-left: 2px solid #2d3339;
+  margin-left: 1.75rem;
+  margin-bottom: .25rem;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ─── CALLOUT ───────────────────────── */
+.callout {
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  display: flex;
+  gap: .75rem;
+  font-size: .9rem;
+}
+
+.callout-icon { font-size: 1.1rem; flex-shrink: 0; padding-top: .05rem; }
+
+.callout.tip { background: rgba(0,229,160,.07); border: 1px solid rgba(0,229,160,.2); }
+.callout.tip .callout-icon { color: var(--accent); }
+.callout.warn { background: rgba(255,209,102,.07); border: 1px solid rgba(255,209,102,.2); }
+.callout.warn .callout-icon { color: var(--accent4); }
+.callout.info { background: rgba(79,157,255,.07); border: 1px solid rgba(79,157,255,.2); }
+.callout.info .callout-icon { color: var(--accent2); }
+
+.callout p { color: var(--text-muted); margin: 0; }
+.callout strong { color: var(--text); }
+
+/* ─── EXERCISE TAB ──────────────────── */
+.exercise-layout {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.exercise-hero {
+  margin-bottom: 3rem;
+  padding: 2.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.exercise-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(0,229,160,.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.toggle-2d3d {
+  display: inline-flex;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 3px;
+  gap: 2px;
+  margin-top: 1rem;
+}
+
+.toggle-btn {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  padding: .35rem 1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all .2s;
+}
+
+.toggle-btn.active {
+  background: var(--accent2);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ─── PHASE ─────────────────────────── */
+.phase {
+  margin-bottom: 2.5rem;
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.phase-number {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--accent);
+  line-height: 1;
+  min-width: 50px;
+}
+
+.phase-info {}
+.phase-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+.phase-desc { font-size: .85rem; color: var(--text-muted); }
+
+/* ─── CHECKLIST ITEM ────────────────── */
+.checklist { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+
+.check-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .3s;
+}
+
+.check-item.completed {
+  border-color: rgba(0,229,160,.3);
+  box-shadow: 0 0 0 1px rgba(0,229,160,.1);
+}
+
+.check-item.completed .check-label { color: var(--text-muted); text-decoration: line-through; text-decoration-color: rgba(0,229,160,.4); }
+
+.check-header {
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+  padding: .9rem 1.1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.check-header:hover { background: rgba(255,255,255,.02); }
+
+.checkbox {
+  width: 22px; height: 22px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .25s;
+  margin-top: 1px;
+  background: transparent;
+}
+
+.check-item.completed .checkbox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkmark {
+  color: #000;
+  font-size: .75rem;
+  font-weight: 900;
+  opacity: 0;
+  transform: scale(0);
+  transition: all .2s .05s;
+}
+
+.check-item.completed .checkmark { opacity: 1; transform: scale(1); }
+
+.check-label {
+  flex: 1;
+  font-size: .92rem;
+  color: var(--text);
+  line-height: 1.5;
+  transition: all .3s;
+}
+
+.check-expand-icon {
+  color: var(--text-dim);
+  font-size: .7rem;
+  margin-top: 4px;
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+
+.check-item.expanded .check-expand-icon { transform: rotate(180deg); }
+
+.check-body {
+  display: none;
+  padding: 0 1.1rem 1.1rem 3.1rem;
+  animation: slideDown .2s ease;
+}
+
+.check-body.show { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.check-why {
+  font-size: .82rem;
+  color: var(--text-muted);
+  margin-bottom: .85rem;
+  padding: .6rem .9rem;
+  background: rgba(79,157,255,.06);
+  border-left: 2px solid var(--accent2);
+  border-radius: 0 6px 6px 0;
+}
+
+.check-why strong { color: var(--accent2); }
+
+.check-body .code-block { margin: 0; }
+
+/* ─── BADGE ─────────────────────────── */
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  padding: .15rem .5rem;
+  border-radius: 4px;
+  letter-spacing: .5px;
+  vertical-align: middle;
+  margin-left: .4rem;
+}
+
+.badge.mono { background: rgba(0,229,160,.1); color: var(--accent); border: 1px solid rgba(0,229,160,.2); }
+.badge.mb { background: rgba(79,157,255,.1); color: var(--accent2); border: 1px solid rgba(79,157,255,.2); }
+.badge.editor { background: rgba(255,107,107,.1); color: var(--accent3); border: 1px solid rgba(255,107,107,.2); }
+
+/* ─── DIMENSION CONTENT ─────────────── */
+.dim-content { display: none; }
+.dim-content.active { display: block; }
+
+/* ─── COMPLETE BANNER ───────────────── */
+.complete-banner {
+  display: none;
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(0,229,160,.1), rgba(79,157,255,.1));
+  border: 1px solid rgba(0,229,160,.3);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.complete-banner.show { display: block; animation: fadeIn .5s ease; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.complete-banner h2 { font-family: var(--font-display); font-size: 2rem; color: var(--accent); margin-bottom: .5rem; }
+.complete-banner p { color: var(--text-muted); }
+
+/* ─── SCROLLBAR ─────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* ─── RESPONSIVE ────────────────────── */
+@media (max-width: 768px) {
+  .concepts-layout { grid-template-columns: 1fr; }
+  .concepts-sidebar { display: none; }
+  .concepts-content { padding: 2rem 1.25rem; }
+  .section-title { font-size: 2rem; }
+  .site-header { flex-wrap: wrap; height: auto; padding: .75rem 1rem; gap: .5rem; }
+  .progress-bar-wrap { display: none; }
+}
+
+/* ─── TABLE ─────────────────────────── */
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .85rem; }
+th { background: var(--surface2); color: var(--accent); font-family: var(--font-mono); font-size: .72rem; letter-spacing: 1px; padding: .6rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+td { padding: .55rem 1rem; border-bottom: 1px solid rgba(37,40,54,.6); color: var(--text-muted); vertical-align: top; }
+td:first-child { color: var(--text); font-weight: 500; }
+tr:hover td { background: rgba(255,255,255,.02); }
+
+h3 { color: var(--text); margin: 1.5rem 0 .75rem; font-size: 1rem; }
+p { color: var(--text-muted); margin-bottom: .75rem; }
+ul, ol { color: var(--text-muted); padding-left: 1.5rem; margin-bottom: .75rem; }
+li { margin-bottom: .3rem; }
+li strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="logo">STEERING<span> // Unity Architecture</span></div>
+  
+  <nav class="tab-nav">
+    <button class="tab-btn" onclick="switchTab(&#39;concepts&#39;)">📚 Conceptos</button>
+    <button class="tab-btn active" onclick="switchTab(&#39;exercise&#39;)">⚙️ Ejercicio</button>
+  </nav>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width: 54%;"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">54%</div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════ TAB: CONCEPTOS ═══════════════════════════════════ -->
+<div id="tab-concepts" class="tab-panel">
+  <div class="concepts-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="concepts-sidebar">
+      <div class="sidebar-label">Temas</div>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#oop" class="sidebar-link active"><span class="sidebar-icon">🧱</span> OOP: Objetos y Clases</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#abstract" class="sidebar-link"><span class="sidebar-icon">🔷</span> Clases Abstractas</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#inheritance" class="sidebar-link"><span class="sidebar-icon">🔗</span> Herencia</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#architecture" class="sidebar-link"><span class="sidebar-icon">🏗️</span> Arquitectura</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#solid" class="sidebar-link"><span class="sidebar-icon">💎</span> Principios SOLID</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#unity-inspector" class="sidebar-link"><span class="sidebar-icon">🎛️</span> Unity Inspector</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#serializable" class="sidebar-link"><span class="sidebar-icon">📦</span> Serialización</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#custom-editor" class="sidebar-link"><span class="sidebar-icon">🖌️</span> Custom Editor</a>
+      <a href="file:///C:/Users/A106_2/Downloads/steering-guide.html#steering-arch" class="sidebar-link"><span class="sidebar-icon">🤖</span> Arquitectura Final</a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="concepts-content">
+
+      <!-- OOP -->
+      <section class="concept-section" id="oop">
+        <p class="section-eyebrow">01 — Fundamentos</p>
+        <h1 class="section-title">Objetos y Clases</h1>
+        <p class="section-lead">Todo en C# (y en la mayoría de los lenguajes modernos) gira alrededor de estos dos conceptos. Antes de construir sistemas complejos, hay que entenderlos bien.</p>
+
+        <div class="card">
+          <div class="card-title">¿Qué es una Clase?</div>
+          <p>Una <strong>clase</strong> es un plano o plantilla. Define <em>qué propiedades tiene</em> algo y <em>qué puede hacer</em>. Por sí sola no existe en memoria — es solo la descripción.</p>
+          <p>Piénsalo como el plano de un edificio: el plano no es el edificio, es la instrucción para construirlo.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">¿Qué es un Objeto?</div>
+          <p>Un <strong>objeto</strong> es una instancia de una clase — el edificio construido a partir del plano. Puedes tener 10 edificios (objetos) del mismo plano (clase), cada uno con su propio estado.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">Ejemplo.cs</span>
+            <span class="code-lang">C#</span>
+          </div>
+          <pre><span class="cmt">// Esto es una CLASE (el plano)</span>
+<span class="kw">public class</span> <span class="type">Perro</span>
+{
+    <span class="kw">public</span> <span class="type">string</span> nombre;   <span class="cmt">// propiedad</span>
+    <span class="kw">public</span> <span class="type">int</span> edad;
+
+    <span class="kw">public void</span> <span class="fn">Ladrar</span>()    <span class="cmt">// método (lo que puede hacer)</span>
+    {
+        <span class="type">Debug</span>.<span class="fn">Log</span>(<span class="str">"¡Woof!"</span>);
+    }
+}
+
+<span class="cmt">// Esto es crear OBJETOS (instancias del plano)</span>
+<span class="type">Perro</span> miPerro = <span class="kw">new</span> <span class="type">Perro</span>();
+miPerro.nombre = <span class="str">"Max"</span>;
+miPerro.<span class="fn">Ladrar</span>();   <span class="cmt">// "¡Woof!"</span>
+
+<span class="type">Perro</span> otroPerro = <span class="kw">new</span> <span class="type">Perro</span>();
+otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distinto objeto, mismo plano</span></pre>
+        </div>
+
+        <table>
+          <tbody><tr><th>Término</th><th>Analogía</th><th>En código</th></tr>
+          <tr><td>Clase</td><td>Plano del edificio</td><td><code>public class Perro { }</code></td></tr>
+          <tr><td>Objeto</td><td>El edificio construido</td><td><code>new Perro()</code></td></tr>
+          <tr><td>Propiedad</td><td>Número de pisos del edificio</td><td><code>public string nombre;</code></td></tr>
+          <tr><td>Método</td><td>Lo que puede hacer el edificio</td><td><code>void Ladrar() { }</code></td></tr>
+        </tbody></table>
+      </section>
+
+      <!-- ABSTRACT -->
+      <section class="concept-section" id="abstract">
+        <p class="section-eyebrow">02 — Clases Abstractas</p>
+        <h1 class="section-title">Contratos de Código</h1>
+        <p class="section-lead">Una clase abstracta define <em>qué debe existir</em> sin especificar <em>cómo</em>. Es un contrato que obliga a quien la herede a implementar ciertos métodos.</p>
+
+        <div class="card">
+          <div class="card-title">¿Por qué no usar una clase normal?</div>
+          <p>Si tuvieras una clase <code>SteeringBehavior</code> normal, nada te obligaría a implementar <code>GetSteering()</code>. Podrías olvidarlo y el sistema fallaría en runtime.</p>
+          <p>Con <strong>abstract</strong>, el compilador te garantiza que cualquier clase que herede <em>debe</em> implementar ese método. El error aparece en tiempo de compilación, no cuando el juego ya está corriendo.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">SteeringBehavior.cs</span>
+            <span class="code-lang">C#</span>
+          </div>
+          <pre><span class="cmt">// abstract = "no puedes crear un objeto de esta clase directamente"</span>
+<span class="kw">public abstract class</span> <span class="type">SteeringBehavior</span>
+{
+    <span class="kw">public float</span> weight = <span class="num">1f</span>;
+
+    <span class="cmt">// abstract = "quien herede DEBE implementar esto"</span>
+    <span class="kw">public abstract</span> <span class="type">Vector3</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx);
+}
+
+<span class="cmt">// Esto NO compila — no puedes instanciar abstract:</span>
+<span class="cmt">// SteeringBehavior b = new SteeringBehavior(); ❌</span>
+
+<span class="cmt">// Esto SÍ funciona — Seek implementa el método:</span>
+<span class="type">SteeringBehavior</span> b = <span class="kw">new</span> <span class="type">Seek</span>(); <span class="cmt">// ✅</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <p><strong>Regla de oro:</strong> Si estás escribiendo la misma firma de método en múltiples clases, probablemente necesitas una clase abstracta que la defina.</p>
+        </div>
+      </section>
+
+      <!-- INHERITANCE -->
+      <section class="concept-section" id="inheritance">
+        <p class="section-eyebrow">03 — Herencia</p>
+        <h1 class="section-title">Reutilizar y Extender</h1>
+        <p class="section-lead">La herencia permite que una clase tome todo lo que tiene otra y le agregue o modifique comportamiento. Es el mecanismo que conecta las clases abstractas con sus implementaciones.</p>
+
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" font-family="&#39;Space Mono&#39;, monospace">
+            <!-- Abstract base -->
+            <rect x="240" y="10" width="200" height="80" rx="8" fill="#1a1e2a" stroke="#4f9dff" stroke-width="1.5"></rect>
+            <rect x="240" y="10" width="200" height="28" rx="8" fill="#252836"></rect>
+            <rect x="240" y="28" width="200" height="10" fill="#252836"></rect>
+            <text x="340" y="29" fill="#4f9dff" font-size="9" text-anchor="middle">«abstract»</text>
+            <text x="340" y="50" fill="#8be9fd" font-size="11" text-anchor="middle" font-weight="bold">SteeringBehavior</text>
+            <text x="340" y="67" fill="#6272a4" font-size="9" text-anchor="middle">+ weight: float</text>
+            <text x="340" y="80" fill="#50fa7b" font-size="9" text-anchor="middle">+ GetSteering(): Vector3</text>
+
+            <!-- Lines -->
+            <line x1="120" y1="90" x2="240" y2="90" stroke="#2d3339" stroke-width="1" stroke-dasharray="4"></line>
+            <line x1="560" y1="90" x2="440" y2="90" stroke="#2d3339" stroke-width="1" stroke-dasharray="4"></line>
+
+            <line x1="120" y1="90" x2="120" y2="195" stroke="#2d3339" stroke-width="1"></line>
+            <line x1="340" y1="90" x2="340" y2="195" stroke="#2d3339" stroke-width="1"></line>
+            <line x1="560" y1="90" x2="560" y2="195" stroke="#2d3339" stroke-width="1"></line>
+
+            <!-- Arrow heads (inheritance) -->
+            <polygon points="240,88 252,82 252,94" fill="#4f9dff"></polygon>
+            <polygon points="440,88 428,82 428,94" fill="#4f9dff"></polygon>
+
+            <!-- Seek -->
+            <rect x="30" y="200" width="180" height="80" rx="8" fill="#1a1e2a" stroke="#00e5a0" stroke-width="1.5"></rect>
+            <rect x="30" y="200" width="180" height="26" rx="8" fill="#252836"></rect>
+            <rect x="30" y="217" width="180" height="9" fill="#252836"></rect>
+            <text x="120" y="216" fill="#00e5a0" font-size="11" text-anchor="middle" font-weight="bold">Seek</text>
+            <text x="120" y="233" fill="#6272a4" font-size="9" text-anchor="middle">+ target: Transform</text>
+            <text x="120" y="247" fill="#50fa7b" font-size="9" text-anchor="middle">override GetSteering()</text>
+            <text x="120" y="261" fill="#6272a4" font-size="8" text-anchor="middle">→ desiredVel - velocity</text>
+            <text x="120" y="272" fill="#6272a4" font-size="8" text-anchor="middle">target - posActual</text>
+
+            <!-- Flee -->
+            <rect x="250" y="200" width="180" height="80" rx="8" fill="#1a1e2a" stroke="#ff6b6b" stroke-width="1.5"></rect>
+            <rect x="250" y="200" width="180" height="26" rx="8" fill="#252836"></rect>
+            <rect x="250" y="217" width="180" height="9" fill="#252836"></rect>
+            <text x="340" y="216" fill="#ff6b6b" font-size="11" text-anchor="middle" font-weight="bold">Flee</text>
+            <text x="340" y="233" fill="#6272a4" font-size="9" text-anchor="middle">+ target: Transform</text>
+            <text x="340" y="247" fill="#50fa7b" font-size="9" text-anchor="middle">override GetSteering()</text>
+            <text x="340" y="261" fill="#6272a4" font-size="8" text-anchor="middle">→ desiredVel - velocity</text>
+            <text x="340" y="272" fill="#6272a4" font-size="8" text-anchor="middle">posActual - target</text>
+
+            <!-- Wander -->
+            <rect x="470" y="200" width="180" height="80" rx="8" fill="#1a1e2a" stroke="#ffd166" stroke-width="1.5"></rect>
+            <rect x="470" y="200" width="180" height="26" rx="8" fill="#252836"></rect>
+            <rect x="470" y="217" width="180" height="9" fill="#252836"></rect>
+            <text x="560" y="212" fill="#ffd166" font-size="9" text-anchor="middle">«MonoBehaviour»</text>
+            <text x="560" y="226" fill="#ffd166" font-size="11" text-anchor="middle" font-weight="bold">Wander</text>
+            <text x="560" y="243" fill="#6272a4" font-size="9" text-anchor="middle">+ wanderRadius: float</text>
+            <text x="560" y="257" fill="#50fa7b" font-size="9" text-anchor="middle">override GetSteering()</text>
+            <text x="560" y="271" fill="#6272a4" font-size="8" text-anchor="middle">Coroutine JitterRoutine</text>
+
+            <!-- Legend -->
+            <rect x="240" y="295" width="10" height="10" rx="2" fill="#4f9dff" opacity=".7"></rect>
+            <text x="255" y="304" fill="#6272a4" font-size="8">hereda de →</text>
+          </svg>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">Seek.cs — Herencia en acción</span>
+            <span class="code-lang">C#</span>
+          </div>
+          <pre><span class="cmt">// Los dos puntos significan "hereda de"</span>
+<span class="kw">public class</span> <span class="type">Seek</span> : <span class="type">SteeringBehavior</span>
+{
+    <span class="kw">public</span> <span class="type">Transform</span> target;
+
+    <span class="cmt">// "override" = estoy implementando el método abstracto del padre</span>
+    <span class="kw">public override</span> <span class="type">Vector3</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="type">Vector3</span> desired = (target.position - ctx.position).<span class="fn">normalized</span> * ctx.maxSpeed;
+        <span class="kw">return</span> desired - ctx.velocity;
+    }
+    <span class="cmt">// Seek hereda automáticamente: weight, enabled</span>
+}</pre>
+        </div>
+      </section>
+
+      <!-- ARCHITECTURE -->
+      <section class="concept-section" id="architecture">
+        <p class="section-eyebrow">04 — Arquitectura de Software</p>
+        <h1 class="section-title">Por qué importa la estructura</h1>
+        <p class="section-lead">La arquitectura es la decisión de <em>cómo organizar</em> tu código antes de escribirlo. Una buena arquitectura hace que el sistema sea fácil de mantener, extender y entender.</p>
+
+        <div class="card">
+          <div class="card-title">Sin arquitectura</div>
+          <p>Imagina que metes toda la lógica de Seek, Flee, Wander y el movimiento del agente en un solo script <code>NPCController.cs</code>. Funciona al principio. Pero cuando quieres agregar Pursuit, tienes que entender 800 líneas. Cuando quieres reutilizarlo en otro proyecto, no puedes.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Con arquitectura</div>
+          <p>Cada comportamiento es su propia clase. El controller solo suma fuerzas. Agregar un nuevo behaviour = crear un archivo nuevo, no tocar nada existente. Esto se llama <strong>Open/Closed Principle</strong> (uno de los SOLID).</p>
+        </div>
+
+        <table>
+          <tbody><tr><th>Sin arquitectura</th><th>Con arquitectura</th></tr>
+          <tr><td>Agregar Pursuit = editar el script principal</td><td>Agregar Pursuit = nuevo archivo Pursuit.cs</td></tr>
+          <tr><td>Bug en Wander afecta todo</td><td>Bug en Wander está aislado en Wander.cs</td></tr>
+          <tr><td>No se puede reutilizar</td><td>Seek.cs funciona en cualquier proyecto</td></tr>
+          <tr><td>Difícil de testear</td><td>Cada clase se puede testear sola</td></tr>
+        </tbody></table>
+      </section>
+
+      <!-- SOLID -->
+      <section class="concept-section" id="solid">
+        <p class="section-eyebrow">05 — Principios de Diseño</p>
+        <h1 class="section-title">SOLID</h1>
+        <p class="section-lead">SOLID es un acrónimo de 5 principios de diseño de software orientado a objetos. Seguirlos produce código más fácil de mantener y extender.</p>
+
+        <div class="solid-grid">
+          <div class="solid-card">
+            <div class="solid-letter">S</div>
+            <div class="solid-card-title">Single Responsibility</div>
+            <p>Cada clase tiene <strong>una sola razón para cambiar</strong>. <code>Seek</code> solo calcula Seek. <code>SteeringContext</code> solo lleva datos. El controller solo suma fuerzas.</p>
+          </div>
+          <div class="solid-card">
+            <div class="solid-letter">O</div>
+            <div class="solid-card-title">Open / Closed</div>
+            <p>El sistema está <strong>abierto para extensión</strong> pero <strong>cerrado para modificación</strong>. Agregar <code>Pursuit.cs</code> no modifica el controller.</p>
+          </div>
+          <div class="solid-card">
+            <div class="solid-letter">L</div>
+            <div class="solid-card-title">Liskov Substitution</div>
+            <p>Cualquier <code>SteeringBehavior</code> puede reemplazar a otro en la lista del controller sin romper nada. Seek, Flee, Wander son intercambiables.</p>
+          </div>
+          <div class="solid-card">
+            <div class="solid-letter">I</div>
+            <div class="solid-card-title">Interface Segregation</div>
+            <p>Las clases POCO no cargan con el peso de MonoBehaviour. Las que necesitan corrutinas tienen su propia rama de herencia.</p>
+          </div>
+          <div class="solid-card">
+            <div class="solid-letter">D</div>
+            <div class="solid-card-title">Dependency Inversion</div>
+            <p>El controller depende de la abstracción <code>SteeringBehavior</code>, no de <code>Seek</code> o <code>Flee</code> directamente. Puedes cambiar behaviours sin tocar el controller.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- UNITY INSPECTOR -->
+      <section class="concept-section" id="unity-inspector">
+        <p class="section-eyebrow">06 — Unity</p>
+        <h1 class="section-title">El Inspector</h1>
+        <p class="section-lead">El Inspector de Unity muestra los campos públicos de tus componentes. Aprender a controlarlo te da un poder enorme para hacer herramientas usables sin código adicional.</p>
+
+        <h3>¿Cómo aparece un campo en el inspector?</h3>
+        <p>Por defecto, Unity serializa (muestra en el inspector) los campos que son <strong>public</strong> o que tienen <code>[SerializeField]</code>. Los privados sin ese atributo no aparecen.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">Qué aparece en el inspector</span>
+            <span class="code-lang">C#</span>
+          </div>
+          <pre><span class="kw">public class</span> <span class="type">EjemploInspector</span> : <span class="type">MonoBehaviour</span>
+{
+    <span class="kw">public float</span> velocidad = <span class="num">5f</span>;        <span class="cmt">// ✅ aparece</span>
+    
+    [<span class="prop">SerializeField</span>]
+    <span class="kw">private float</span> fuerza = <span class="num">3f</span>;          <span class="cmt">// ✅ aparece (con atributo)</span>
+    
+    <span class="kw">private float</span> secreto = <span class="num">1f</span>;          <span class="cmt">// ❌ no aparece</span>
+    
+    [<span class="prop">HideInInspector</span>]
+    <span class="kw">public float</span> oculto = <span class="num">0f</span>;           <span class="cmt">// ❌ no aparece (aunque sea public)</span>
+    
+    [<span class="prop">Range(0f, 1f</span>)]
+    <span class="kw">public float</span> peso = <span class="num">0.5f</span>;           <span class="cmt">// ✅ aparece como slider</span>
+    
+    [<span class="prop">Header</span>(<span class="str">"Config"</span>)]
+    <span class="kw">public bool</span> activado = <span class="kw">true</span>;         <span class="cmt">// ✅ con encabezado</span>
+}</pre>
+        </div>
+
+        <!-- Inspector simulation -->
+        <div class="inspector-sim">
+          <div class="inspector-header">
+            <div class="inspector-dot r"></div>
+            <div class="inspector-dot y"></div>
+            <div class="inspector-dot g"></div>
+            <div class="inspector-title">Inspector — EjemploInspector</div>
+          </div>
+          <div class="inspector-component">
+            <div class="inspector-comp-header">
+              <span class="inspector-arrow open">▶</span>
+              <span class="inspector-comp-icon">⚙</span>
+              <span class="inspector-comp-name">Ejemplo Inspector</span>
+            </div>
+            <div class="inspector-fields">
+              <div class="inspector-field">
+                <span class="inspector-field-name">Velocidad</span>
+                <span class="inspector-field-val green">5</span>
+              </div>
+              <div class="inspector-field">
+                <span class="inspector-field-name">Fuerza</span>
+                <span class="inspector-field-val green">3</span>
+              </div>
+              <div class="inspector-field">
+                <span class="inspector-field-name">Peso</span>
+                <span class="inspector-field-val blue">▬▬▬▬▬▬▬▬░░ 0.5</span>
+              </div>
+              <div class="inspector-field">
+                <span class="inspector-field-name" style="color:#8a9bb0;font-size:.7rem;letter-spacing:1px">CONFIG</span>
+              </div>
+              <div class="inspector-field">
+                <span class="inspector-field-name">Activado</span>
+                <span class="inspector-field-val green">✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERIALIZABLE -->
+      <section class="concept-section" id="serializable">
+        <p class="section-eyebrow">07 — Serialización</p>
+        <h1 class="section-title">[Serializable] y [SerializeReference]</h1>
+        <p class="section-lead">Para que una clase que <em>no</em> hereda de MonoBehaviour aparezca en el inspector (como nuestros behaviours POCO), necesitamos decirle a Unity que la serialice.</p>
+
+        <div class="card">
+          <div class="card-title">[Serializable] — para clases simples</div>
+          <p>Cuando marcas una clase con <code>[System.Serializable]</code>, Unity puede mostrar sus campos en el inspector si está referenciada desde un MonoBehaviour.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">[SerializeReference] — para polimorfismo</div>
+          <p>Si tienes una <code>List&lt;SteeringBehavior&gt;</code> y quieres que Unity guarde correctamente objetos de tipos distintos (Seek, Flee, etc.), necesitas <code>[SerializeReference]</code>. Sin esto, Unity solo guardaría los campos base.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">SteeringController.cs — Serialización</span>
+            <span class="code-lang">C#</span>
+          </div>
+          <pre><span class="kw">public class</span> <span class="type">SteeringController</span> : <span class="type">MonoBehaviour</span>
+{
+    <span class="cmt">// SerializeReference permite polimorfismo en el inspector</span>
+    <span class="cmt">// Unity guarda el tipo real (Seek, Flee) no solo SteeringBehavior</span>
+    [<span class="prop">SerializeReference</span>]
+    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">SteeringBehavior</span>&gt; behaviours = <span class="kw">new</span>();
+}
+
+<span class="cmt">// Y en SteeringBehavior, la clase debe ser Serializable:</span>
+[<span class="prop">System.Serializable</span>]
+<span class="kw">public abstract class</span> <span class="type">SteeringBehavior</span>
+{
+    [<span class="prop">Range(0f, 1f</span>)]
+    <span class="kw">public float</span> weight = <span class="num">1f</span>;
+    <span class="kw">public bool</span> enabled = <span class="kw">true</span>;
+}</pre>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <p><strong>[SerializeReference] requiere Unity 2019.3+.</strong> Si usas una versión anterior, necesitarías una arquitectura diferente (ScriptableObjects o solo MonoBehaviours).</p>
+        </div>
+      </section>
+
+      <!-- CUSTOM EDITOR -->
+      <section class="concept-section" id="custom-editor">
+        <p class="section-eyebrow">08 — Custom Inspector</p>
+        <h1 class="section-title">Editores Personalizados</h1>
+        <p class="section-lead">Unity permite crear tu propio inspector para cualquier componente. Esto es lo que hace posible el botón "Add Seek" en el inspector de <code>SteeringController</code>.</p>
+
+        <h3>Estructura básica de un Custom Editor</h3>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">Editor/SteeringControllerEditor.cs</span>
+            <span class="code-lang">C#</span>
+          </div>
+          <pre><span class="cmt">// Debe estar en una carpeta llamada "Editor"</span>
+<span class="prop">#if UNITY_EDITOR</span>
+<span class="kw">using</span> UnityEditor;
+<span class="kw">using</span> UnityEngine;
+
+<span class="cmt">// Le dice a Unity: "usa este editor para SteeringController"</span>
+[<span class="prop">CustomEditor</span>(<span class="kw">typeof</span>(<span class="type">SteeringController</span>))]
+<span class="kw">public class</span> <span class="type">SteeringControllerEditor</span> : <span class="type">Editor</span>
+{
+    <span class="kw">public override void</span> <span class="fn">OnInspectorGUI</span>()
+    {
+        <span class="cmt">// Dibuja el inspector por defecto primero</span>
+        <span class="fn">DrawDefaultInspector</span>();
+
+        <span class="type">SteeringController</span> ctrl = (<span class="type">SteeringController</span>)target;
+
+        <span class="type">EditorGUILayout</span>.<span class="fn">Space</span>();
+        <span class="type">EditorGUILayout</span>.<span class="fn">LabelField</span>(<span class="str">"Agregar Behaviour"</span>, <span class="type">EditorStyles</span>.boldLabel);
+
+        <span class="cmt">// Encuentra todas las subclases de SteeringBehavior</span>
+        <span class="kw">var</span> types = <span class="type">AppDomain</span>.CurrentDomain.<span class="fn">GetAssemblies</span>()
+            .<span class="fn">SelectMany</span>(a =&gt; a.<span class="fn">GetTypes</span>())
+            .<span class="fn">Where</span>(t =&gt; t.<span class="fn">IsSubclassOf</span>(<span class="kw">typeof</span>(<span class="type">SteeringBehavior</span>)) &amp;&amp; !t.IsAbstract);
+
+        <span class="kw">foreach</span> (<span class="kw">var</span> type <span class="kw">in</span> types)
+        {
+            <span class="kw">if</span> (<span class="type">GUILayout</span>.<span class="fn">Button</span>(<span class="str">$"+ Add {type.Name}"</span>))
+            {
+                <span class="type">Undo</span>.<span class="fn">RecordObject</span>(ctrl, <span class="str">$"Add {type.Name}"</span>);
+                ctrl.behaviours.<span class="fn">Add</span>((<span class="type">SteeringBehavior</span>)<span class="type">Activator</span>.<span class="fn">CreateInstance</span>(type));
+                <span class="type">EditorUtility</span>.<span class="fn">SetDirty</span>(ctrl);
+            }
+        }
+    }
+}
+<span class="prop">#endif</span></pre>
+        </div>
+
+        <!-- Inspector simulado del resultado -->
+        <h3>Resultado en el Inspector</h3>
+        <div class="inspector-sim">
+          <div class="inspector-header">
+            <div class="inspector-dot r"></div>
+            <div class="inspector-dot y"></div>
+            <div class="inspector-dot g"></div>
+            <div class="inspector-title">Inspector — SteeringController</div>
+          </div>
+          <div class="inspector-component">
+            <div class="inspector-comp-header">
+              <span class="inspector-arrow open">▶</span>
+              <span class="inspector-comp-icon">🤖</span>
+              <span class="inspector-comp-name">Steering Controller (Script)</span>
+            </div>
+            <div class="inspector-fields">
+              <div class="inspector-field">
+                <span class="inspector-field-name">Max Speed</span>
+                <span class="inspector-field-val green">5</span>
+              </div>
+              <div class="inspector-field">
+                <span class="inspector-field-name">Max Force</span>
+                <span class="inspector-field-val green">3</span>
+              </div>
+              <div class="inspector-field">
+                <span class="inspector-field-name">Mass</span>
+                <span class="inspector-field-val green">1</span>
+              </div>
+              <div class="inspector-field">
+                <span class="inspector-field-name" style="font-size:.7rem;color:#6272a4;letter-spacing:1px">BEHAVIOURS</span>
+              </div>
+              <div class="inspector-sub">
+                <div class="inspector-field">
+                  <span class="inspector-field-name">▶ Seek</span>
+                  <span class="inspector-field-val" style="font-size:.7rem;color:#5dde87">enabled</span>
+                </div>
+                <div class="inspector-field">
+                  <span class="inspector-field-name" style="padding-left:.5rem">Target</span>
+                  <span class="inspector-field-val ref">🎯 Player (Transform)</span>
+                </div>
+                <div class="inspector-field">
+                  <span class="inspector-field-name" style="padding-left:.5rem">Weight</span>
+                  <span class="inspector-field-val blue">▬▬▬▬▬▬░░░░ 0.7</span>
+                </div>
+              </div>
+              <div class="inspector-sub">
+                <div class="inspector-field">
+                  <span class="inspector-field-name">▶ Flee</span>
+                  <span class="inspector-field-val" style="font-size:.7rem;color:#5dde87">enabled</span>
+                </div>
+                <div class="inspector-field">
+                  <span class="inspector-field-name" style="padding-left:.5rem">Target</span>
+                  <span class="inspector-field-val ref">🎯 Ally (Transform)</span>
+                </div>
+                <div class="inspector-field">
+                  <span class="inspector-field-name" style="padding-left:.5rem">Panic Distance</span>
+                  <span class="inspector-field-val green">5</span>
+                </div>
+              </div>
+              <div class="inspector-field" style="gap:.4rem;padding:.5rem 1rem;background:rgba(0,229,160,.05);border-radius:6px;margin:.5rem .75rem;cursor:pointer">
+                <span style="color:#00e5a0;font-size:.8rem">＋ Add Seek</span>
+              </div>
+              <div class="inspector-field" style="gap:.4rem;padding:.5rem 1rem;background:rgba(0,229,160,.05);border-radius:6px;margin:.25rem .75rem;cursor:pointer">
+                <span style="color:#00e5a0;font-size:.8rem">＋ Add Flee</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <span class="callout-icon">📁</span>
+          <p><strong>Importante:</strong> Los scripts de editor deben estar en una carpeta llamada exactamente <code>Editor</code>. Unity no los incluye en el build del juego — solo existen en el editor de Unity.</p>
+        </div>
+      </section>
+
+      <!-- STEERING ARCH -->
+      <section class="concept-section" id="steering-arch">
+        <p class="section-eyebrow">09 — Resultado Final</p>
+        <h1 class="section-title">Arquitectura Completa</h1>
+        <p class="section-lead">Así se conectan todas las piezas. Dos ramas de herencia según si el behaviour necesita el ciclo de Unity o no.</p>
+
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" font-family="&#39;Space Mono&#39;, monospace" font-size="9">
+            <!-- SteeringContext -->
+            <rect x="270" y="10" width="180" height="55" rx="6" fill="#1a1e2a" stroke="#ffd166" stroke-width="1"></rect>
+            <text x="360" y="28" fill="#ffd166" font-size="9" text-anchor="middle" font-weight="bold">SteeringContext</text>
+            <text x="360" y="42" fill="#6272a4" text-anchor="middle">position, velocity</text>
+            <text x="360" y="54" fill="#6272a4" text-anchor="middle">maxSpeed, maxForce</text>
+
+            <!-- Arrow context to abstract -->
+            <line x1="360" y1="65" x2="360" y2="95" stroke="#ffd166" stroke-width="1" stroke-dasharray="3"></line>
+
+            <!-- Abstract SteeringBehavior -->
+            <rect x="225" y="95" width="270" height="65" rx="6" fill="#1a1e2a" stroke="#4f9dff" stroke-width="1.5"></rect>
+            <rect x="225" y="95" width="270" height="22" rx="6" fill="#252836"></rect>
+            <rect x="225" y="107" width="270" height="10" fill="#252836"></rect>
+            <text x="360" y="108" fill="#4f9dff" text-anchor="middle">«abstract»</text>
+            <text x="360" y="124" fill="#8be9fd" text-anchor="middle" font-weight="bold" font-size="10">SteeringBehavior</text>
+            <text x="360" y="138" fill="#6272a4" text-anchor="middle">weight: float  |  enabled: bool</text>
+            <text x="360" y="152" fill="#50fa7b" text-anchor="middle">abstract GetSteering(ctx): Vector3</text>
+
+            <!-- Branch lines -->
+            <line x1="120" y1="160" x2="225" y2="160" stroke="#2d3339" stroke-width="1" stroke-dasharray="3"></line>
+            <line x1="560" y1="160" x2="495" y2="160" stroke="#2d3339" stroke-width="1" stroke-dasharray="3"></line>
+            <line x1="120" y1="160" x2="120" y2="225" stroke="#2d3339" stroke-width="1"></line>
+            <line x1="360" y1="160" x2="360" y2="225" stroke="#2d3339" stroke-width="1"></line>
+            <line x1="560" y1="160" x2="560" y2="225" stroke="#2d3339" stroke-width="1"></line>
+
+            <!-- Arrows -->
+            <polygon points="230,158 242,152 242,164" fill="#4f9dff"></polygon>
+            <polygon points="490,158 478,152 478,164" fill="#4f9dff"></polygon>
+
+            <!-- Seek -->
+            <rect x="30" y="225" width="180" height="70" rx="6" fill="#1a1e2a" stroke="#00e5a0" stroke-width="1.5"></rect>
+            <text x="120" y="243" fill="#00e5a0" text-anchor="middle" font-weight="bold">Seek</text>
+            <text x="120" y="257" fill="#6272a4" text-anchor="middle">target: Transform</text>
+            <text x="120" y="271" fill="#50fa7b" text-anchor="middle">override GetSteering()</text>
+            <text x="120" y="284" fill="#ff79c6" text-anchor="middle">POCO class</text>
+
+            <!-- Flee -->
+            <rect x="270" y="225" width="180" height="70" rx="6" fill="#1a1e2a" stroke="#ff6b6b" stroke-width="1.5"></rect>
+            <text x="360" y="243" fill="#ff6b6b" text-anchor="middle" font-weight="bold">Flee</text>
+            <text x="360" y="257" fill="#6272a4" text-anchor="middle">target, panicDistance</text>
+            <text x="360" y="271" fill="#50fa7b" text-anchor="middle">override GetSteering()</text>
+            <text x="360" y="284" fill="#ff79c6" text-anchor="middle">POCO class</text>
+
+            <!-- MonoBehaviourSteering -->
+            <rect x="470" y="225" width="240" height="70" rx="6" fill="#1a1e2a" stroke="#ffd166" stroke-width="1.5"></rect>
+            <text x="590" y="243" fill="#ffd166" text-anchor="middle">«abstract»</text>
+            <text x="590" y="257" fill="#ffd166" text-anchor="middle" font-weight="bold">MonoBehaviourSteering</text>
+            <text x="590" y="271" fill="#6272a4" text-anchor="middle">: MonoBehaviour</text>
+            <text x="590" y="284" fill="#50fa7b" text-anchor="middle">abstract GetSteering()</text>
+
+            <!-- Wander from MonoBehaviour -->
+            <line x1="590" y1="295" x2="590" y2="330" stroke="#ffd166" stroke-width="1"></line>
+            <polygon points="590,330 584,320 596,320" fill="#ffd166"></polygon>
+            <rect x="500" y="330" width="180" height="60" rx="6" fill="#1a1e2a" stroke="#ffd166" stroke-width="1"></rect>
+            <text x="590" y="348" fill="#ffd166" text-anchor="middle" font-weight="bold">Wander</text>
+            <text x="590" y="362" fill="#6272a4" text-anchor="middle">wanderRadius, jitter</text>
+            <text x="590" y="376" fill="#50fa7b" text-anchor="middle">Coroutine JitterRoutine</text>
+
+            <!-- SteeringController -->
+            <rect x="20" y="340" width="400" height="70" rx="6" fill="#252836" stroke="#00e5a0" stroke-width="2"></rect>
+            <text x="220" y="360" fill="#00e5a0" text-anchor="middle" font-weight="bold" font-size="11">SteeringController : MonoBehaviour</text>
+            <text x="220" y="376" fill="#6272a4" text-anchor="middle">List&lt;SteeringBehavior&gt; behaviours</text>
+            <text x="220" y="390" fill="#6272a4" text-anchor="middle">List&lt;MonoBehaviourSteering&gt; monoBehaviours</text>
+            <text x="220" y="403" fill="#50fa7b" text-anchor="middle">ComputeSteeringForce() → aplica física</text>
+          </svg>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">🎯</span>
+          <p><strong>El resultado:</strong> Puedes hacer un prefab con <code>SteeringController</code>, agregar desde el inspector los POCO behaviours (Seek, Flee), agregar <code>Wander</code> como componente, y el agente combinará todos automáticamente con sus pesos. Sin tocar código.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ TAB: EJERCICIO ══════════════════════════════════ -->
+<div id="tab-exercise" class="tab-panel active">
+  <div class="exercise-layout">
+
+    <div class="exercise-hero">
+      <p class="section-eyebrow">Ejercicio Práctico</p>
+      <h1 class="section-title" style="font-size:2.2rem">Steering Behaviors System</h1>
+      <p style="color:var(--text-muted);margin-bottom:1rem">Construye un sistema de IA modular que soporte múltiples behaviours en el inspector. Completa cada paso en orden.</p>
+
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <p style="font-size:.78rem;color:var(--text-dim);margin-bottom:.35rem;font-family:var(--font-mono)">PROGRESO TOTAL</p>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <div class="progress-track" style="flex:1">
+              <div class="progress-fill" id="progressFill2" style="width: 54%;"></div>
+            </div>
+            <span class="progress-label" id="progressLabel2">54%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 0 — DIMENSION DECISION -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number" style="color:var(--accent4)">00</div>
+        <div class="phase-info">
+          <div class="phase-name" style="color:var(--accent4)">DECIDE TU DIMENSIÓN</div>
+          <div class="phase-desc">Esta decisión afecta a <strong>todos</strong> los archivos del sistema. Defínela primero.</div>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:rgba(255,209,102,.25);background:rgba(255,209,102,.04)">
+        <div class="card-title" style="color:var(--accent4)">¿Proyecto 2D o 3D?</div>
+        <p>El tipo de vector que usan tus clases (<code>Vector2</code> vs <code>Vector3</code>) y cómo el controller aplica la física cambia según la dimensión de tu proyecto Unity. <strong>No es solo un detalle estético</strong> — afecta el tipo de retorno del método abstracto, el tipo en el contexto, y si usas física manual o <code>Rigidbody2D</code>.</p>
+        <p>Selecciona tu dimensión aquí. Todos los snippets de código en el ejercicio cambiarán automáticamente.</p>
+
+        <div style="margin-top:1rem">
+          <p style="font-size:.78rem;color:var(--text-dim);margin-bottom:.5rem;font-family:var(--font-mono);letter-spacing:1px">TIPO DE PROYECTO</p>
+          <div class="toggle-2d3d" id="mainToggle">
+            <button class="toggle-btn active" onclick="setDimension(&#39;3d&#39;)">3D</button>
+            <button class="toggle-btn" onclick="setDimension(&#39;2d&#39;)">2D</button>
+          </div>
+          <div id="dimLabel" style="margin-top:.75rem;font-size:.82rem;color:var(--text-muted)">
+            <span id="dimDescription">Usarás <strong style="color:var(--text)">Vector3</strong>, física manual (transform.position), <strong style="color:var(--text)">Update()</strong> y rotación via <code>transform.forward</code>.</span>
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <tbody><tr><th>Archivo</th><th id="th3d" style="color:var(--accent)">3D ✓</th><th id="th2d">2D</th></tr>
+        <tr><td>SteeringContext</td><td>Vector3 position, velocity</td><td>Vector2 position, velocity</td></tr>
+        <tr><td>SteeringBehavior</td><td>abstract GetSteering(): Vector3</td><td>abstract GetSteering(): Vector2</td></tr>
+        <tr><td>Seek / Flee</td><td>Vector3, Vector3.Distance</td><td>Vector2, Vector2.Distance</td></tr>
+        <tr><td>Wander</td><td>insideUnitSphere, y = 0</td><td>insideUnitCircle (ya es 2D)</td></tr>
+        <tr><td>SteeringController</td><td>Update() + transform.position</td><td>FixedUpdate() + Rigidbody2D</td></tr>
+        <tr><td>MonoBehaviourSteeringBehavior</td><td colspan="2" style="color:var(--accent);text-align:center">⬛ No cambia — funciona igual en 2D y 3D</td></tr>
+        <tr><td>Custom Editor</td><td colspan="2" style="color:var(--accent);text-align:center">⬛ No cambia — detecta subclases dinámicamente</td></tr>
+      </tbody></table>
+
+      <div class="callout warn" style="margin-top:1rem">
+        <span class="callout-icon">⚠️</span>
+        <p><strong>No mezcles 2D y 3D.</strong> Si empiezas en 3D y copias el código de Seek en Vector3, no podrá compilar en un proyecto 2D que espera Vector2. Elige antes de escribir el primer archivo.</p>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">01</div>
+        <div class="phase-info">
+          <div class="phase-name">ESTRUCTURA DE CARPETAS</div>
+          <div class="phase-desc">Organiza el proyecto antes de escribir una línea de código.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li class="check-item completed" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea la estructura de carpetas en tu proyecto de Unity</div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>¿Por qué?</strong> Una estructura clara separa las responsabilidades desde el inicio y hace que otros desarrolladores (y tú en el futuro) puedan encontrar cualquier archivo sin buscar.</div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-filename">Estructura de carpetas</span></div>
+              <pre>Assets/
+├── Scripts/
+│   ├── Steering/
+│   │   ├── Core/          ← clases base (abstract)
+│   │   └── Behaviours/    ← Seek, Flee, Wander...
+│   └── Editor/            ← EXACTAMENTE "Editor"</pre>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">02</div>
+        <div class="phase-info">
+          <div class="phase-name">CLASES CORE</div>
+          <div class="phase-desc">Las piezas base que todo el sistema necesita. Empieza aquí.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+
+        <li class="check-item completed" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>SteeringContext.cs</code> en <code>Core/</code></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>¿Por qué?</strong> En lugar de pasar 4 parámetros sueltos a cada behaviour, los agrupamos en un objeto. Si en el futuro necesitas más datos (rotación, colliders), solo agregas un campo aquí sin cambiar todas las firmas.</div>
+
+            <!-- 3D version -->
+            <div class="dim-content active" data-dim="3d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Core/SteeringContext.cs</span><span class="code-lang">3D</span></div>
+                <pre><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="type">SteeringContext</span>
+{
+    <span class="kw">public</span> <span class="type">Vector3</span> position;
+    <span class="kw">public</span> <span class="type">Vector3</span> velocity;
+    <span class="kw">public float</span> maxSpeed;
+    <span class="kw">public float</span> maxForce;
+
+    <span class="kw">public</span> <span class="fn">SteeringContext</span>(<span class="type">Vector3</span> pos, <span class="type">Vector3</span> vel, <span class="kw">float</span> spd, <span class="kw">float</span> frc)
+    {
+        position = pos; velocity = vel;
+        maxSpeed = spd; maxForce = frc;
+    }
+}</pre>
+              </div>
+            </div>
+            <!-- 2D version -->
+            <div class="dim-content" data-dim="2d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Core/SteeringContext.cs</span><span class="code-lang">2D</span></div>
+                <pre><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="type">SteeringContext</span>
+{
+    <span class="kw">public</span> <span class="type">Vector2</span> position;  <span class="cmt">// Vector2 para 2D</span>
+    <span class="kw">public</span> <span class="type">Vector2</span> velocity;
+    <span class="kw">public float</span> maxSpeed;
+    <span class="kw">public float</span> maxForce;
+
+    <span class="kw">public</span> <span class="fn">SteeringContext</span>(<span class="type">Vector2</span> pos, <span class="type">Vector2</span> vel, <span class="kw">float</span> spd, <span class="kw">float</span> frc)
+    {
+        position = pos; velocity = vel;
+        maxSpeed = spd; maxForce = frc;
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="check-item completed expanded" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>SteeringBehavior.cs</code> (clase abstracta POCO) <span class="badge mono">POCO</span></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body show">
+            <div class="check-why"><strong>¿Por qué POCO?</strong> POCO = Plain Old CLR Object. No hereda de MonoBehaviour, por lo que no necesita estar en un GameObject. Es más liviana y testeable. El <code>[System.Serializable]</code> es lo que permite que Unity la muestre en el inspector.</div>
+
+            <div class="dim-content active" data-dim="3d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Core/SteeringBehavior.cs</span><span class="code-lang">3D</span></div>
+                <pre>[<span class="prop">System.Serializable</span>]
+<span class="kw">public abstract class</span> <span class="type">SteeringBehavior</span>
+{
+    [<span class="prop">Range(0f, 1f</span>)]
+    <span class="kw">public float</span> weight = <span class="num">1f</span>;
+    <span class="kw">public bool</span> enabled = <span class="kw">true</span>;
+
+    <span class="kw">public abstract</span> <span class="type">Vector3</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx);
+}</pre>
+              </div>
+            </div>
+            <div class="dim-content" data-dim="2d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Core/SteeringBehavior.cs</span><span class="code-lang">2D</span></div>
+                <pre>[<span class="prop">System.Serializable</span>]
+<span class="kw">public abstract class</span> <span class="type">SteeringBehavior</span>
+{
+    [<span class="prop">Range(0f, 1f</span>)]
+    <span class="kw">public float</span> weight = <span class="num">1f</span>;
+    <span class="kw">public bool</span> enabled = <span class="kw">true</span>;
+
+    <span class="cmt">// Vector2 en lugar de Vector3</span>
+    <span class="kw">public abstract</span> <span class="type">Vector2</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx);
+}</pre>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="check-item completed expanded" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>MonoBehaviourSteeringBehavior.cs</code> (clase abstracta para corrutinas) <span class="badge mb">MonoBehaviour</span></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body show">
+            <div class="check-why"><strong>¿Por qué dos clases base?</strong> Los behaviours simples (Seek, Flee) no necesitan Update ni corrutinas, así que no tienen por qué heredar de MonoBehaviour. Pero Wander sí. Separar las ramas respeta el principio de Segregación de Interfaces (la I de SOLID).</div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-filename">Core/MonoBehaviourSteeringBehavior.cs</span><span class="code-lang">C#</span></div>
+              <pre><span class="kw">using</span> UnityEngine;
+
+[<span class="prop">RequireComponent</span>(<span class="kw">typeof</span>(<span class="type">SteeringController</span>))]
+<span class="kw">public abstract class</span> <span class="type">MonoBehaviourSteeringBehavior</span> : <span class="type">MonoBehaviour</span>
+{
+    [<span class="prop">Range(0f, 1f</span>)]
+    <span class="kw">public float</span> weight = <span class="num">1f</span>;
+    <span class="kw">public new bool</span> enabled = <span class="kw">true</span>;
+
+    <span class="kw">protected</span> <span class="type">SteeringController</span> controller;
+
+    <span class="kw">protected virtual void</span> <span class="fn">Awake</span>()
+    {
+        controller = <span class="fn">GetComponent</span>&lt;<span class="type">SteeringController</span>&gt;();
+        controller.<span class="fn">RegisterMonoBehaviour</span>(<span class="kw">this</span>); <span class="cmt">// auto-registro</span>
+    }
+
+    <span class="kw">protected virtual void</span> <span class="fn">OnDestroy</span>()
+    {
+        controller?.<span class="fn">UnregisterMonoBehaviour</span>(<span class="kw">this</span>);
+    }
+
+    <span class="kw">public abstract</span> <span class="type">Vector3</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx);
+}</pre>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">03</div>
+        <div class="phase-info">
+          <div class="phase-name">BEHAVIOURS POCO</div>
+          <div class="phase-desc">Seek y Flee — clases simples que solo calculan una fuerza.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+
+        <li class="check-item completed expanded" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>Seek.cs</code> en <code>Behaviours/</code> <span class="badge mono">POCO</span></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body show">
+            <div class="check-why"><strong>¿Cómo funciona Seek?</strong> Calcula el vector desde la posición actual hacia el target, lo normaliza y multiplica por la velocidad máxima (<em>desired velocity</em>). Luego le resta la velocidad actual para obtener la fuerza de corrección.</div>
+            <div class="dim-content active" data-dim="3d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Behaviours/Seek.cs</span><span class="code-lang">3D</span></div>
+                <pre><span class="kw">using</span> UnityEngine;
+
+[<span class="prop">System.Serializable</span>]
+<span class="kw">public class</span> <span class="type">Seek</span> : <span class="type">SteeringBehavior</span>
+{
+    <span class="kw">public</span> <span class="type">Transform</span> target;
+
+    <span class="kw">public override</span> <span class="type">Vector3</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="kw">if</span> (target == <span class="kw">null</span> || !enabled) <span class="kw">return</span> <span class="type">Vector3</span>.zero;
+
+        <span class="type">Vector3</span> desired = (target.position - ctx.position).<span class="fn">normalized</span>
+                          * ctx.maxSpeed;
+        <span class="kw">return</span> desired - ctx.velocity;
+    }
+}</pre>
+              </div>
+            </div>
+            <div class="dim-content" data-dim="2d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Behaviours/Seek.cs</span><span class="code-lang">2D</span></div>
+                <pre><span class="kw">using</span> UnityEngine;
+
+[<span class="prop">System.Serializable</span>]
+<span class="kw">public class</span> <span class="type">Seek</span> : <span class="type">SteeringBehavior</span>
+{
+    <span class="kw">public</span> <span class="type">Transform</span> target;
+
+    <span class="kw">public override</span> <span class="type">Vector2</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="kw">if</span> (target == <span class="kw">null</span> || !enabled) <span class="kw">return</span> <span class="type">Vector2</span>.zero;
+
+        <span class="type">Vector2</span> targetPos = target.position; <span class="cmt">// implicit cast</span>
+        <span class="type">Vector2</span> desired = (targetPos - ctx.position).<span class="fn">normalized</span>
+                          * ctx.maxSpeed;
+        <span class="kw">return</span> desired - ctx.velocity;
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="check-item completed expanded" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>Flee.cs</code> en <code>Behaviours/</code> <span class="badge mono">POCO</span></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body show">
+            <div class="check-why"><strong>Flee vs Seek:</strong> Flee es exactamente Seek pero invertido — se aleja del target en lugar de acercarse. El campo <code>panicDistance</code> agrega realismo: el agente solo huye cuando el peligro está cerca.</div>
+            <div class="dim-content active" data-dim="3d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Behaviours/Flee.cs</span><span class="code-lang">3D</span></div>
+                <pre>[<span class="prop">System.Serializable</span>]
+<span class="kw">public class</span> <span class="type">Flee</span> : <span class="type">SteeringBehavior</span>
+{
+    <span class="kw">public</span> <span class="type">Transform</span> target;
+    <span class="kw">public float</span> panicDistance = <span class="num">5f</span>;
+
+    <span class="kw">public override</span> <span class="type">Vector3</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="kw">if</span> (target == <span class="kw">null</span> || !enabled) <span class="kw">return</span> <span class="type">Vector3</span>.zero;
+
+        <span class="kw">float</span> dist = <span class="type">Vector3</span>.<span class="fn">Distance</span>(ctx.position, target.position);
+        <span class="kw">if</span> (dist &gt; panicDistance) <span class="kw">return</span> <span class="type">Vector3</span>.zero;
+
+        <span class="type">Vector3</span> desired = (ctx.position - target.position).<span class="fn">normalized</span>
+                          * ctx.maxSpeed;
+        <span class="kw">return</span> desired - ctx.velocity;
+    }
+}</pre>
+              </div>
+            </div>
+            <div class="dim-content" data-dim="2d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Behaviours/Flee.cs</span><span class="code-lang">2D</span></div>
+                <pre>[<span class="prop">System.Serializable</span>]
+<span class="kw">public class</span> <span class="type">Flee</span> : <span class="type">SteeringBehavior</span>
+{
+    <span class="kw">public</span> <span class="type">Transform</span> target;
+    <span class="kw">public float</span> panicDistance = <span class="num">5f</span>;
+
+    <span class="kw">public override</span> <span class="type">Vector2</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="kw">if</span> (target == <span class="kw">null</span> || !enabled) <span class="kw">return</span> <span class="type">Vector2</span>.zero;
+
+        <span class="type">Vector2</span> targetPos = target.position;
+        <span class="kw">float</span> dist = <span class="type">Vector2</span>.<span class="fn">Distance</span>(ctx.position, targetPos);
+        <span class="kw">if</span> (dist &gt; panicDistance) <span class="kw">return</span> <span class="type">Vector2</span>.zero;
+
+        <span class="type">Vector2</span> desired = (ctx.position - targetPos).<span class="fn">normalized</span>
+                          * ctx.maxSpeed;
+        <span class="kw">return</span> desired - ctx.velocity;
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">04</div>
+        <div class="phase-info">
+          <div class="phase-name">BEHAVIOUR CON CORRUTINA</div>
+          <div class="phase-desc">Wander necesita el ciclo de Unity — aquí es donde las dos ramas de herencia se justifican.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li class="check-item completed expanded" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>Wander.cs</code> en <code>Behaviours/</code> <span class="badge mb">MonoBehaviour</span></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body show">
+            <div class="check-why"><strong>¿Por qué MonoBehaviour aquí?</strong> <code>StartCoroutine()</code> solo puede llamarse desde una clase que herede de MonoBehaviour. Wander necesita una corrutina para añadir jitter (variación aleatoria) al target de wander periódicamente, sin hacerlo cada frame (sería demasiado caótico).</div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-filename">Behaviours/Wander.cs</span><span class="code-lang">C#</span></div>
+              <pre><span class="kw">using</span> System.Collections;
+<span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="type">Wander</span> : <span class="type">MonoBehaviourSteeringBehavior</span>
+{
+    <span class="kw">public float</span> wanderRadius = <span class="num">2f</span>;
+    <span class="kw">public float</span> wanderDistance = <span class="num">4f</span>;
+    <span class="kw">public float</span> wanderJitter = <span class="num">1f</span>;
+    <span class="kw">public float</span> updateInterval = <span class="num">0.2f</span>;
+
+    <span class="kw">private</span> <span class="type">Vector3</span> wanderTarget;
+
+    <span class="kw">protected override void</span> <span class="fn">Awake</span>()
+    {
+        <span class="kw">base</span>.<span class="fn">Awake</span>(); <span class="cmt">// ¡importante! registra en el controller</span>
+        wanderTarget = <span class="type">Random</span>.<span class="fn">insideUnitSphere</span> * wanderRadius;
+        wanderTarget.y = <span class="num">0</span>; <span class="cmt">// para 3D: mantener en plano horizontal</span>
+    }
+
+    <span class="kw">private void</span> <span class="fn">OnEnable</span>()
+    {
+        <span class="fn">StartCoroutine</span>(<span class="fn">JitterRoutine</span>());
+    }
+
+    <span class="kw">private</span> IEnumerator <span class="fn">JitterRoutine</span>()
+    {
+        <span class="kw">while</span> (<span class="kw">true</span>)
+        {
+            wanderTarget += <span class="kw">new</span> <span class="type">Vector3</span>(
+                <span class="type">Random</span>.<span class="fn">Range</span>(-<span class="num">1f</span>, <span class="num">1f</span>) * wanderJitter,
+                <span class="num">0f</span>,
+                <span class="type">Random</span>.<span class="fn">Range</span>(-<span class="num">1f</span>, <span class="num">1f</span>) * wanderJitter
+            );
+            wanderTarget = wanderTarget.<span class="fn">normalized</span> * wanderRadius;
+            <span class="kw">yield return new</span> <span class="type">WaitForSeconds</span>(updateInterval);
+        }
+    }
+
+    <span class="kw">public override</span> <span class="type">Vector3</span> <span class="fn">GetSteering</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="kw">if</span> (!enabled) <span class="kw">return</span> <span class="type">Vector3</span>.zero;
+
+        <span class="type">Vector3</span> circleCenter = ctx.velocity.<span class="fn">normalized</span> * wanderDistance;
+        <span class="type">Vector3</span> targetWorld = ctx.position + circleCenter + wanderTarget;
+
+        <span class="type">Vector3</span> desired = (targetWorld - ctx.position).<span class="fn">normalized</span> * ctx.maxSpeed;
+        <span class="kw">return</span> desired - ctx.velocity;
+    }
+}</pre>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">05</div>
+        <div class="phase-info">
+          <div class="phase-name">EL CONTROLLER</div>
+          <div class="phase-desc">El cerebro del sistema. Suma todas las fuerzas y aplica la física.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li class="check-item" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>SteeringController.cs</code> en <code>Core/</code></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>Suma ponderada de fuerzas:</strong> Cada behaviour retorna una fuerza. El controller las multiplica por su <code>weight</code> y las suma. Esto permite tener Seek hacia el player con peso 0.6 y Flee de un enemigo con peso 1.0 al mismo tiempo. <strong>Este es el archivo donde más cambia la lógica 2D vs 3D</strong> — en 3D haces física manual con <code>transform.position</code>, en 2D delegas al <code>Rigidbody2D</code> y usas <code>FixedUpdate()</code>.</div>
+            <div class="dim-content active" data-dim="3d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Core/SteeringController.cs</span><span class="code-lang">3D</span></div>
+                <pre><span class="kw">using</span> System.Collections.Generic;
+<span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="type">SteeringController</span> : <span class="type">MonoBehaviour</span>
+{
+    [<span class="prop">Header</span>(<span class="str">"Agent Config"</span>)]
+    <span class="kw">public float</span> maxSpeed = <span class="num">5f</span>;
+    <span class="kw">public float</span> maxForce = <span class="num">3f</span>;
+    <span class="kw">public float</span> mass = <span class="num">1f</span>;
+
+    [<span class="prop">Header</span>(<span class="str">"POCO Behaviours"</span>)]
+    [<span class="prop">SerializeReference</span>]
+    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">SteeringBehavior</span>&gt; behaviours = <span class="kw">new</span>();
+
+    <span class="kw">private readonly</span> <span class="type">List</span>&lt;<span class="type">MonoBehaviourSteeringBehavior</span>&gt; monoBehaviours = <span class="kw">new</span>();
+    <span class="kw">private</span> <span class="type">Vector3</span> velocity;
+
+    <span class="kw">public void</span> <span class="fn">RegisterMonoBehaviour</span>(<span class="type">MonoBehaviourSteeringBehavior</span> b)
+        =&gt; monoBehaviours.<span class="fn">Add</span>(b);
+
+    <span class="kw">public void</span> <span class="fn">UnregisterMonoBehaviour</span>(<span class="type">MonoBehaviourSteeringBehavior</span> b)
+        =&gt; monoBehaviours.<span class="fn">Remove</span>(b);
+
+    <span class="kw">private void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">var</span> ctx = <span class="kw">new</span> <span class="type">SteeringContext</span>(transform.position, velocity, maxSpeed, maxForce);
+        <span class="type">Vector3</span> force = <span class="fn">ComputeForce</span>(ctx);
+        force = <span class="type">Vector3</span>.<span class="fn">ClampMagnitude</span>(force, maxForce);
+
+        velocity += (force / mass) * <span class="type">Time</span>.deltaTime;
+        velocity = <span class="type">Vector3</span>.<span class="fn">ClampMagnitude</span>(velocity, maxSpeed);
+        transform.position += velocity * <span class="type">Time</span>.deltaTime;
+
+        <span class="kw">if</span> (velocity.sqrMagnitude &gt; <span class="num">0.01f</span>)
+            transform.forward = <span class="type">Vector3</span>.<span class="fn">Lerp</span>(transform.forward,
+                velocity.<span class="fn">normalized</span>, <span class="type">Time</span>.deltaTime * <span class="num">10f</span>);
+    }
+
+    <span class="kw">private</span> <span class="type">Vector3</span> <span class="fn">ComputeForce</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="type">Vector3</span> total = <span class="type">Vector3</span>.zero;
+
+        <span class="kw">foreach</span> (<span class="kw">var</span> b <span class="kw">in</span> behaviours)
+            <span class="kw">if</span> (b != <span class="kw">null</span> &amp;&amp; b.enabled)
+                total += b.<span class="fn">GetSteering</span>(ctx) * b.weight;
+
+        <span class="kw">foreach</span> (<span class="kw">var</span> b <span class="kw">in</span> monoBehaviours)
+            <span class="kw">if</span> (b != <span class="kw">null</span> &amp;&amp; b.enabled)
+                total += b.<span class="fn">GetSteering</span>(ctx) * b.weight;
+
+        <span class="kw">return</span> total;
+    }
+
+    <span class="kw">private void</span> <span class="fn">OnDrawGizmosSelected</span>()
+    {
+        <span class="type">Gizmos</span>.color = <span class="type">Color</span>.cyan;
+        <span class="type">Gizmos</span>.<span class="fn">DrawRay</span>(transform.position, velocity);
+    }
+}</pre>
+              </div>
+            </div>
+            <div class="dim-content" data-dim="2d">
+              <div class="code-block">
+                <div class="code-header"><span class="code-filename">Core/SteeringController.cs</span><span class="code-lang">2D</span></div>
+                <pre><span class="kw">using</span> System.Collections.Generic;
+<span class="kw">using</span> UnityEngine;
+
+<span class="cmt">// Agrega Rigidbody2D al mismo GameObject</span>
+[<span class="prop">RequireComponent</span>(<span class="kw">typeof</span>(<span class="type">Rigidbody2D</span>))]
+<span class="kw">public class</span> <span class="type">SteeringController</span> : <span class="type">MonoBehaviour</span>
+{
+    [<span class="prop">Header</span>(<span class="str">"Agent Config"</span>)]
+    <span class="kw">public float</span> maxSpeed = <span class="num">5f</span>;
+    <span class="kw">public float</span> maxForce = <span class="num">3f</span>;
+
+    [<span class="prop">Header</span>(<span class="str">"POCO Behaviours"</span>)]
+    [<span class="prop">SerializeReference</span>]
+    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">SteeringBehavior</span>&gt; behaviours = <span class="kw">new</span>();
+
+    <span class="kw">private readonly</span> <span class="type">List</span>&lt;<span class="type">MonoBehaviourSteeringBehavior</span>&gt; monoBehaviours = <span class="kw">new</span>();
+    <span class="kw">private</span> <span class="type">Rigidbody2D</span> rb;
+    <span class="kw">public</span> <span class="type">Vector2</span> velocity =&gt; rb.linearVelocity;
+
+    <span class="kw">private void</span> <span class="fn">Awake</span>() =&gt; rb = <span class="fn">GetComponent</span>&lt;<span class="type">Rigidbody2D</span>&gt;();
+
+    <span class="kw">public void</span> <span class="fn">RegisterMonoBehaviour</span>(<span class="type">MonoBehaviourSteeringBehavior</span> b)
+        =&gt; monoBehaviours.<span class="fn">Add</span>(b);
+    <span class="kw">public void</span> <span class="fn">UnregisterMonoBehaviour</span>(<span class="type">MonoBehaviourSteeringBehavior</span> b)
+        =&gt; monoBehaviours.<span class="fn">Remove</span>(b);
+
+    <span class="kw">private void</span> <span class="fn">FixedUpdate</span>()  <span class="cmt">// FixedUpdate para física 2D</span>
+    {
+        <span class="type">Vector2</span> pos2d = transform.position;
+        <span class="kw">var</span> ctx = <span class="kw">new</span> <span class="type">SteeringContext</span>(pos2d, rb.linearVelocity, maxSpeed, maxForce);
+        <span class="type">Vector2</span> force = <span class="fn">ComputeForce</span>(ctx);
+        force = <span class="type">Vector2</span>.<span class="fn">ClampMagnitude</span>(force, maxForce);
+        rb.<span class="fn">AddForce</span>(force);
+        rb.linearVelocity = <span class="type">Vector2</span>.<span class="fn">ClampMagnitude</span>(rb.linearVelocity, maxSpeed);
+
+        <span class="kw">if</span> (rb.linearVelocity.sqrMagnitude &gt; <span class="num">0.01f</span>)
+        {
+            <span class="kw">float</span> angle = <span class="type">Mathf</span>.<span class="fn">Atan2</span>(rb.linearVelocity.y, rb.linearVelocity.x)
+                          * <span class="type">Mathf</span>.Rad2Deg - <span class="num">90f</span>;
+            transform.rotation = <span class="type">Quaternion</span>.<span class="fn">AngleAxis</span>(angle, <span class="type">Vector3</span>.forward);
+        }
+    }
+
+    <span class="kw">private</span> <span class="type">Vector2</span> <span class="fn">ComputeForce</span>(<span class="type">SteeringContext</span> ctx)
+    {
+        <span class="type">Vector2</span> total = <span class="type">Vector2</span>.zero;
+        <span class="kw">foreach</span> (<span class="kw">var</span> b <span class="kw">in</span> behaviours)
+            <span class="kw">if</span> (b != <span class="kw">null</span> &amp;&amp; b.enabled)
+                total += b.<span class="fn">GetSteering</span>(ctx) * b.weight;
+        <span class="kw">foreach</span> (<span class="kw">var</span> b <span class="kw">in</span> monoBehaviours)
+            <span class="kw">if</span> (b != <span class="kw">null</span> &amp;&amp; b.enabled)
+                total += b.<span class="fn">GetSteering</span>(ctx) * b.weight;
+        <span class="kw">return</span> total;
+    }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">06</div>
+        <div class="phase-info">
+          <div class="phase-name">CUSTOM EDITOR</div>
+          <div class="phase-desc">Botones en el inspector para agregar behaviours sin escribir código.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li class="check-item" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea <code>SteeringControllerEditor.cs</code> dentro de la carpeta <code>Editor/</code> <span class="badge editor">Editor Only</span></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>¿Por qué usar Reflection aquí?</strong> Con <code>AppDomain.CurrentDomain.GetAssemblies()</code> buscamos dinámicamente todas las clases que hereden de <code>SteeringBehavior</code>. Así, cuando crees <code>Pursuit.cs</code> mañana, el botón aparecerá automáticamente sin tocar el editor.</div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-filename">Editor/SteeringControllerEditor.cs</span><span class="code-lang">C#</span></div>
+              <pre><span class="prop">#if UNITY_EDITOR</span>
+<span class="kw">using</span> System;
+<span class="kw">using</span> System.Linq;
+<span class="kw">using</span> UnityEditor;
+<span class="kw">using</span> UnityEngine;
+
+[<span class="prop">CustomEditor</span>(<span class="kw">typeof</span>(<span class="type">SteeringController</span>))]
+<span class="kw">public class</span> <span class="type">SteeringControllerEditor</span> : <span class="type">Editor</span>
+{
+    <span class="kw">public override void</span> <span class="fn">OnInspectorGUI</span>()
+    {
+        <span class="fn">DrawDefaultInspector</span>();
+
+        <span class="type">SteeringController</span> ctrl = (<span class="type">SteeringController</span>)target;
+
+        <span class="type">EditorGUILayout</span>.<span class="fn">Space</span>(<span class="num">10</span>);
+        <span class="type">EditorGUILayout</span>.<span class="fn">LabelField</span>(<span class="str">"── Add POCO Behaviour ──"</span>,
+            <span class="type">EditorStyles</span>.boldLabel);
+
+        <span class="kw">var</span> types = <span class="type">AppDomain</span>.CurrentDomain
+            .<span class="fn">GetAssemblies</span>()
+            .<span class="fn">SelectMany</span>(a =&gt; a.<span class="fn">GetTypes</span>())
+            .<span class="fn">Where</span>(t =&gt; t.<span class="fn">IsSubclassOf</span>(<span class="kw">typeof</span>(<span class="type">SteeringBehavior</span>))
+                    &amp;&amp; !t.IsAbstract);
+
+        <span class="kw">foreach</span> (<span class="kw">var</span> type <span class="kw">in</span> types)
+        {
+            <span class="kw">if</span> (<span class="type">GUILayout</span>.<span class="fn">Button</span>(<span class="str">$"+ Add {type.Name}"</span>))
+            {
+                <span class="type">Undo</span>.<span class="fn">RecordObject</span>(ctrl, <span class="str">$"Add {type.Name}"</span>);
+                ctrl.behaviours.<span class="fn">Add</span>(
+                    (<span class="type">SteeringBehavior</span>)<span class="type">Activator</span>.<span class="fn">CreateInstance</span>(type));
+                <span class="type">EditorUtility</span>.<span class="fn">SetDirty</span>(ctrl);
+            }
+        }
+
+        <span class="kw">if</span> (ctrl.behaviours.<span class="fn">Any</span>(b =&gt; b == <span class="kw">null</span>))
+        {
+            <span class="type">EditorGUILayout</span>.<span class="fn">Space</span>(<span class="num">5</span>);
+            <span class="kw">if</span> (<span class="type">GUILayout</span>.<span class="fn">Button</span>(<span class="str">"🗑 Remove Null Behaviours"</span>))
+                ctrl.behaviours.<span class="fn">RemoveAll</span>(b =&gt; b == <span class="kw">null</span>);
+        }
+    }
+}
+<span class="prop">#endif</span></pre>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- PHASE 7 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">07</div>
+        <div class="phase-info">
+          <div class="phase-name">SETUP EN UNITY</div>
+          <div class="phase-desc">Configura la escena y prueba el sistema.</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+
+        <li class="check-item" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea un GameObject "NPC" y agrégale el componente <code>SteeringController</code></div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>Resultado esperado:</strong> En el inspector deberías ver los campos Max Speed, Max Force, Mass, la lista de Behaviours vacía, y los botones <em>"+ Add Seek"</em> y <em>"+ Add Flee"</em> al final.</div>
+            <div class="callout info">
+              <span class="callout-icon">🎛️</span>
+              <p>Si los botones <strong>no aparecen</strong>, verifica que el archivo del editor esté en una carpeta llamada exactamente <code>Editor</code> (mayúscula E).</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="check-item" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Crea un GameObject "Player" y asígnalo como target del Seek desde el inspector</div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>Arrastra el Transform:</strong> En Unity puedes arrastrar un GameObject al campo <em>Target</em> del Seek en el inspector. Unity lo convierte automáticamente a Transform.</div>
+          </div>
+        </li>
+
+        <li class="check-item" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Agrega <code>Wander</code> como componente al mismo NPC y prueba el movimiento combinado</div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>Auto-registro:</strong> Wander llama a <code>controller.RegisterMonoBehaviour(this)</code> en su Awake. No necesitas hacer nada más en el controller — el sistema es automático.</div>
+            <div class="callout tip">
+              <span class="callout-icon">💡</span>
+              <p>Ajusta el <strong>weight</strong> de Wander a 0.3 y el de Seek a 0.8 para ver cómo el NPC sigue al Player pero con movimiento orgánico.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="check-item" onclick="toggleItem(this)">
+          <div class="check-header">
+            <div class="checkbox"><span class="checkmark">✓</span></div>
+            <div class="check-label">Convierte el NPC en un Prefab y verifica que los behaviours se guardan correctamente</div>
+            <div class="check-expand-icon">▼</div>
+          </div>
+          <div class="check-body">
+            <div class="check-why"><strong>Verificación de [SerializeReference]:</strong> Si los behaviours POCO desaparecen al hacer Prefab o al reiniciar Unity, puede que te falte el atributo <code>[SerializeReference]</code> en la lista. Revisa el controller.</div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- COMPLETE -->
+    <div class="complete-banner" id="completeBanner">
+      <h2>🎉 ¡Sistema Completo!</h2>
+      <p>Construiste un sistema de steering behaviors modular, extensible y SOLID-compliant. Ahora agrega Pursuit, FollowLeader o cualquier behaviour nuevo — solo crea un archivo y aparecerá en el inspector automáticamente.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─── TABS ────────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── DIMENSION TOGGLE ────────────────────────────────────
+let currentDim = '3d';
+
+function setDimension(dim) {
+  currentDim = dim;
+  // Update all toggle buttons (there's only one set now but future-proof)
+  document.querySelectorAll('.toggle-btn').forEach(b => {
+    const parentToggle = b.closest('.toggle-2d3d');
+    if (parentToggle) {
+      const btn3d = parentToggle.querySelector('[onclick="setDimension(\'3d\')"]');
+      const btn2d = parentToggle.querySelector('[onclick="setDimension(\'2d\')"]');
+      if (btn3d) btn3d.classList.toggle('active', dim === '3d');
+      if (btn2d) btn2d.classList.toggle('active', dim === '2d');
+    }
+  });
+
+  // Show/hide dim-content blocks
+  document.querySelectorAll('.dim-content').forEach(el => {
+    el.classList.toggle('active', el.dataset.dim === dim);
+  });
+
+  // Update the description label in Phase 00
+  const desc = document.getElementById('dimDescription');
+  if (desc) {
+    if (dim === '3d') {
+      desc.innerHTML = 'Usarás <strong style="color:var(--text)">Vector3</strong>, física manual (<code>transform.position</code>), <strong style="color:var(--text)">Update()</strong> y rotación via <code>transform.forward</code>.';
+    } else {
+      desc.innerHTML = 'Usarás <strong style="color:var(--text)">Vector2</strong>, <strong style="color:var(--text)">Rigidbody2D</strong> con <strong style="color:var(--text)">FixedUpdate()</strong> y rotación calculada con <code>Mathf.Atan2</code>.';
+    }
+  }
+
+  // Highlight active column in the dimension table (th3d / th2d)
+  const th3d = document.getElementById('th3d');
+  const th2d = document.getElementById('th2d');
+  if (th3d && th2d) {
+    th3d.style.color = dim === '3d' ? 'var(--accent)' : 'var(--text-muted)';
+    th3d.textContent = dim === '3d' ? '3D ✓' : '3D';
+    th2d.style.color = dim === '2d' ? 'var(--accent)' : 'var(--text-muted)';
+    th2d.textContent = dim === '2d' ? '2D ✓' : '2D';
+  }
+}
+
+// ─── CHECKLIST ───────────────────────────────────────────
+function toggleItem(item) {
+  // Prevent double-trigger
+  if (event.target.tagName === 'A' || event.target.tagName === 'CODE') return;
+
+  // Expand/collapse logic — only trigger on header click
+  const header = item.querySelector('.check-header');
+  const body = item.querySelector('.check-body');
+  const expandIcon = item.querySelector('.check-expand-icon');
+
+  if (event.target.closest('.check-header')) {
+    const isExpanded = item.classList.toggle('expanded');
+    if (body) body.classList.toggle('show', isExpanded);
+
+    // If clicking the checkbox area, also toggle completion
+    if (event.target.closest('.checkbox') || event.target.closest('.check-label')) {
+      item.classList.toggle('completed');
+      updateProgress();
+    }
+  }
+}
+
+// Actually, let's simplify: clicking anywhere on header toggles complete + expand
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.check-item').forEach(item => {
+    item.onclick = null;
+    const header = item.querySelector('.check-header');
+    const body = item.querySelector('.check-body');
+
+    header.addEventListener('click', (e) => {
+      if (e.target.tagName === 'CODE' || e.target.tagName === 'A') return;
+
+      const checkboxArea = e.target.closest('.checkbox') || e.target.closest('.checkmark');
+      const labelArea = e.target.closest('.check-label');
+
+      if (checkboxArea || labelArea) {
+        item.classList.toggle('completed');
+        updateProgress();
+      }
+
+      item.classList.toggle('expanded');
+      if (body) body.classList.toggle('show', item.classList.contains('expanded'));
+    });
+  });
+
+  updateProgress();
+  initSidebarHighlight();
+});
+
+function updateProgress() {
+  const total = document.querySelectorAll('#tab-exercise .check-item').length;
+  const done = document.querySelectorAll('#tab-exercise .check-item.completed').length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '%';
+  document.getElementById('progressFill2').style.width = pct + '%';
+  document.getElementById('progressLabel2').textContent = pct + '%';
+
+  const banner = document.getElementById('completeBanner');
+  if (done === total && total > 0) {
+    banner.classList.add('show');
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+// ─── SIDEBAR HIGHLIGHT ───────────────────────────────────
+function initSidebarHighlight() {
+  const sections = document.querySelectorAll('.concept-section');
+  const links = document.querySelectorAll('.sidebar-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-60px 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+}
+</script>
+
+
+
+</body></html>
