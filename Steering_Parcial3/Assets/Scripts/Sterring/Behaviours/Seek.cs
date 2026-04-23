@@ -2,6 +2,7 @@
 using UnityEngine;
 namespace Sterring.Behaviours
 {
+    [System.Serializable]
     public class Seek : SteeringBehaviour
     {
         public Transform target;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SterringContext
+public struct SterringContext
 {
     public Vector2 position;
     public Vector2 velocity;

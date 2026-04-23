@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Sterring.Core
 {
-    [RequireComponent(typeof( SteeringController))]
+    [RequireComponent(typeof(SteeringController))]
     public abstract class MonoBehaviourSteeringBehaviour : MonoBehaviour
     {
         [Range(0f, 1f)]
@@ -13,11 +12,11 @@ namespace Sterring.Core
 
         protected virtual void Awake()
         {
-            controller = GetComponent<SterringController>();
+            controller = GetComponent<SteeringController>();
             controller.RegisterMonoBehaviour(this);
         }
 
-        protected void OnDestroy()
+        protected virtual void OnDestroy()
         {
             controller?.UnregisterMonoBehaviour(this);
         }

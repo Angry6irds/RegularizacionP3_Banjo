@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///C:/Users/A106_2/Downloads/steering-guide.html -->
+<!-- saved from url=(0170)file:///C:/Users/A106_2/Desktop/Riot%20Cliente/RegularizacionP3_Banjo/Steering_Parcial3/Steering%20Behaviors%20%E2%80%94%20Gu%C3%ADa%20de%20Arquitectura%20en%20Unity.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -733,9 +733,9 @@ li strong { color: var(--text); }
 
   <div class="progress-bar-wrap">
     <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width: 54%;"></div>
+      <div class="progress-fill" id="progressFill" style="width: 92%;"></div>
     </div>
-    <div class="progress-label" id="progressLabel">54%</div>
+    <div class="progress-label" id="progressLabel">92%</div>
   </div>
 </header>
 
@@ -1340,9 +1340,9 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
           <p style="font-size:.78rem;color:var(--text-dim);margin-bottom:.35rem;font-family:var(--font-mono)">PROGRESO TOTAL</p>
           <div style="display:flex;align-items:center;gap:.75rem">
             <div class="progress-track" style="flex:1">
-              <div class="progress-fill" id="progressFill2" style="width: 54%;"></div>
+              <div class="progress-fill" id="progressFill2" style="width: 92%;"></div>
             </div>
-            <span class="progress-label" id="progressLabel2">54%</span>
+            <span class="progress-label" id="progressLabel2">92%</span>
           </div>
         </div>
       </div>
@@ -1366,17 +1366,17 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
         <div style="margin-top:1rem">
           <p style="font-size:.78rem;color:var(--text-dim);margin-bottom:.5rem;font-family:var(--font-mono);letter-spacing:1px">TIPO DE PROYECTO</p>
           <div class="toggle-2d3d" id="mainToggle">
-            <button class="toggle-btn active" onclick="setDimension(&#39;3d&#39;)">3D</button>
-            <button class="toggle-btn" onclick="setDimension(&#39;2d&#39;)">2D</button>
+            <button class="toggle-btn" onclick="setDimension(&#39;3d&#39;)">3D</button>
+            <button class="toggle-btn active" onclick="setDimension(&#39;2d&#39;)">2D</button>
           </div>
           <div id="dimLabel" style="margin-top:.75rem;font-size:.82rem;color:var(--text-muted)">
-            <span id="dimDescription">Usarás <strong style="color:var(--text)">Vector3</strong>, física manual (transform.position), <strong style="color:var(--text)">Update()</strong> y rotación via <code>transform.forward</code>.</span>
+            <span id="dimDescription">Usarás <strong style="color:var(--text)">Vector2</strong>, <strong style="color:var(--text)">Rigidbody2D</strong> con <strong style="color:var(--text)">FixedUpdate()</strong> y rotación calculada con <code>Mathf.Atan2</code>.</span>
           </div>
         </div>
       </div>
 
       <table>
-        <tbody><tr><th>Archivo</th><th id="th3d" style="color:var(--accent)">3D ✓</th><th id="th2d">2D</th></tr>
+        <tbody><tr><th>Archivo</th><th id="th3d" style="color: var(--text-muted);">3D</th><th id="th2d" style="color: var(--accent);">2D ✓</th></tr>
         <tr><td>SteeringContext</td><td>Vector3 position, velocity</td><td>Vector2 position, velocity</td></tr>
         <tr><td>SteeringBehavior</td><td>abstract GetSteering(): Vector3</td><td>abstract GetSteering(): Vector2</td></tr>
         <tr><td>Seek / Flee</td><td>Vector3, Vector3.Distance</td><td>Vector2, Vector2.Distance</td></tr>
@@ -1447,7 +1447,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
             <div class="check-why"><strong>¿Por qué?</strong> En lugar de pasar 4 parámetros sueltos a cada behaviour, los agrupamos en un objeto. Si en el futuro necesitas más datos (rotación, colliders), solo agregas un campo aquí sin cambiar todas las firmas.</div>
 
             <!-- 3D version -->
-            <div class="dim-content active" data-dim="3d">
+            <div class="dim-content" data-dim="3d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Core/SteeringContext.cs</span><span class="code-lang">3D</span></div>
                 <pre><span class="kw">using</span> UnityEngine;
@@ -1468,7 +1468,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
               </div>
             </div>
             <!-- 2D version -->
-            <div class="dim-content" data-dim="2d">
+            <div class="dim-content active" data-dim="2d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Core/SteeringContext.cs</span><span class="code-lang">2D</span></div>
                 <pre><span class="kw">using</span> UnityEngine;
@@ -1491,16 +1491,16 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
           </div>
         </li>
 
-        <li class="check-item completed expanded" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea <code>SteeringBehavior.cs</code> (clase abstracta POCO) <span class="badge mono">POCO</span></div>
             <div class="check-expand-icon">▼</div>
           </div>
-          <div class="check-body show">
+          <div class="check-body">
             <div class="check-why"><strong>¿Por qué POCO?</strong> POCO = Plain Old CLR Object. No hereda de MonoBehaviour, por lo que no necesita estar en un GameObject. Es más liviana y testeable. El <code>[System.Serializable]</code> es lo que permite que Unity la muestre en el inspector.</div>
 
-            <div class="dim-content active" data-dim="3d">
+            <div class="dim-content" data-dim="3d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Core/SteeringBehavior.cs</span><span class="code-lang">3D</span></div>
                 <pre>[<span class="prop">System.Serializable</span>]
@@ -1514,7 +1514,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
 }</pre>
               </div>
             </div>
-            <div class="dim-content" data-dim="2d">
+            <div class="dim-content active" data-dim="2d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Core/SteeringBehavior.cs</span><span class="code-lang">2D</span></div>
                 <pre>[<span class="prop">System.Serializable</span>]
@@ -1532,13 +1532,13 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
           </div>
         </li>
 
-        <li class="check-item completed expanded" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea <code>MonoBehaviourSteeringBehavior.cs</code> (clase abstracta para corrutinas) <span class="badge mb">MonoBehaviour</span></div>
             <div class="check-expand-icon">▼</div>
           </div>
-          <div class="check-body show">
+          <div class="check-body">
             <div class="check-why"><strong>¿Por qué dos clases base?</strong> Los behaviours simples (Seek, Flee) no necesitan Update ni corrutinas, así que no tienen por qué heredar de MonoBehaviour. Pero Wander sí. Separar las ramas respeta el principio de Segregación de Interfaces (la I de SOLID).</div>
             <div class="code-block">
               <div class="code-header"><span class="code-filename">Core/MonoBehaviourSteeringBehavior.cs</span><span class="code-lang">C#</span></div>
@@ -1585,15 +1585,15 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
 
       <ul class="checklist">
 
-        <li class="check-item completed expanded" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea <code>Seek.cs</code> en <code>Behaviours/</code> <span class="badge mono">POCO</span></div>
             <div class="check-expand-icon">▼</div>
           </div>
-          <div class="check-body show">
+          <div class="check-body">
             <div class="check-why"><strong>¿Cómo funciona Seek?</strong> Calcula el vector desde la posición actual hacia el target, lo normaliza y multiplica por la velocidad máxima (<em>desired velocity</em>). Luego le resta la velocidad actual para obtener la fuerza de corrección.</div>
-            <div class="dim-content active" data-dim="3d">
+            <div class="dim-content" data-dim="3d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Behaviours/Seek.cs</span><span class="code-lang">3D</span></div>
                 <pre><span class="kw">using</span> UnityEngine;
@@ -1614,7 +1614,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
 }</pre>
               </div>
             </div>
-            <div class="dim-content" data-dim="2d">
+            <div class="dim-content active" data-dim="2d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Behaviours/Seek.cs</span><span class="code-lang">2D</span></div>
                 <pre><span class="kw">using</span> UnityEngine;
@@ -1639,15 +1639,15 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
           </div>
         </li>
 
-        <li class="check-item completed expanded" onclick="toggleItem(this)">
+        <li class="check-item" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea <code>Flee.cs</code> en <code>Behaviours/</code> <span class="badge mono">POCO</span></div>
             <div class="check-expand-icon">▼</div>
           </div>
-          <div class="check-body show">
+          <div class="check-body">
             <div class="check-why"><strong>Flee vs Seek:</strong> Flee es exactamente Seek pero invertido — se aleja del target en lugar de acercarse. El campo <code>panicDistance</code> agrega realismo: el agente solo huye cuando el peligro está cerca.</div>
-            <div class="dim-content active" data-dim="3d">
+            <div class="dim-content" data-dim="3d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Behaviours/Flee.cs</span><span class="code-lang">3D</span></div>
                 <pre>[<span class="prop">System.Serializable</span>]
@@ -1670,7 +1670,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
 }</pre>
               </div>
             </div>
-            <div class="dim-content" data-dim="2d">
+            <div class="dim-content active" data-dim="2d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Behaviours/Flee.cs</span><span class="code-lang">2D</span></div>
                 <pre>[<span class="prop">System.Serializable</span>]
@@ -1711,13 +1711,13 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
       </div>
 
       <ul class="checklist">
-        <li class="check-item completed expanded" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea <code>Wander.cs</code> en <code>Behaviours/</code> <span class="badge mb">MonoBehaviour</span></div>
             <div class="check-expand-icon">▼</div>
           </div>
-          <div class="check-body show">
+          <div class="check-body">
             <div class="check-why"><strong>¿Por qué MonoBehaviour aquí?</strong> <code>StartCoroutine()</code> solo puede llamarse desde una clase que herede de MonoBehaviour. Wander necesita una corrutina para añadir jitter (variación aleatoria) al target de wander periódicamente, sin hacerlo cada frame (sería demasiado caótico).</div>
             <div class="code-block">
               <div class="code-header"><span class="code-filename">Behaviours/Wander.cs</span><span class="code-lang">C#</span></div>
@@ -1787,7 +1787,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
       </div>
 
       <ul class="checklist">
-        <li class="check-item" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea <code>SteeringController.cs</code> en <code>Core/</code></div>
@@ -1795,7 +1795,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
           </div>
           <div class="check-body">
             <div class="check-why"><strong>Suma ponderada de fuerzas:</strong> Cada behaviour retorna una fuerza. El controller las multiplica por su <code>weight</code> y las suma. Esto permite tener Seek hacia el player con peso 0.6 y Flee de un enemigo con peso 1.0 al mismo tiempo. <strong>Este es el archivo donde más cambia la lógica 2D vs 3D</strong> — en 3D haces física manual con <code>transform.position</code>, en 2D delegas al <code>Rigidbody2D</code> y usas <code>FixedUpdate()</code>.</div>
-            <div class="dim-content active" data-dim="3d">
+            <div class="dim-content" data-dim="3d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Core/SteeringController.cs</span><span class="code-lang">3D</span></div>
                 <pre><span class="kw">using</span> System.Collections.Generic;
@@ -1859,7 +1859,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
 }</pre>
               </div>
             </div>
-            <div class="dim-content" data-dim="2d">
+            <div class="dim-content active" data-dim="2d">
               <div class="code-block">
                 <div class="code-header"><span class="code-filename">Core/SteeringController.cs</span><span class="code-lang">2D</span></div>
                 <pre><span class="kw">using</span> System.Collections.Generic;
@@ -1935,7 +1935,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
       </div>
 
       <ul class="checklist">
-        <li class="check-item" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea <code>SteeringControllerEditor.cs</code> dentro de la carpeta <code>Editor/</code> <span class="badge editor">Editor Only</span></div>
@@ -2008,13 +2008,13 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
 
       <ul class="checklist">
 
-        <li class="check-item" onclick="toggleItem(this)">
+        <li class="check-item completed expanded" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea un GameObject "NPC" y agrégale el componente <code>SteeringController</code></div>
             <div class="check-expand-icon">▼</div>
           </div>
-          <div class="check-body">
+          <div class="check-body show">
             <div class="check-why"><strong>Resultado esperado:</strong> En el inspector deberías ver los campos Max Speed, Max Force, Mass, la lista de Behaviours vacía, y los botones <em>"+ Add Seek"</em> y <em>"+ Add Flee"</em> al final.</div>
             <div class="callout info">
               <span class="callout-icon">🎛️</span>
@@ -2023,18 +2023,18 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
           </div>
         </li>
 
-        <li class="check-item" onclick="toggleItem(this)">
+        <li class="check-item completed expanded" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Crea un GameObject "Player" y asígnalo como target del Seek desde el inspector</div>
             <div class="check-expand-icon">▼</div>
           </div>
-          <div class="check-body">
+          <div class="check-body show">
             <div class="check-why"><strong>Arrastra el Transform:</strong> En Unity puedes arrastrar un GameObject al campo <em>Target</em> del Seek en el inspector. Unity lo convierte automáticamente a Transform.</div>
           </div>
         </li>
 
-        <li class="check-item" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Agrega <code>Wander</code> como componente al mismo NPC y prueba el movimiento combinado</div>
@@ -2049,7 +2049,7 @@ otroPerro.nombre = <span class="str">"Luna"</span>; <span class="cmt">// distint
           </div>
         </li>
 
-        <li class="check-item" onclick="toggleItem(this)">
+        <li class="check-item completed" onclick="toggleItem(this)">
           <div class="check-header">
             <div class="checkbox"><span class="checkmark">✓</span></div>
             <div class="check-label">Convierte el NPC en un Prefab y verifica que los behaviours se guardan correctamente</div>
