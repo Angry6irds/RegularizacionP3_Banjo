@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<!-- saved from url=(0802)https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&inline=1&sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steering Avanzado — Algoritmos y Matemáticas</title>
+<link href="./css2" rel="stylesheet">
+<style>
+:root{--bg:#080a10;--surf:#0f1218;--surf2:#161b24;--bord:#1e2535;--bord2:#2a3347;
+  --G:#7effd4;--O:#ff9f43;--B:#74b9ff;--P:#fd79a8;--V:#a29bfe;
+  --txt:#dde6f0;--muted:#6b7a96;--dim:#3a4560;--code:#060810;--r:10px;
+  --fd:'Oxanium',sans-serif;--fb:'Barlow',sans-serif;--fm:'JetBrains Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--fb);font-size:15px;line-height:1.75;min-height:100vh;
+  background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(126,255,212,.03) 0%,transparent 60%)}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.25;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")}
+/* HEADER */
+.hdr{height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  border-bottom:1px solid var(--bord);background:rgba(8,10,16,.92);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100}
+.logo{font-family:var(--fd);font-size:1.1rem;font-weight:800;letter-spacing:3px;color:var(--G);white-space:nowrap}
+.logo em{color:var(--O);font-style:normal}
+.tnav{display:flex;gap:3px;background:var(--surf);border:1px solid var(--bord);border-radius:50px;padding:3px}
+.tbtn{font-family:var(--fm);font-size:.68rem;letter-spacing:.5px;padding:.3rem 1rem;border:none;border-radius:50px;cursor:pointer;background:transparent;color:var(--muted);transition:all .2s;white-space:nowrap}
+.tbtn:hover{color:var(--txt)}.tbtn.active{background:var(--O);color:#000;font-weight:700}
+.tp{display:none}.tp.active{display:block}
+/* LAYOUT */
+.clayout{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 58px)}
+.csidebar{border-right:1px solid var(--bord);padding:1.5rem 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.sglbl{font-family:var(--fm);font-size:.58rem;color:var(--dim);letter-spacing:2.5px;padding:0 1.25rem .5rem;text-transform:uppercase}
+.slnk{display:flex;align-items:center;gap:.55rem;padding:.45rem 1.25rem;color:var(--muted);text-decoration:none;font-size:.8rem;transition:all .15s;border-left:2px solid transparent}
+.slnk:hover{color:var(--txt);background:var(--surf)}.slnk.active{color:var(--G);border-left-color:var(--G);background:rgba(126,255,212,.05)}
+.ccnt{padding:3rem 4rem;max-width:880px}
+.csec{margin-bottom:5rem;scroll-margin-top:78px}
+.ey{font-family:var(--fm);font-size:.62rem;letter-spacing:3px;color:var(--O);text-transform:uppercase;margin-bottom:.4rem}
+.stit{font-family:var(--fd);font-size:2.4rem;font-weight:800;line-height:1.05;margin-bottom:.9rem;color:var(--txt)}
+.slead{font-size:1rem;color:var(--muted);margin-bottom:2rem;border-left:3px solid var(--O);padding-left:1rem;max-width:640px}
+/* INTERACTIVE CARD */
+.ic{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);overflow:hidden;margin-bottom:2rem}
+.ich{background:var(--surf2);padding:.7rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bord)}
+.ict{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--G)}
+.icg{font-family:var(--fm);font-size:.6rem;padding:.15rem .5rem;background:rgba(126,255,212,.08);color:var(--G);border:1px solid rgba(126,255,212,.15);border-radius:4px}
+.icb{display:grid;grid-template-columns:1fr 260px;align-items:stretch}
+.ictxt{padding:1.25rem 1.5rem}
+.icvis{background:var(--code);border-left:1px solid var(--bord);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.25rem;gap:.75rem}
+canvas{border-radius:8px;display:block}
+.sg{width:100%;display:flex;flex-direction:column;gap:.5rem}
+.sr{display:flex;align-items:center;gap:.5rem}
+.slb{font-family:var(--fm);font-size:.68rem;color:var(--O);min-width:26px}
+.slv{font-family:var(--fm);font-size:.68rem;color:var(--B);min-width:32px;text-align:right}
+input[type=range]{flex:1;-webkit-appearance:none;height:4px;border-radius:99px;background:var(--bord2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--O);cursor:pointer;box-shadow:0 0 0 3px rgba(255,159,67,.25)}
+.fb{background:var(--code);border:1px solid var(--bord);border-radius:8px;padding:.75rem 1rem;font-family:var(--fm);font-size:.78rem;color:var(--B);margin:.75rem 0;line-height:1.7}
+.fb .cm{color:var(--dim);font-style:italic}.fb .hi{color:var(--O)}.fb .re{color:var(--G);font-weight:700}
+.rb{font-family:var(--fm);font-size:.72rem;padding:.3rem .75rem;background:rgba(126,255,212,.08);border:1px solid rgba(126,255,212,.2);border-radius:6px;color:var(--G);text-align:center;transition:all .2s}
+.sa{background:rgba(255,159,67,.06);border:1px solid rgba(255,159,67,.2);border-radius:8px;padding:.8rem 1rem;margin-top:.75rem;font-size:.85rem}
+.sal{font-family:var(--fm);font-size:.6rem;color:var(--O);letter-spacing:2px;margin-bottom:.25rem}
+.sa p{color:var(--muted);margin:0}.sa strong{color:var(--O)}
+.ca{border-radius:var(--r);padding:.9rem 1.1rem;margin:1.25rem 0;display:flex;gap:.75rem;font-size:.88rem}
+.cai{font-size:1rem;flex-shrink:0;padding-top:.1rem}
+.ca.tip{background:rgba(126,255,212,.06);border:1px solid rgba(126,255,212,.18)}.ca.tip .cai{color:var(--G)}
+.ca.info{background:rgba(116,185,255,.06);border:1px solid rgba(116,185,255,.2)}.ca.info .cai{color:var(--B)}
+.ca.warn{background:rgba(255,159,67,.06);border:1px solid rgba(255,159,67,.2)}.ca.warn .cai{color:var(--O)}
+.ca p{color:var(--muted);margin:0}.ca strong{color:var(--txt)}
+/* EXERCISE */
+.elyt{max-width:920px;margin:0 auto;padding:3rem 2rem 5rem}
+.ehero{background:var(--surf);border:1px solid var(--bord);border-radius:16px;padding:2rem 2.5rem;margin-bottom:3rem;position:relative;overflow:hidden}
+.ehero::after{content:'BEHAVIOURS';position:absolute;right:-10px;bottom:-20px;font-family:var(--fd);font-size:5rem;font-weight:800;color:rgba(126,255,212,.03);pointer-events:none}
+.bs{margin-bottom:2.5rem;border:1px solid var(--bord);border-radius:14px;overflow:hidden}
+.bsh{padding:1.25rem 1.75rem;background:var(--surf2);display:flex;align-items:center;gap:1rem;border-bottom:1px solid transparent;cursor:pointer;user-select:none;transition:background .15s}
+.bsh:hover{background:#1d2330}.bs.open .bsh{border-bottom-color:var(--bord)}
+.bsn{font-family:var(--fd);font-size:1.8rem;font-weight:800;min-width:44px;color:var(--bord2)}
+.bsi{flex:1}.bsnm{font-family:var(--fd);font-size:1.2rem;font-weight:600;color:var(--txt)}.bssb{font-size:.82rem;color:var(--muted)}
+.bbg{font-family:var(--fm);font-size:.6rem;padding:.2rem .65rem;border-radius:4px;letter-spacing:.5px;flex-shrink:0}
+.bbg.poco{background:rgba(126,255,212,.1);color:var(--G);border:1px solid rgba(126,255,212,.2)}
+.bbg.mb{background:rgba(116,185,255,.1);color:var(--B);border:1px solid rgba(116,185,255,.2)}
+.bbg.ext{background:rgba(162,155,254,.1);color:var(--V);border:1px solid rgba(162,155,254,.2)}
+.bschv{color:var(--dim);font-size:.8rem;transition:transform .25s;flex-shrink:0}
+.bs.open .bschv{transform:rotate(180deg)}
+.bsbdy{display:none;padding:2rem 1.75rem}.bs.open .bsbdy{display:block}
+.ab{background:var(--surf2);border:1px solid var(--bord);border-radius:var(--r);overflow:hidden;margin:1.25rem 0}
+.abh{background:var(--code);padding:.5rem 1rem;border-bottom:1px solid var(--bord);font-family:var(--fm);font-size:.65rem;color:var(--O);letter-spacing:2px}
+.alist{padding:1.25rem}
+.astep{display:flex;gap:1rem;margin-bottom:1rem;align-items:flex-start}.astep:last-child{margin-bottom:0}
+.asn{min-width:26px;height:26px;background:var(--bord2);color:var(--O);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.68rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.asc{flex:1}.ast{color:var(--txt);font-size:.88rem;font-weight:500;margin-bottom:.25rem}
+.asm{font-family:var(--fm);font-size:.78rem;color:var(--B);background:var(--code);padding:.35rem .75rem;border-radius:5px;border-left:3px solid var(--B);margin-top:.3rem;display:block}
+.asnt{font-size:.8rem;color:var(--muted);margin-top:.25rem}
+.vd{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);padding:1.25rem;margin:1.25rem 0;display:flex;justify-content:center;overflow-x:auto}
+.vd svg{max-width:100%}
+/* FLOWCHART */
+.fs{background:linear-gradient(135deg,rgba(126,255,212,.03),rgba(162,155,254,.03));border:1px solid rgba(126,255,212,.12);border-radius:14px;overflow:hidden;margin-bottom:2.5rem}
+.fsh{padding:1.25rem 1.75rem;border-bottom:1px solid rgba(126,255,212,.1);display:flex;align-items:center;gap:1rem}
+.fst{font-family:var(--fm);font-size:.6rem;padding:.2rem .65rem;background:rgba(162,155,254,.12);color:var(--V);border:1px solid rgba(162,155,254,.2);border-radius:4px;letter-spacing:.5px}
+.fsn{font-family:var(--fd);font-size:1.2rem;font-weight:600;color:var(--txt)}.fss{font-size:.82rem;color:var(--muted)}
+.fsb{padding:1.75rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
+th{background:var(--surf2);color:var(--O);font-family:var(--fm);font-size:.68rem;letter-spacing:1px;padding:.6rem 1rem;text-align:left;border-bottom:1px solid var(--bord)}
+td{padding:.5rem 1rem;border-bottom:1px solid rgba(30,37,53,.7);color:var(--muted);vertical-align:top}
+td:first-child{color:var(--txt)}tr:hover td{background:rgba(255,255,255,.015)}
+p{color:var(--muted);margin-bottom:.75rem}strong{color:var(--txt)}
+code{font-family:var(--fm);font-size:.8rem;color:var(--B);background:rgba(116,185,255,.06);padding:.1rem .35rem;border-radius:3px}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bord);border-radius:99px}
+@media(max-width:768px){.clayout{grid-template-columns:1fr}.csidebar{display:none}.ccnt{padding:2rem 1.25rem}.icb{grid-template-columns:1fr}.icvis{border-left:none;border-top:1px solid var(--bord)}}
+/* ── BEHAVIOURS — PROGRESS BAR ── */
+.bh-progress-wrap{background:rgba(126,255,212,.03);border:1px solid rgba(126,255,212,.12);border-radius:8px;padding:1rem 1.25rem;margin-top:1rem}
+.bh-progress-lbl{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.bh-progress-title{font-family:var(--fd);font-size:.82rem;color:var(--txt)}
+.bh-progress-txt{font-family:var(--fm);font-size:.68rem;color:var(--G)}
+.bh-progress-track{height:6px;background:var(--bord2);border-radius:99px;overflow:hidden}
+.bh-progress-bar{height:100%;background:linear-gradient(90deg,var(--O),var(--B));border-radius:99px;width:0%;transition:width .5s cubic-bezier(.4,0,.2,1)}
+/* ── BEHAVIOURS — CHECKBOX ── */
+.bh-cb-wrap{display:flex;align-items:center;padding:.3rem .5rem;cursor:pointer;margin-left:.25rem}
+.bh-cb-wrap input{display:none}
+.bh-cb-mark{width:20px;height:20px;border:2px solid var(--bord2);border-radius:5px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;font-size:12px;font-weight:700;color:transparent}
+.bh-cb-wrap:hover .bh-cb-mark{border-color:var(--G)}
+.bh-cb-wrap input:checked ~ .bh-cb-mark{background:var(--G);border-color:var(--G);color:#000;content:'✓'}
+.bh-cb-wrap input:checked ~ .bh-cb-mark::after{content:'✓'}
+/* ── BEHAVIOURS — ALGO TEXT ── */
+.bh-algo{background:rgba(162,155,254,.04);border:1px solid rgba(162,155,254,.15);border-radius:8px;padding:.75rem 1rem;margin-bottom:1.25rem}
+.bh-algo-lbl{font-family:var(--fm);font-size:.58rem;color:var(--V);letter-spacing:2.5px;margin-bottom:.35rem;text-transform:uppercase}
+.bh-algo p{color:var(--muted);font-size:.85rem;margin:0;line-height:1.65}
+/* ── BEHAVIOURS — SIM CANVAS ── */
+.bh-simc{background:var(--code);border:1px solid var(--bord);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.bh-simc-h{background:var(--surf2);padding:.5rem 1.1rem;border-bottom:1px solid var(--bord);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.bh-simc-hl{font-family:var(--fm);font-size:.6rem;color:var(--G);letter-spacing:2px}
+.bh-simc-body{display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;flex-wrap:wrap}
+.bh-simc-body canvas{border-radius:6px;flex-shrink:0;display:block}
+.bh-simc-sliders{display:flex;flex-direction:column;gap:.45rem;min-width:145px}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">STEERING <em>//</em> AVANZADO</div>
+  <nav class="tnav">
+    <button class="tbtn active" onclick="switchTab(&#39;concepts&#39;,this)">📐 Matemáticas</button>
+    <button class="tbtn" onclick="switchTab(&#39;exercise&#39;,this)">🧠 Behaviours</button>
+  </nav>
+  <div style="font-family:var(--fm);font-size:.65rem;color:var(--dim)">Parte II — Algoritmos</div>
+</header>
+
+<!-- TAB MATEMÁTICAS -->
+<div id="tab-concepts" class="tp active">
+<div class="clayout">
+<aside class="csidebar">
+  <div style="margin-bottom:1.5rem">
+    <div class="sglbl">Fundamentos</div>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#vectors" class="slnk active">🧭 Suma y Resta</a>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#magnitude" class="slnk">📏 Magnitud &amp; Normalize</a>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#dotproduct" class="slnk">· Producto Punto</a>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#crossproduct" class="slnk">× Producto Cruz</a>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#projection" class="slnk">↗ Proyección</a>
+  </div>
+  <div>
+    <div class="sglbl">Aplicado</div>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#futurepos" class="slnk">⏩ Predicción de Posición</a>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#localspace" class="slnk">🔄 Espacio Local</a>
+    <a href="https://a21943-2551116.cluster348.canvas-user-content.com/courses/21943~5332/files/21943~2551116/course%20files/Multimedia%20cargada/steering-advanced.html?download=1&amp;inline=1&amp;sf_verifier=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiMjE5NDMwMDAwMDAwMDAzODMxIiwiYXR0YWNobWVudF9pZCI6IjIxOTQzMDAwMDAwMjU1MTExNiIsInBlcm1pc3Npb24iOlsicmVhZCIsImRvd25sb2FkIl0sInJvb3RfYWNjb3VudF9pZCI6IjIxOTQzMDAwMDAwMDAwMDAwMSIsIm9hdXRoX2hvc3QiOiJhbWVyaWtlLmluc3RydWN0dXJlLmNvbSIsInJldHVybl91cmwiOm51bGwsImZhbGxiYWNrX3VybCI6Imh0dHBzOi8vYW1lcmlrZS5pbnN0cnVjdHVyZS5jb20vY291cnNlcy81MzMyL2ZpbGVzLzI1NTExMTYvcHJldmlldz9mYWxsYmFja190cz0xNzc2OTExNzQ1IiwianRpIjoiOTgyMmQ0Y2YtNWYzNy00OTVmLTkwOGUtMjI4NzRlNjBjNDhmIiwiZXhwIjoxNzc2OTEyMDQ1fQ.X8CytHtgNAkNoLdA8feBKEEI51DeF-YuHFTfBnSr0OrNFEOJMb7uLqtUf-GoCdEkQvpTHMfYdK2xW3chBO7y0Q#raycasts" class="slnk">〰 Feeler Rays</a>
+  </div>
+</aside>
+<main class="ccnt">
+
+<!-- 01 SUMA Y RESTA -->
+<section class="csec" id="vectors">
+  <p class="ey">01 — Base</p>
+  <h1 class="stit">Suma y Resta de Vectores</h1>
+  <p class="slead">Mueve los sliders. El canvas actualiza los vectores en tiempo real.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">Suma — A + B</span><span class="icg">A + B = C</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <p>Sumar vectores es encadenarlos punta a cola. C va directo del origen hasta el final de B.</p>
+        <div class="fb"><span class="hi">A</span> = (Ax, Ay) <span class="cm">// velocidad actual</span><br><span class="hi">B</span> = (Bx, By) <span class="cm">// fuerza steering</span><br><span class="re">C</span> = (Ax+Bx, Ay+By)</div>
+        <div class="sa"><div class="sal">→ EN STEERING</div><p>El <strong>SteeringController</strong> suma todas las fuerzas ponderadas de todos los behaviours activos cada frame. El resultado es la fuerza total que mueve al agente.</p></div>
+        <div id="r-sum" class="rb" style="margin-top:.75rem">C = (0,0) |C| = 0.00</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-sum" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb" style="color:#7effd4">Ax</span><input type="range" id="s-ax" min="-5" max="5" step=".1" value="3" oninput="dSum()"><span class="slv" id="v-ax">3.0</span></div>
+          <div class="sr"><span class="slb" style="color:#7effd4">Ay</span><input type="range" id="s-ay" min="-5" max="5" step=".1" value="2" oninput="dSum()"><span class="slv" id="v-ay">2.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">Bx</span><input type="range" id="s-bx" min="-5" max="5" step=".1" value="-1" oninput="dSum()"><span class="slv" id="v-bx">-1.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">By</span><input type="range" id="s-by" min="-5" max="5" step=".1" value="3" oninput="dSum()"><span class="slv" id="v-by">3.0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ic">
+    <div class="ich"><span class="ict">Resta — B − A</span><span class="icg">dirección A→B</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <p><code>B − A</code> da el vector que apunta <em>de A hacia B</em>. La operación más usada en steering.</p>
+        <div class="fb"><span class="cm">// Seek — ir del agente al target:</span><br><span class="re">dir</span> = target.pos <span class="hi">−</span> agent.pos<br><span class="cm">// Flee — invertir el orden:</span><br><span class="re">dir</span> = agent.pos <span class="hi">−</span> target.pos</div>
+        <div class="sa"><div class="sal">→ EN STEERING</div><p>La única diferencia entre <strong>Seek</strong> y <strong>Flee</strong> es el orden de la resta. Todo lo demás es idéntico.</p></div>
+        <div id="r-sub" class="rb" style="margin-top:.75rem">B−A = (0,0) |B−A| = 0.00</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-sub" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb" style="color:#7effd4">Ax</span><input type="range" id="s-sax" min="-4" max="4" step=".1" value="-2" oninput="dSub()"><span class="slv" id="v-sax">-2.0</span></div>
+          <div class="sr"><span class="slb" style="color:#7effd4">Ay</span><input type="range" id="s-say" min="-4" max="4" step=".1" value="-2" oninput="dSub()"><span class="slv" id="v-say">-2.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">Bx</span><input type="range" id="s-sbx" min="-4" max="4" step=".1" value="2" oninput="dSub()"><span class="slv" id="v-sbx">2.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">By</span><input type="range" id="s-sby" min="-4" max="4" step=".1" value="2" oninput="dSub()"><span class="slv" id="v-sby">2.0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 MAGNITUD -->
+<section class="csec" id="magnitude">
+  <p class="ey">02 — Magnitud y Normalización</p>
+  <h1 class="stit">Magnitud y Normalize</h1>
+  <p class="slead">Magnitud = largo del vector. Normalizar = longitud 1. Luego multiplicas por el escalar que quieras.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">|V| y V̂</span><span class="icg">Pitágoras + escalar</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <div class="fb"><span class="hi">|V|</span> = √(x²+y²)<br><span class="hi">V̂</span>  = V / |V| <span class="cm">// longitud exactamente 1</span><br><br><span class="cm">// Patrón en casi todo steering:</span><br><span class="re">desired</span> = (target−pos).<span class="hi">normalized</span> * maxSpeed</div>
+        <div class="sa"><div class="sal">→ EN STEERING</div><p>Usa <strong><code>sqrMagnitude</code></strong> en comparaciones — omite la raíz cuadrada. <code>v.sqrMagnitude &lt; 25f</code> es distancia &lt; 5, pero más rápido en loops de muchos agentes.</p></div>
+        <div id="r-mag" class="rb" style="margin-top:.75rem">|V| = 0.00  V̂ = (0, 0)</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-mag" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb">Vx</span><input type="range" id="s-mx" min="-5" max="5" step=".1" value="3" oninput="dMag()"><span class="slv" id="v-mx">3.0</span></div>
+          <div class="sr"><span class="slb">Vy</span><input type="range" id="s-my" min="-5" max="5" step=".1" value="4" oninput="dMag()"><span class="slv" id="v-my">4.0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 DOT -->
+<section class="csec" id="dotproduct">
+  <p class="ey">03 — Producto Punto</p>
+  <h1 class="stit">Dot Product</h1>
+  <p class="slead">Responde: <em>"¿Qué tan alineados están dos vectores?"</em> Resultado de −1 a 1 según el ángulo entre ellos.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">A · B — Alineación</span><span class="icg">−1 a 1</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <div class="fb"><span class="hi">A · B</span> = Ax*Bx + Ay*By<br><span class="hi">A · B</span> = |A|*|B|*cos(θ)<br><br><span class="cm">// Con vectores normalizados:</span><br><span class="re">resultado</span> = cos(θ) <span class="cm">// -1 a 1</span></div>
+        <table style="margin:.75rem 0;font-size:.82rem">
+          <tbody><tr><th>Valor</th><th>Significa</th></tr>
+          <tr><td style="color:#7effd4">1.0</td><td>Mismo sentido (0°)</td></tr>
+          <tr><td style="color:#ff9f43">0.0</td><td>Perpendiculares (90°)</td></tr>
+          <tr><td style="color:#fd79a8">−1.0</td><td>Opuestos (180°)</td></tr>
+          <tr><td style="color:#7effd4">&gt; 0</td><td>"Está enfrente del agente"</td></tr>
+          <tr><td style="color:#fd79a8">&lt; 0</td><td>"Está detrás del agente"</td></tr>
+        </tbody></table>
+        <div class="sa"><div class="sal">→ EN STEERING</div><p><strong>Leader Following:</strong> <code>Dot(leader.fwd, toFollower.norm) &gt; 0.9</code> → en zona de frenado.<br><strong>Queue:</strong> <code>Dot(forward, toNeighbor.norm) &gt; 0</code> → vecino adelante.</p></div>
+        <div id="r-dot" class="rb" style="margin-top:.75rem">A·B = 0.00  θ = 0°</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-dot" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb" style="color:#7effd4">θA</span><input type="range" id="s-da" min="0" max="360" step="1" value="60" oninput="dDot()"><span class="slv" id="v-da">60°</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">θB</span><input type="range" id="s-db" min="0" max="360" step="1" value="20" oninput="dDot()"><span class="slv" id="v-db">20°</span></div>
+        </div>
+        <div style="font-family:var(--fm);font-size:.6rem;color:var(--dim);text-align:center">rota cada vector con su slider</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 CROSS -->
+<section class="csec" id="crossproduct">
+  <p class="ey">04 — Producto Cruz</p>
+  <h1 class="stit">Cross Product</h1>
+  <p class="slead">Produce un vector perpendicular. En 2D su signo indica si B está a la izquierda o derecha de A.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">A × B — Perpendicular y lateralidad</span><span class="icg">signo = lado</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <div class="fb"><span class="cm">// Componente Z (2D):</span><br><span class="re">cross2D</span> = Ax*By − Ay*Bx<br><br>cross2D <span class="hi">&gt; 0</span> → B a la <span class="hi">izquierda</span> de A<br>cross2D <span class="hi">&lt; 0</span> → B a la <span class="hi">derecha</span> de A<br><br><span class="cm">// Unity 3D:</span><br><span class="re">perp</span> = Vector3.Cross(A, B)</div>
+        <div class="sa"><div class="sal">→ EN STEERING</div><p><strong>Collision Avoidance:</strong> usa el signo para decidir a qué lado esquivar el obstáculo más amenazante.</p></div>
+        <div id="r-cross" class="rb" style="margin-top:.75rem">cross2D = 0.00 — derecha</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-cross" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb" style="color:#7effd4">θA</span><input type="range" id="s-ca" min="0" max="360" step="1" value="90" oninput="dCross()"><span class="slv" id="v-ca">90°</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">θB</span><input type="range" id="s-cb" min="0" max="360" step="1" value="30" oninput="dCross()"><span class="slv" id="v-cb">30°</span></div>
+        </div>
+        <div style="font-family:var(--fm);font-size:.6rem;color:var(--dim);text-align:center">el arco muestra la orientación relativa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 PROYECCIÓN -->
+<section class="csec" id="projection">
+  <p class="ey">05 — Proyección Escalar</p>
+  <h1 class="stit">Proyección sobre Segmento</h1>
+  <p class="slead">Encontrar el punto más cercano de una línea — núcleo de Path Following. Mueve el punto P y el lookAhead.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">t = Dot(P−A, dir)</span><span class="icg">scalar proj</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <div class="fb"><span class="cm">// Segmento A→B, punto P:</span><br><span class="hi">dir</span>  = (B−A).normalized<br><span class="hi">t</span>    = Dot(P−A, dir)<br>t    = Clamp(t, 0, |B−A|)<br><span class="re">proj</span> = A + dir * t<br><br><span class="cm">// Look-ahead:</span><br><span class="re">target</span> = A + dir * (t + lookAhead)</div>
+        <p>El parámetro <code>t</code> es la distancia recorrida sobre el segmento. Clamp evita salirse de los extremos.</p>
+        <div id="r-proj" class="rb" style="margin-top:.75rem">dist = 0.00  t = 0.00</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-proj" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb" style="color:#7effd4">Px</span><input type="range" id="s-px" min="-4" max="4" step=".1" value="0" oninput="dProj()"><span class="slv" id="v-px">0.0</span></div>
+          <div class="sr"><span class="slb" style="color:#7effd4">Py</span><input type="range" id="s-py" min="-4" max="4" step=".1" value="2" oninput="dProj()"><span class="slv" id="v-py">2.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">la</span><input type="range" id="s-la" min="0" max="3" step=".1" value="1" oninput="dProj()"><span class="slv" id="v-la" style="color:#ff9f43">1.0</span></div>
+          <div style="font-family:var(--fm);font-size:.6rem;color:var(--dim)">'la' = lookAheadDist</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FUTURE POS -->
+<section class="csec" id="futurepos">
+  <p class="ey">06 — Predicción</p>
+  <h1 class="stit">Posición Futura</h1>
+  <p class="slead">Base de Pursuit y Evade. <code>pos + vel × t</code> con t proporcional a la distancia — más lejos, más anticipación.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">futurePos = pos + vel × t</span><span class="icg">t dinámico</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <div class="fb"><span class="hi">t</span> = dist(agente, target) / agente.maxSpeed<br><span class="re">futurePos</span> = target.pos + target.vel * <span class="hi">t</span><br><br><span class="cm">// De cerca: t≈0 → Pursuit ≈ Seek</span><br><span class="cm">// De lejos: t grande → más anticipación</span></div>
+        <div class="sa"><div class="sal">→ EN STEERING</div><p><strong>Pursuit:</strong> Seek(futurePos) &nbsp;|&nbsp; <strong>Evade:</strong> Flee(futurePos). Mismo cálculo, distinta reacción.</p></div>
+        <div id="r-fut" class="rb" style="margin-top:.75rem">t = 0.00s  futurePos = (0, 0)</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-fut" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb" style="color:#ff9f43">Tx</span><input type="range" id="s-tx" min="-3" max="3" step=".1" value="1" oninput="dFut()"><span class="slv" id="v-tx">1.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">Vx</span><input type="range" id="s-tvx" min="-3" max="3" step=".1" value="2" oninput="dFut()"><span class="slv" id="v-tvx">2.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">Vy</span><input type="range" id="s-tvy" min="-3" max="3" step=".1" value="1" oninput="dFut()"><span class="slv" id="v-tvy">1.0</span></div>
+          <div class="sr"><span class="slb" style="color:#7effd4">spd</span><input type="range" id="s-sp" min="1" max="8" step=".1" value="4" oninput="dFut()"><span class="slv" id="v-sp">4.0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 LOCAL SPACE -->
+<section class="csec" id="localspace">
+  <p class="ey">07 — Coordenadas</p>
+  <h1 class="stit">Espacio Local vs Global</h1>
+  <p class="slead">Rota el agente y mueve el punto P. El texto muestra si P está enfrente/detrás, derecha/izquierda — relativo al agente.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">InverseTransformPoint</span><span class="icg">world → local</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <div class="fb"><span class="re">localPos</span> = transform.<span class="hi">InverseTransformPoint</span>(worldPt)<br><br>localPos.x <span class="hi">&gt; 0</span> → <span class="hi">DERECHA</span><br>localPos.x <span class="hi">&lt; 0</span> → <span class="hi">IZQUIERDA</span><br>localPos.z <span class="hi">&gt; 0</span> → <span class="hi">ENFRENTE</span><br>localPos.z <span class="hi">&lt; 0</span> → <span class="hi">DETRÁS</span></div>
+        <div class="sa"><div class="sal">→ EN STEERING</div><p><strong>Collision Avoidance:</strong> filtra obstáculos en el cono frontal y determina el lado de desvío.<br><strong>Queue:</strong> verifica que el vecino esté realmente adelante del agente.</p></div>
+        <div id="r-loc" class="rb" style="margin-top:.75rem">local: (0, 0) — enfrente/derecha</div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-loc" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb">rot</span><input type="range" id="s-rot" min="0" max="360" step="1" value="45" oninput="dLoc()"><span class="slv" id="v-rot">45°</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">Px</span><input type="range" id="s-lx" min="-4" max="4" step=".1" value="2" oninput="dLoc()"><span class="slv" id="v-lx">2.0</span></div>
+          <div class="sr"><span class="slb" style="color:#ff9f43">Py</span><input type="range" id="s-ly" min="-4" max="4" step=".1" value="1" oninput="dLoc()"><span class="slv" id="v-ly">1.0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 FEELERS -->
+<section class="csec" id="raycasts">
+  <p class="ey">08 — Detección Espacial</p>
+  <h1 class="stit">Feeler Rays</h1>
+  <p class="slead">Rays hacia adelante para detectar obstáculos. A mayor velocidad, el feeler crece — más anticipación necesaria.</p>
+  <div class="ic">
+    <div class="ich"><span class="ict">Feelers centrales y laterales</span><span class="icg">ray projection</span></div>
+    <div class="icb">
+      <div class="ictxt">
+        <div class="fb"><span class="hi">fl</span>    = baseLen * (speed / maxSpeed)<br><span class="re">ahead</span> = pos + forward * fl<br><span class="re">left</span>  = pos + (fwd+left*0.5).norm * fl*0.7<br><span class="re">right</span> = pos + (fwd+right*0.5).norm * fl*0.7</div>
+        <div class="ca info"><span class="cai">💡</span><p><strong>SphereCast vs Raycast:</strong> Usa <code>Physics.SphereCast()</code> para agentes con volumen — Raycast es infinitamente delgado y puede perderse obstáculos.</p></div>
+      </div>
+      <div class="icvis">
+        <canvas id="cv-feel" width="220" height="220"></canvas>
+        <div class="sg">
+          <div class="sr"><span class="slb">rot</span><input type="range" id="s-frot" min="0" max="360" step="1" value="0" oninput="dFeel()"><span class="slv" id="v-frot">0°</span></div>
+          <div class="sr"><span class="slb" style="color:#7effd4">spd</span><input type="range" id="s-fspd" min="0" max="1" step=".01" value=".7" oninput="dFeel()"><span class="slv" id="v-fspd">0.70</span></div>
+        </div>
+        <div style="font-family:var(--fm);font-size:.6rem;color:var(--dim);text-align:center">spd = velocidad/maxSpeed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+</div><!-- end tab-concepts -->
+
+<!-- TAB BEHAVIOURS -->
+<div id="tab-exercise" class="tp">
+<div class="elyt">
+  <div class="ehero">
+    <p class="ey">Ejercicio — Parte II</p>
+    <h1 class="stit" style="font-size:2rem;margin-bottom:.6rem">Behaviours Avanzados</h1>
+    <p style="color:var(--muted);max-width:580px">Pseudocódigo + diagramas vectoriales + simulaciones en vivo para los 10 behaviours. Marca cada uno al implementarlo.</p>
+    <div style="display:flex;gap:.75rem;margin-top:1rem;flex-wrap:wrap">
+      <span style="font-family:var(--fm);font-size:.65rem;padding:.2rem .6rem;background:rgba(126,255,212,.08);border:1px solid rgba(126,255,212,.15);border-radius:4px;color:var(--G)">POCO</span>
+      <span style="font-family:var(--fm);font-size:.65rem;padding:.2rem .6rem;background:rgba(116,185,255,.08);border:1px solid rgba(116,185,255,.15);border-radius:4px;color:var(--B)">MB = MonoBehaviourSteeringBehavior</span>
+    </div>
+    <div class="bh-progress-wrap">
+      <div class="bh-progress-lbl">
+        <span class="bh-progress-title">Progreso de implementación</span>
+        <span class="bh-progress-txt" id="bh-progress-txt">0 / 10 completados</span>
+      </div>
+      <div class="bh-progress-track"><div class="bh-progress-bar" id="bh-progress-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- PURSUIT -->
+  <div class="bs"><div class="bsh" onclick="toggleBs(this)"><div class="bsn">01</div><div class="bsi"><div class="bsnm">Pursuit</div><div class="bssb">Seek a la posición futura del target.</div></div><span class="bbg poco">POCO</span><label class="bh-cb-wrap" onclick="event.stopPropagation()" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-01"><span class="bh-cb-mark"></span></label><span class="bschv">▼</span></div>
+  <div class="bsbdy">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Calcula el tiempo de anticipación dividiendo la distancia al target entre la velocidad máxima del agente. Proyecta la posición futura del target multiplicando su velocidad por ese tiempo. Aplica Seek hacia esa posición futura en lugar de la actual. Cuando el agente está muy cerca, el tiempo se vuelve casi cero y Pursuit se comporta igual que Seek.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--O);min-width:30px">spd</span><input type="range" id="ph-speed" min="30" max="120" step="5" value="80" oninput="document.getElementById(&#39;ph-speed-v&#39;).textContent=this.value"><span class="slv" id="ph-speed-v">80</span></div><div class="sr"><span class="slb" style="color:var(--G);min-width:30px">pred</span><input type="range" id="ph-pred" min="0.3" max="2.5" step="0.1" value="1.0" oninput="document.getElementById(&#39;ph-pred-v&#39;).textContent=parseFloat(this.value).toFixed(1)"><span class="slv" id="ph-pred-v">1.0</span></div></div></div><div class="bh-simc-body"><canvas id="bh-pursuit" width="340" height="155"></canvas></div></div>
+    <p>Pursuit no sigue dónde <em>está</em> el target — sigue dónde <em>va a estar</em>. Predice con su velocidad y hace Seek hacia ese punto.</p>
+    <div class="vd"><svg viewBox="0 0 560 155" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="9"><defs><marker id="a1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff9f43"></path></marker><marker id="a2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#74b9ff"></path></marker></defs>
+    <text x="10" y="14" fill="#6b7a96" font-size="8">PASO 1: target se mueve</text>
+    <circle cx="55" cy="92" r="10" fill="none" stroke="#ff9f43" stroke-width="1.5"></circle><text x="40" y="115" fill="#ff9f43">target</text>
+    <line x1="65" y1="87" x2="125" y2="55" stroke="#ff9f43" stroke-width="2" marker-end="url(#a1)"></line><text x="87" y="61" fill="#ff9f43">vel</text>
+    <circle cx="137" cy="47" r="9" fill="none" stroke="#ff9f43" stroke-width="1.5" stroke-dasharray="4"></circle><text x="121" y="38" fill="#ff9f43">futuro</text>
+    <line x1="200" y1="12" x2="200" y2="148" stroke="#1e2535" stroke-width="1"></line>
+    <text x="215" y="14" fill="#6b7a96" font-size="8">PASO 2: t = dist/maxSpeed</text>
+    <rect x="215" y="24" width="155" height="60" rx="6" fill="#060810" stroke="#2a3347"></rect><text x="222" y="42" fill="#a29bfe">dist = |agente−target|</text><text x="222" y="56" fill="#a29bfe">t = dist/maxSpeed</text><text x="222" y="70" fill="#7effd4">futurePos = target.pos</text><text x="238" y="84" fill="#7effd4">  + target.vel * t</text>
+    <line x1="390" y1="12" x2="390" y2="148" stroke="#1e2535" stroke-width="1"></line>
+    <text x="405" y="14" fill="#6b7a96" font-size="8">PASO 3: Seek(futurePos)</text>
+    <circle cx="425" cy="115" r="10" fill="none" stroke="#7effd4" stroke-width="1.5"></circle><text x="410" y="137" fill="#7effd4">agente</text>
+    <circle cx="500" cy="48" r="8" fill="none" stroke="#ff9f43" stroke-width="1.5" stroke-dasharray="3"></circle><text x="487" y="40" fill="#ff9f43">futurePos</text>
+    <line x1="435" y1="107" x2="494" y2="56" stroke="#74b9ff" stroke-width="2" marker-end="url(#a2)"></line><text x="457" y="75" fill="#74b9ff">steering</text></svg></div>
+    <div class="ab"><div class="abh">PSEUDOCÓDIGO — PURSUIT</div><div class="alist">
+      <div class="astep"><div class="asn">1</div><div class="asc"><div class="ast">Tiempo de anticipación proporcional a la distancia</div><code class="asm">t = distancia(agente.pos, target.pos) / agente.maxSpeed</code><div class="asnt">De cerca t≈0 → Pursuit ≈ Seek.</div></div></div>
+      <div class="astep"><div class="asn">2</div><div class="asc"><div class="ast">Proyectar posición futura del target</div><code class="asm">futurePos = target.pos + target.velocity * t</code></div></div>
+      <div class="astep"><div class="asn">3</div><div class="asc"><div class="ast">Seek hacia la posición futura</div><code class="asm">desired  = (futurePos − agente.pos).normalized * maxSpeed</code><code class="asm">steering = desired − agente.velocity</code></div></div>
+      <div class="astep"><div class="asn">4</div><div class="asc"><div class="ast">Retornar</div><code class="asm">return steering</code><div class="asnt">Necesitas <code>target.velocity</code> — agrega <code>SteeringController targetCtrl</code> en el inspector.</div></div></div>
+    </div></div>
+  </div></div>
+
+  <!-- EVADE -->
+  <div class="bs"><div class="bsh" onclick="toggleBs(this)"><div class="bsn">02</div><div class="bsi"><div class="bsnm">Evade</div><div class="bssb">Flee de la posición futura del perseguidor.</div></div><span class="bbg poco">POCO</span><label class="bh-cb-wrap" onclick="event.stopPropagation()" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-02"><span class="bh-cb-mark"></span></label><span class="bschv">▼</span></div>
+  <div class="bsbdy">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Igual que Pursuit, pero el rol se invierte: el agente calcula dónde estará el perseguidor usando la misma fórmula de tiempo (distancia / velocidad). Aplica Flee hacia esa posición futura en vez de Seek. Solo activa la fuerza cuando el perseguidor entra en el radio de pánico; fuera de él, el agente ignora la amenaza.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--O);min-width:30px">spd</span><input type="range" id="eh-speed" min="40" max="130" step="5" value="90" oninput="document.getElementById(&#39;eh-speed-v&#39;).textContent=this.value"><span class="slv" id="eh-speed-v">90</span></div><div class="sr"><span class="slb" style="color:var(--P);min-width:40px">panic</span><input type="range" id="eh-panic" min="50" max="175" step="5" value="110" oninput="document.getElementById(&#39;eh-panic-v&#39;).textContent=this.value"><span class="slv" id="eh-panic-v">110</span></div></div></div><div class="bh-simc-body"><canvas id="bh-evade" width="340" height="155"></canvas></div></div>
+    <p>Evade es a Pursuit lo que Flee es a Seek. La presa predice dónde estará el depredador y huye de ese punto.</p>
+    <div class="vd"><svg viewBox="0 0 420 138" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="9"><defs><marker id="b1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff9f43"></path></marker><marker id="b2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7effd4"></path></marker></defs>
+    <circle cx="58" cy="100" r="10" fill="none" stroke="#ff9f43" stroke-width="1.5"></circle><text x="42" y="122" fill="#ff9f43">pursuer</text>
+    <line x1="68" y1="93" x2="153" y2="46" stroke="#ff9f43" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#b1)"></line>
+    <circle cx="163" cy="38" r="8" fill="none" stroke="#ff9f43" stroke-width="1.5" stroke-dasharray="3"></circle><text x="150" y="30" fill="#ff9f43">futuro</text>
+    <circle cx="262" cy="84" r="10" fill="none" stroke="#7effd4" stroke-width="1.5"></circle><text x="248" y="106" fill="#7effd4">agente</text>
+    <line x1="255" y1="76" x2="170" y2="43" stroke="#fd79a8" stroke-width="1" stroke-dasharray="2" opacity=".45"></line>
+    <line x1="270" y1="75" x2="346" y2="39" stroke="#7effd4" stroke-width="2" marker-end="url(#b2)"></line><text x="296" y="50" fill="#7effd4">flee</text>
+    <circle cx="262" cy="84" r="50" fill="none" stroke="#fd79a8" stroke-width="1" stroke-dasharray="3" opacity=".3"></circle><text x="300" y="130" fill="#fd79a8" opacity=".5">panicDist</text></svg></div>
+    <div class="ab"><div class="abh">PSEUDOCÓDIGO — EVADE</div><div class="alist">
+      <div class="astep"><div class="asn">1</div><div class="asc"><div class="ast">Tiempo de anticipación (igual que Pursuit)</div><code class="asm">t = distancia(agente.pos, pursuer.pos) / agente.maxSpeed</code></div></div>
+      <div class="astep"><div class="asn">2</div><div class="asc"><div class="ast">Proyectar posición futura del perseguidor</div><code class="asm">futurePos = pursuer.pos + pursuer.velocity * t</code></div></div>
+      <div class="astep"><div class="asn">3</div><div class="asc"><div class="ast">Flee de la posición futura — nota la inversión</div><code class="asm">desired  = (agente.pos − futurePos).normalized * maxSpeed</code><code class="asm">steering = desired − agente.velocity</code></div></div>
+      <div class="astep"><div class="asn">4</div><div class="asc"><div class="ast">Opcional: solo activar dentro del panicDistance</div><code class="asm">if distancia &gt; panicDistance: return Vector3.zero</code></div></div>
+    </div></div>
+  </div></div>
+
+  <!-- COLLISION AVOIDANCE -->
+  <div class="bs"><div class="bsh" onclick="toggleBs(this)"><div class="bsn">03</div><div class="bsi"><div class="bsnm">Collision Avoidance</div><div class="bssb">Calcula el punto de máximo acercamiento futuro entre agentes.</div></div><span class="bbg poco">POCO</span><label class="bh-cb-wrap" onclick="event.stopPropagation()" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-03"><span class="bh-cb-mark"></span></label><span class="bschv">▼</span></div>
+  <div class="bsbdy">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Para cada vecino en el radio de detección, calcula el tiempo de máximo acercamiento futuro (t_min) usando velocidades relativas. Proyecta las posiciones de ambos agentes en ese t_min y mide la distancia futura. Si esa distancia es menor a la suma de radios, hay amenaza real. Selecciona el vecino más amenazante (menor t_min válido) y genera una fuerza lateral que aparta al agente del punto de colisión proyectado.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--V);min-width:40px">range</span><input type="range" id="ch-range" min="20" max="80" step="5" value="45" oninput="document.getElementById(&#39;ch-range-v&#39;).textContent=this.value"><span class="slv" id="ch-range-v">45</span></div></div></div><div class="bh-simc-body"><canvas id="bh-collav" width="340" height="155"></canvas></div></div>
+    <p>Más preciso que Flee — calcula <em>cuándo y dónde</em> dos agentes se acercarán al máximo futuro y genera una fuerza lateral para evitarlo.</p>
+    <div class="vd"><svg viewBox="0 0 520 148" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="9"><defs><marker id="c1" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#7effd4"></path></marker><marker id="c2" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ff9f43"></path></marker><marker id="c3" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#fd79a8"></path></marker></defs>
+    <text x="10" y="13" fill="#6b7a96" font-size="8">Detectar amenaza (menor t_min &gt; 0)</text>
+    <circle cx="55" cy="85" r="12" fill="none" stroke="#7effd4" stroke-width="1.5"></circle><text x="40" y="108" fill="#7effd4">agente A</text>
+    <line x1="67" y1="80" x2="143" y2="63" stroke="#7effd4" stroke-width="1.5" marker-end="url(#c1)"></line>
+    <circle cx="193" cy="48" r="12" fill="none" stroke="#ff9f43" stroke-width="1.5"></circle><text x="181" y="37" fill="#ff9f43">agente B</text>
+    <line x1="185" y1="56" x2="96" y2="77" stroke="#ff9f43" stroke-width="1.5" marker-end="url(#c2)"></line>
+    <circle cx="122" cy="68" r="23" fill="none" stroke="#fd79a8" stroke-width="1" stroke-dasharray="4" opacity=".6"></circle><text x="124" y="64" fill="#fd79a8" opacity=".7">rA+rB</text>
+    <line x1="255" y1="9" x2="255" y2="142" stroke="#1e2535" stroke-width="1"></line>
+    <text x="268" y="13" fill="#6b7a96" font-size="8">Fuerza lateral en t_min</text>
+    <circle cx="300" cy="108" r="12" fill="none" stroke="#7effd4" stroke-width="1.5"></circle>
+    <circle cx="410" cy="81" r="12" fill="none" stroke="#ff9f43" stroke-width="1.5" stroke-dasharray="3"></circle>
+    <line x1="312" y1="101" x2="402" y2="87" stroke="#7effd4" stroke-width="1" stroke-dasharray="3" opacity=".35"></line>
+    <line x1="306" y1="96" x2="292" y2="48" stroke="#fd79a8" stroke-width="2" marker-end="url(#c3)"></line>
+    <text x="260" y="44" fill="#fd79a8">fuerza lateral</text>
+    <text x="260" y="56" fill="#6b7a96">(posA_fut − posB_fut)</text></svg></div>
+    <div class="ab"><div class="abh">PSEUDOCÓDIGO — COLLISION AVOIDANCE</div><div class="alist">
+      <div class="astep"><div class="asn">1</div><div class="asc"><div class="ast">Para cada vecino: calcular t_min (tiempo de máximo acercamiento)</div><code class="asm">relVel = agente.vel − vecino.vel</code><code class="asm">relPos = agente.pos − vecino.pos</code><code class="asm">t_min  = −Dot(relPos, relVel) / Dot(relVel, relVel)</code><div class="asnt">Si t_min ≤ 0, los agentes ya se alejan — ignorar ese vecino.</div></div></div>
+      <div class="astep"><div class="asn">2</div><div class="asc"><div class="ast">Verificar si habrá colisión en t_min</div><code class="asm">posA_fut = agente.pos + agente.vel * t_min</code><code class="asm">posB_fut = vecino.pos + vecino.vel * t_min</code><code class="asm">dist_fut = |posA_fut − posB_fut|</code><div class="asnt">Si dist_fut &lt; rA + rB → amenaza real.</div></div></div>
+      <div class="astep"><div class="asn">3</div><div class="asc"><div class="ast">Elegir el vecino más amenazante (menor t_min válido)</div><code class="asm">mostThreatening = vecino con menor t_min entre amenazas</code></div></div>
+      <div class="astep"><div class="asn">4</div><div class="asc"><div class="ast">Fuerza lateral que aparta del punto de colisión</div><code class="asm">offset   = posA_fut − posB_fut</code><code class="asm">steering = offset.normalized * maxForce</code></div></div>
+    </div></div>
+  </div></div>
+
+  <!-- PATH FOLLOWING -->
+  <div class="bs"><div class="bsh" onclick="toggleBs(this)"><div class="bsn">04</div><div class="bsi"><div class="bsnm">Path Following</div><div class="bssb">Sigue waypoints proyectando la posición sobre segmentos.</div></div><span class="bbg mb">MB</span><label class="bh-cb-wrap" onclick="event.stopPropagation()" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-04"><span class="bh-cb-mark"></span></label><span class="bschv">▼</span></div>
+  <div class="bsbdy">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Proyecta la posición del agente sobre cada segmento del camino usando producto punto para encontrar el parámetro t. Clampea t entre 0 y la longitud del segmento para quedarte dentro de él. Encuentra el segmento con menor distancia al agente. Avanza un look-ahead distance sobre ese segmento para obtener el punto objetivo. Solo hace Seek a ese punto si el agente está fuera del radio del camino; dentro del radio, no aplica fuerza.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--G);min-width:20px">la</span><input type="range" id="pfh-la" min="10" max="65" step="3" value="32" oninput="document.getElementById(&#39;pfh-la-v&#39;).textContent=this.value"><span class="slv" id="pfh-la-v">32</span></div><div class="sr"><span class="slb" style="color:var(--O);min-width:20px">r</span><input type="range" id="pfh-radius" min="8" max="35" step="2" value="18" oninput="document.getElementById(&#39;pfh-radius-v&#39;).textContent=this.value"><span class="slv" id="pfh-radius-v">18</span></div></div></div><div class="bh-simc-body"><canvas id="bh-path" width="340" height="155"></canvas></div></div>
+    <p>No va de waypoint en waypoint — proyecta su posición sobre el segmento más cercano y hace Seek al look-ahead point.</p>
+    <div class="vd"><svg viewBox="0 0 580 142" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="9"><defs><marker id="d1" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#7effd4"></path></marker><marker id="d2" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#a29bfe"></path></marker></defs>
+    <polyline points="30,118 120,74 220,89 320,44 430,83 540,54" fill="none" stroke="#2a3347" stroke-width="3"></polyline>
+    <circle cx="30" cy="118" r="4" fill="#2a3347"></circle><circle cx="120" cy="74" r="4" fill="#2a3347"></circle><circle cx="220" cy="89" r="4" fill="#2a3347"></circle><circle cx="320" cy="44" r="4" fill="#2a3347"></circle><circle cx="430" cy="83" r="4" fill="#2a3347"></circle><circle cx="540" cy="54" r="4" fill="#2a3347"></circle>
+    <circle cx="174" cy="32" r="9" fill="none" stroke="#7effd4" stroke-width="1.5"></circle><text x="160" y="21" fill="#7effd4">agente</text>
+    <line x1="174" y1="41" x2="183" y2="81" stroke="#a29bfe" stroke-width="1.5" stroke-dasharray="3" marker-end="url(#d2)"></line>
+    <circle cx="184" cy="84" r="5" fill="#ff9f43"></circle><text x="189" y="80" fill="#ff9f43">proyectado</text>
+    <circle cx="228" cy="88" r="5" fill="#7effd4" opacity=".9"></circle><text x="232" y="85" fill="#7effd4">look-ahead</text>
+    <line x1="179" y1="36" x2="222" y2="82" stroke="#7effd4" stroke-width="2" marker-end="url(#d1)"></line>
+    <line x1="184" y1="96" x2="228" y2="96" stroke="#6b7a96" stroke-width="1" stroke-dasharray="2"></line><text x="194" y="108" fill="#6b7a96">lookAheadDist</text></svg></div>
+    <div class="ab"><div class="abh">PSEUDOCÓDIGO — PATH FOLLOWING</div><div class="alist">
+      <div class="astep"><div class="asn">1</div><div class="asc"><div class="ast">Para cada segmento: proyectar la posición del agente</div><code class="asm">segDir    = (waypoints[i+1] − waypoints[i]).normalized</code><code class="asm">t         = Dot(agente.pos − waypoints[i], segDir)</code><code class="asm">t         = Clamp(t, 0, segmentLength)</code><code class="asm">projected = waypoints[i] + segDir * t</code></div></div>
+      <div class="astep"><div class="asn">2</div><div class="asc"><div class="ast">Segmento con menor distancia al agente</div><code class="asm">closestSeg = segmento con menor |agente.pos − projected|</code></div></div>
+      <div class="astep"><div class="asn">3</div><div class="asc"><div class="ast">Look-ahead point adelante del proyectado</div><code class="asm">lookAheadPt = projected + segDir * lookAheadDist</code><div class="asnt">Si sale del segmento, avanzar al siguiente waypoint.</div></div></div>
+      <div class="astep"><div class="asn">4</div><div class="asc"><div class="ast">Seek al look-ahead solo si fuera del pathRadius</div><code class="asm">if dist &gt; pathRadius: return Seek(lookAheadPt)</code><code class="asm">else:                return Vector3.zero</code></div></div>
+    </div></div>
+    <div class="ca warn"><span class="cai">⚠️</span><p><strong>MonoBehaviour porque</strong> necesita <code>OnDrawGizmos()</code> para visualizar el path y puede actualizarse dinámicamente.</p></div>
+  </div></div>
+
+  <!-- LEADER FOLLOWING -->
+  <div class="bs"><div class="bsh" onclick="toggleBs(this)"><div class="bsn">05</div><div class="bsi"><div class="bsnm">Leader Following</div><div class="bssb">Sigue al líder con offset trasero. Evade si entra en su cono frontal.</div></div><span class="bbg mb">MB</span><label class="bh-cb-wrap" onclick="event.stopPropagation()" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-05"><span class="bh-cb-mark"></span></label><span class="bschv">▼</span></div>
+  <div class="bsbdy">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Calcula el behindPoint multiplicando el vector forward del líder por la distancia de seguimiento negativa. Verifica si el follower está en el cono frontal del líder usando producto punto (dot &gt; umbral) y dentro del radio de frenado. Si está en esa zona, aplica Evade al líder para salir rápido. Si no, hace Seek al behindPoint. Combinado con Separation si hay múltiples followers.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--V);min-width:28px">dist</span><input type="range" id="lfh-dist" min="20" max="70" step="5" value="40" oninput="document.getElementById(&#39;lfh-dist-v&#39;).textContent=this.value"><span class="slv" id="lfh-dist-v">40</span></div><div class="sr"><span class="slb" style="color:var(--O);min-width:38px">brake</span><input type="range" id="lfh-brake" min="25" max="90" step="5" value="55" oninput="document.getElementById(&#39;lfh-brake-v&#39;).textContent=this.value"><span class="slv" id="lfh-brake-v">55</span></div></div></div><div class="bh-simc-body"><canvas id="bh-leader" width="340" height="155"></canvas></div></div>
+    <p>El follower se coloca atrás calculando el offset con <code>-forward</code> del líder. Si entra en el cono frontal aplica Evade para salir.</p>
+    <div class="vd"><svg viewBox="0 0 540 168" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="9"><defs><marker id="e1" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ff9f43"></path></marker><marker id="e2" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#7effd4"></path></marker></defs>
+    <circle cx="270" cy="85" r="14" fill="none" stroke="#ff9f43" stroke-width="2"></circle><text x="256" y="110" fill="#ff9f43">LEADER</text>
+    <line x1="284" y1="80" x2="370" y2="53" stroke="#ff9f43" stroke-width="2" marker-end="url(#e1)"></line><text x="336" y="47" fill="#ff9f43">forward</text>
+    <polygon points="284,79 364,42 364,116" fill="rgba(255,159,67,.05)" stroke="#ff9f43" stroke-width="1" stroke-dasharray="4"></polygon>
+    <text x="345" y="85" fill="#ff9f43" opacity=".6" font-size="8">braking</text><text x="345" y="97" fill="#ff9f43" opacity=".6" font-size="8">zone</text>
+    <line x1="256" y1="90" x2="180" y2="104" stroke="#a29bfe" stroke-width="1.5" stroke-dasharray="3"></line>
+    <text x="152" y="93" fill="#a29bfe">−fwd</text>
+    <circle cx="172" cy="107" r="6" fill="#a29bfe" opacity=".8"></circle><text x="156" y="124" fill="#a29bfe">behindPt</text>
+    <circle cx="126" cy="142" r="10" fill="none" stroke="#7effd4" stroke-width="1.5"></circle><text x="110" y="160" fill="#7effd4">follower A</text>
+    <line x1="136" y1="135" x2="164" y2="113" stroke="#7effd4" stroke-width="2" marker-end="url(#e2)"></line><text x="134" y="116" fill="#7effd4">seek</text>
+    <circle cx="322" cy="122" r="10" fill="none" stroke="#fd79a8" stroke-width="1.5" stroke-dasharray="4"></circle><text x="308" y="142" fill="#fd79a8">follower B</text><text x="308" y="154" fill="#fd79a8">(evade!)</text></svg></div>
+    <div class="ab"><div class="abh">PSEUDOCÓDIGO — LEADER FOLLOWING</div><div class="alist">
+      <div class="astep"><div class="asn">1</div><div class="asc"><div class="ast">Calcular el behindPoint (detrás del líder)</div><code class="asm">behindOffset = leader.forward * (−followDistance)</code><code class="asm">behindPoint  = leader.pos + behindOffset</code></div></div>
+      <div class="astep"><div class="asn">2</div><div class="asc"><div class="ast">Verificar si el follower está en la zona de frenado frontal</div><code class="asm">toFollower = follower.pos − leader.pos</code><code class="asm">inFront    = Dot(leader.forward, toFollower.normalized) &gt; 0.9</code><code class="asm">inRange    = |toFollower| &lt; brakingDistance</code><div class="asnt">Dot &gt; 0.9 → ángulo &lt; 25° directamente enfrente.</div></div></div>
+      <div class="astep"><div class="asn">3</div><div class="asc"><div class="ast">En zona de frenado: Evade al líder</div><code class="asm">if (inFront AND inRange): return Evade(leader)</code></div></div>
+      <div class="astep"><div class="asn">4</div><div class="asc"><div class="ast">Si no: Seek al behindPoint</div><code class="asm">return Seek(behindPoint)</code><div class="asnt">Combina con Separation si hay múltiples followers.</div></div></div>
+    </div></div>
+  </div></div>
+
+  <!-- QUEUE -->
+  <div class="bs"><div class="bsh" onclick="toggleBs(this)"><div class="bsn">06</div><div class="bsi"><div class="bsnm">Queue</div><div class="bssb">Fila con freno propagado. Tráfico, columnas, filas de espera.</div></div><span class="bbg mb">MB</span><label class="bh-cb-wrap" onclick="event.stopPropagation()" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-06"><span class="bh-cb-mark"></span></label><span class="bschv">▼</span></div>
+  <div class="bsbdy">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Busca el vecino más cercano que esté en el cono frontal (dot product positivo con forward). Si hay vecino: aplica una fuerza de freno opuesta a la velocidad actual. Si ese vecino también está frenando, duplica la fuerza (propagación del freno hacia atrás como en tráfico real). Si no hay vecino al frente: hace Seek al destino con velocidad normal.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--G);min-width:28px">dist</span><input type="range" id="qh-dist" min="15" max="65" step="5" value="35" oninput="document.getElementById(&#39;qh-dist-v&#39;).textContent=this.value"><span class="slv" id="qh-dist-v">35</span></div><div class="sr"><span class="slb" style="color:var(--P);min-width:38px">brake</span><input type="range" id="qh-brake" min="0.5" max="3.5" step="0.1" value="1.6" oninput="document.getElementById(&#39;qh-brake-v&#39;).textContent=parseFloat(this.value).toFixed(1)"><span class="slv" id="qh-brake-v">1.6</span></div></div></div><div class="bh-simc-body"><canvas id="bh-queue" width="340" height="155"></canvas></div></div>
+    <p>Seek al destino + freno cuando hay un agente al frente. El freno se propaga hacia atrás como en el tráfico real.</p>
+    <div class="vd"><svg viewBox="0 0 480 102" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="9"><defs><marker id="f1" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#7effd4"></path></marker><marker id="f2" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#fd79a8"></path></marker></defs>
+    <line x1="10" y1="17" x2="470" y2="17" stroke="#1e2535" stroke-width="1" stroke-dasharray="2"></line>
+    <circle cx="60" cy="55" r="12" fill="none" stroke="#7effd4" stroke-width="1.5"></circle><text x="46" y="77" fill="#7effd4">agente</text>
+    <line x1="72" y1="55" x2="134" y2="55" stroke="#7effd4" stroke-width="1" stroke-dasharray="3" marker-end="url(#f1)"></line><text x="93" y="46" fill="#7effd4" font-size="8">feeler</text>
+    <circle cx="163" cy="55" r="12" fill="none" stroke="#ff9f43" stroke-width="1.5"></circle><text x="150" y="77" fill="#ff9f43">vecino</text>
+    <line x1="55" y1="55" x2="27" y2="55" stroke="#fd79a8" stroke-width="2" marker-end="url(#f2)"></line><text x="10" y="46" fill="#fd79a8">brake</text>
+    <circle cx="270" cy="55" r="12" fill="none" stroke="#ff9f43" stroke-width="1.5" opacity=".6"></circle>
+    <circle cx="368" cy="55" r="12" fill="none" stroke="#ff9f43" stroke-width="1.5" opacity=".35"></circle>
+    <circle cx="455" cy="55" r="12" fill="none" stroke="#6b7a96" stroke-width="1.5"></circle><text x="440" y="77" fill="#6b7a96">destino</text>
+    <text x="150" y="96" fill="#6b7a96" font-size="8">si vecino frena → brakeForce *= 2 (propagación)</text></svg></div>
+    <div class="ab"><div class="abh">PSEUDOCÓDIGO — QUEUE</div><div class="alist">
+      <div class="astep"><div class="asn">1</div><div class="asc"><div class="ast">Detectar agente más próximo en el cono frontal</div><code class="asm">enFrente = Dot(forward, toVecino.normalized) &gt; 0</code><code class="asm">neighbor = vecino más cercano con enFrente == true</code></div></div>
+      <div class="astep"><div class="asn">2</div><div class="asc"><div class="ast">Frenar si hay vecino al frente</div><code class="asm">brakeForce = −agente.velocity * brakeFactor</code></div></div>
+      <div class="astep"><div class="asn">3</div><div class="asc"><div class="ast">Propagar el freno si el vecino también frena</div><code class="asm">if neighbor.isBreaking: brakeForce *= 2.0</code></div></div>
+      <div class="astep"><div class="asn">4</div><div class="asc"><div class="ast">Sin vecino al frente: Seek al destino</div><code class="asm">else: return Seek(destination)</code></div></div>
+    </div></div>
+  </div></div>
+
+  <!-- SECTION HEADER 07-10 -->
+  <div style="margin:3rem 0 1.5rem">
+    <p class="ey">Behaviours 07 — 10</p>
+    <h2 style="font-family:var(--fd);font-size:2rem;color:var(--txt);margin-bottom:.5rem">De lo General a lo Particular</h2>
+    <p style="color:var(--muted);max-width:580px">Diagramas de flujo + simulación. Entiende la arquitectura completa antes de implementar cada pieza.</p>
+  </div>
+
+  <!-- SEPARATION 07 -->
+  <div class="fs"><div class="fsh" style="justify-content:space-between"><div><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.25rem"><div class="fsn">Separation</div><span class="fst">07</span></div><div class="fss">Fuerza inversamente proporcional a la distancia al vecino. Evita amontonamiento.</div></div><label class="bh-cb-wrap" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-07"><span class="bh-cb-mark"></span></label></div>
+  <div class="fsb">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Para cada vecino dentro del radio de separación, calcula un vector que apunta desde el vecino hacia el agente. Pondera esa fuerza de forma inversamente proporcional a la distancia: cuanto más cerca, mayor la fuerza. Acumula todos los vectores de todos los vecinos. Retorna la fuerza total acumulada. Ningún seek ni objetivo externo: solo repulsión local.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--P);min-width:28px">rad</span><input type="range" id="sh-radius" min="20" max="75" step="5" value="45" oninput="document.getElementById(&#39;sh-radius-v&#39;).textContent=this.value"><span class="slv" id="sh-radius-v">45</span></div></div></div><div class="bh-simc-body"><canvas id="bh-sep" width="340" height="155"></canvas></div></div>
+    <svg viewBox="0 0 640 332" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="10">
+    <rect x="255" y="10" width="130" height="36" rx="18" fill="#1e2535" stroke="#a29bfe" stroke-width="1.5"></rect><text x="320" y="33" fill="#a29bfe" text-anchor="middle">GetSteering(ctx)</text>
+    <line x1="320" y1="46" x2="320" y2="68" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,73 314,63 326,63" fill="#3a4560"></polygon>
+    <rect x="215" y="73" width="210" height="36" rx="6" fill="#060810" stroke="#2a3347" stroke-width="1.5"></rect><text x="320" y="91" fill="#6b7a96" text-anchor="middle">steeringForce = zero</text><text x="320" y="105" fill="#6b7a96" text-anchor="middle" font-size="8">para cada vecino...</text>
+    <line x1="320" y1="109" x2="320" y2="132" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,137 314,127 326,127" fill="#3a4560"></polygon>
+    <polygon points="320,137 428,172 320,207 212,172" fill="#060810" stroke="#ff9f43" stroke-width="1.5"></polygon><text x="320" y="168" fill="#ff9f43" text-anchor="middle">¿vecino en</text><text x="320" y="182" fill="#ff9f43" text-anchor="middle">radio?</text>
+    <line x1="212" y1="172" x2="82" y2="172" stroke="#3a4560" stroke-width="1.5"></line><polygon points="77,172 87,166 87,178" fill="#3a4560"></polygon><text x="142" y="162" fill="#7effd4" font-size="9">SÍ</text>
+    <rect x="12" y="146" width="65" height="54" rx="6" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect>
+    <text x="44" y="163" fill="#7effd4" text-anchor="middle">toMe =</text><text x="44" y="176" fill="#7effd4" text-anchor="middle">pos−v.pos</text><text x="44" y="192" fill="#ff9f43" text-anchor="middle" font-size="8">∝ 1/dist</text>
+    <line x1="44" y1="200" x2="44" y2="240" stroke="#3a4560" stroke-width="1.5"></line>
+    <rect x="12" y="240" width="65" height="36" rx="6" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect><text x="44" y="258" fill="#7effd4" text-anchor="middle">force +=</text><text x="44" y="272" fill="#7effd4" text-anchor="middle">toMe.n/d</text>
+    <line x1="44" y1="276" x2="44" y2="300" stroke="#3a4560" stroke-width="1.5"></line><line x1="44" y1="300" x2="280" y2="300" stroke="#3a4560" stroke-width="1.5"></line>
+    <line x1="428" y1="172" x2="546" y2="172" stroke="#3a4560" stroke-width="1.5"></line><polygon points="551,172 541,166 541,178" fill="#3a4560"></polygon>
+    <text x="480" y="162" fill="#fd79a8" font-size="9">NO/fin</text>
+    <rect x="551" y="152" width="75" height="38" rx="6" fill="#060810" stroke="#fd79a8" stroke-width="1.5"></rect><text x="588" y="170" fill="#fd79a8" text-anchor="middle">return</text><text x="588" y="183" fill="#fd79a8" text-anchor="middle">force</text>
+    <line x1="588" y1="190" x2="588" y2="300" stroke="#3a4560" stroke-width="1.5"></line><line x1="588" y1="300" x2="360" y2="300" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,304 310,294 330,294" fill="#3a4560"></polygon>
+    <rect x="210" y="304" width="220" height="26" rx="6" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect><text x="320" y="321" fill="#7effd4" text-anchor="middle">steeringForce acumulado</text>
+  </svg></div></div>
+
+  <!-- COHESION 08 -->
+  <div class="fs"><div class="fsh" style="justify-content:space-between"><div><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.25rem"><div class="fsn">Cohesion</div><span class="fst">08</span></div><div class="fss">Seek al centroide (promedio de posiciones) del vecindario.</div></div><label class="bh-cb-wrap" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-08"><span class="bh-cb-mark"></span></label></div>
+  <div class="fsb">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Recorre todos los vecinos dentro del radio de cohesión. Suma sus posiciones y lleva la cuenta. Al terminar el loop, divide la suma entre el conteo para obtener el centroide del vecindario. Aplica Seek hacia ese centroide. Si no hay vecinos en el radio, retorna cero (sin fuerza). El resultado es que el grupo tiende a mantenerse unido sin superponerse.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--V);min-width:28px">rad</span><input type="range" id="cohh-radius" min="40" max="130" step="10" value="90" oninput="document.getElementById(&#39;cohh-radius-v&#39;).textContent=this.value"><span class="slv" id="cohh-radius-v">90</span></div></div></div><div class="bh-simc-body"><canvas id="bh-coh" width="340" height="155"></canvas></div></div>
+    <svg viewBox="0 0 640 286" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="10">
+    <rect x="255" y="10" width="130" height="36" rx="18" fill="#1e2535" stroke="#a29bfe" stroke-width="1.5"></rect><text x="320" y="33" fill="#a29bfe" text-anchor="middle">GetSteering(ctx)</text>
+    <line x1="320" y1="46" x2="320" y2="66" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,71 314,61 326,61" fill="#3a4560"></polygon>
+    <rect x="190" y="66" width="260" height="44" rx="6" fill="#060810" stroke="#2a3347" stroke-width="1.5"></rect><text x="320" y="85" fill="#74b9ff" text-anchor="middle">centerOfMass = zero</text><text x="320" y="101" fill="#74b9ff" text-anchor="middle">count = 0</text>
+    <line x1="320" y1="110" x2="320" y2="132" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,137 314,127 326,127" fill="#3a4560"></polygon>
+    <polygon points="320,137 426,172 320,207 214,172" fill="#060810" stroke="#ff9f43" stroke-width="1.5"></polygon><text x="320" y="168" fill="#ff9f43" text-anchor="middle">¿vecino en</text><text x="320" y="182" fill="#ff9f43" text-anchor="middle">radio?</text>
+    <line x1="214" y1="172" x2="104" y2="172" stroke="#3a4560" stroke-width="1.5"></line><polygon points="99,172 109,166 109,178" fill="#3a4560"></polygon><text x="150" y="162" fill="#7effd4" font-size="9">SÍ</text>
+    <rect x="22" y="152" width="77" height="42" rx="6" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect><text x="60" y="169" fill="#7effd4" text-anchor="middle">centroid +=</text><text x="60" y="182" fill="#7effd4" text-anchor="middle">vecino.pos</text><text x="60" y="194" fill="#7effd4" text-anchor="middle">count++</text>
+    <line x1="60" y1="194" x2="60" y2="242" stroke="#3a4560" stroke-width="1.5"></line><line x1="60" y1="242" x2="280" y2="242" stroke="#3a4560" stroke-width="1.5"></line>
+    <line x1="426" y1="172" x2="536" y2="172" stroke="#3a4560" stroke-width="1.5"></line><polygon points="541,172 531,166 531,178" fill="#3a4560"></polygon><text x="478" y="162" fill="#fd79a8" font-size="9">fin loop</text>
+    <rect x="541" y="152" width="82" height="42" rx="6" fill="#060810" stroke="#fd79a8" stroke-width="1.5"></rect><text x="582" y="170" fill="#fd79a8" text-anchor="middle">centroid /=</text><text x="582" y="184" fill="#fd79a8" text-anchor="middle">count</text>
+    <line x1="582" y1="194" x2="582" y2="242" stroke="#3a4560" stroke-width="1.5"></line><line x1="582" y1="242" x2="360" y2="242" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,246 310,236 330,236" fill="#3a4560"></polygon>
+    <rect x="170" y="246" width="300" height="30" rx="6" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect><text x="320" y="265" fill="#7effd4" text-anchor="middle">return Seek(centroid)  [si count &gt; 0]</text>
+  </svg></div></div>
+
+  <!-- ALIGNMENT 09 -->
+  <div class="fs"><div class="fsh" style="justify-content:space-between"><div><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.25rem"><div class="fsn">Alignment</div><span class="fst">09</span></div><div class="fss">Iguala la dirección al promedio de velocidades del vecindario.</div></div><label class="bh-cb-wrap" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-09"><span class="bh-cb-mark"></span></label></div>
+  <div class="fsb">
+    <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Recorre todos los vecinos dentro del radio de alineación. Suma sus velocidades y lleva la cuenta. Al terminar, divide la suma entre el conteo para obtener la velocidad promedio del vecindario. Normaliza ese vector y multiplica por maxSpeed para obtener la desired velocity. La fuerza de steering es la diferencia entre la desired velocity y la velocidad actual del agente.</p></div>
+    <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center"><div class="sr"><span class="slb" style="color:var(--B);min-width:28px">rad</span><input type="range" id="alih-radius" min="30" max="110" step="10" value="70" oninput="document.getElementById(&#39;alih-radius-v&#39;).textContent=this.value"><span class="slv" id="alih-radius-v">70</span></div></div></div><div class="bh-simc-body"><canvas id="bh-ali" width="340" height="155"></canvas></div></div>
+    <svg viewBox="0 0 640 278" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="10">
+    <rect x="255" y="10" width="130" height="36" rx="18" fill="#1e2535" stroke="#a29bfe" stroke-width="1.5"></rect><text x="320" y="33" fill="#a29bfe" text-anchor="middle">GetSteering(ctx)</text>
+    <line x1="320" y1="46" x2="320" y2="66" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,71 314,61 326,61" fill="#3a4560"></polygon>
+    <rect x="185" y="66" width="270" height="36" rx="6" fill="#060810" stroke="#2a3347" stroke-width="1.5"></rect><text x="320" y="85" fill="#74b9ff" text-anchor="middle">avgVelocity = zero  count = 0</text>
+    <line x1="320" y1="102" x2="320" y2="124" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,129 314,119 326,119" fill="#3a4560"></polygon>
+    <polygon points="320,129 426,164 320,199 214,164" fill="#060810" stroke="#ff9f43" stroke-width="1.5"></polygon><text x="320" y="160" fill="#ff9f43" text-anchor="middle">¿vecino en</text><text x="320" y="174" fill="#ff9f43" text-anchor="middle">radio?</text>
+    <line x1="214" y1="164" x2="104" y2="164" stroke="#3a4560" stroke-width="1.5"></line><polygon points="99,164 109,158 109,170" fill="#3a4560"></polygon><text x="150" y="154" fill="#7effd4" font-size="9">SÍ</text>
+    <rect x="20" y="144" width="79" height="42" rx="6" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect><text x="59" y="162" fill="#7effd4" text-anchor="middle">avgVel +=</text><text x="59" y="175" fill="#7effd4" text-anchor="middle">vecino.vel</text><text x="59" y="188" fill="#7effd4" text-anchor="middle">count++</text>
+    <line x1="59" y1="186" x2="59" y2="234" stroke="#3a4560" stroke-width="1.5"></line><line x1="59" y1="234" x2="280" y2="234" stroke="#3a4560" stroke-width="1.5"></line>
+    <line x1="426" y1="164" x2="536" y2="164" stroke="#3a4560" stroke-width="1.5"></line><polygon points="541,164 531,158 531,170" fill="#3a4560"></polygon><text x="478" y="154" fill="#fd79a8" font-size="9">fin loop</text>
+    <rect x="541" y="144" width="82" height="42" rx="6" fill="#060810" stroke="#fd79a8" stroke-width="1.5"></rect><text x="582" y="162" fill="#fd79a8" text-anchor="middle">avgVel /= count</text><text x="582" y="178" fill="#6b7a96" text-anchor="middle" font-size="8">.normalized</text>
+    <line x1="582" y1="186" x2="582" y2="234" stroke="#3a4560" stroke-width="1.5"></line><line x1="582" y1="234" x2="360" y2="234" stroke="#3a4560" stroke-width="1.5"></line><polygon points="320,238 310,228 330,228" fill="#3a4560"></polygon>
+    <rect x="160" y="238" width="320" height="34" rx="6" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect><text x="320" y="254" fill="#7effd4" text-anchor="middle">desired = avgVel.normalized * maxSpeed</text><text x="320" y="268" fill="#7effd4" text-anchor="middle">return desired − agente.velocity</text>
+  </svg></div></div>
+
+  <!-- FLOCKING 10 -->
+  <div class="fs" style="border-color:rgba(126,255,212,.25)">
+    <div class="fsh" style="background:rgba(126,255,212,.04);justify-content:space-between">
+      <div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.25rem">
+          <div class="fsn" style="color:var(--G)">Flocking — Sistema Unificado</div>
+          <span class="fst" style="background:rgba(126,255,212,.12);color:var(--G);border-color:rgba(126,255,212,.3)">10 — SISTEMA</span>
+        </div>
+        <div class="fss">Separation + Cohesion + Alignment con pesos. No es un behaviour nuevo — es la orquestación de los tres en el mismo SteeringController.</div>
+      </div>
+      <label class="bh-cb-wrap" title="Marcar como implementado"><input type="checkbox" class="bh-chk" id="chk-10"><span class="bh-cb-mark"></span></label>
+    </div>
+    <div class="fsb">
+      <div class="bh-algo"><div class="bh-algo-lbl">Algoritmo en texto</div><p>Ejecuta Separation, Cohesion y Alignment simultáneamente sobre el mismo agente en cada frame. Multiplica la fuerza resultante de cada uno por su peso relativo (wSep, wCoh, wAli). El SteeringController suma los tres resultados ponderados como cualquier combinación de behaviours. El comportamiento de bandada, cardumen o manada emerge únicamente de la interacción entre esas tres reglas simples — no existe lógica de grupo centralizada.</p></div>
+      <div class="bh-simc"><div class="bh-simc-h"><span class="bh-simc-hl">↺ SIMULACIÓN EN VIVO</span><div class="sg" style="flex-direction:row;gap:.75rem;align-items:center;flex-wrap:wrap"><div class="sr"><span class="slb" style="color:var(--P);min-width:32px">wSep</span><input type="range" id="fh-wsep" min="0.2" max="3.5" step="0.1" value="1.5" oninput="document.getElementById(&#39;fh-wsep-v&#39;).textContent=parseFloat(this.value).toFixed(1)"><span class="slv" id="fh-wsep-v">1.5</span></div><div class="sr"><span class="slb" style="color:var(--V);min-width:32px">wCoh</span><input type="range" id="fh-wcoh" min="0.2" max="2.5" step="0.1" value="1.0" oninput="document.getElementById(&#39;fh-wcoh-v&#39;).textContent=parseFloat(this.value).toFixed(1)"><span class="slv" id="fh-wcoh-v">1.0</span></div><div class="sr"><span class="slb" style="color:var(--B);min-width:32px">wAli</span><input type="range" id="fh-wali" min="0.2" max="2.5" step="0.1" value="0.8" oninput="document.getElementById(&#39;fh-wali-v&#39;).textContent=parseFloat(this.value).toFixed(1)"><span class="slv" id="fh-wali-v">0.8</span></div></div></div><div class="bh-simc-body"><canvas id="bh-flock" width="340" height="155"></canvas></div></div>
+      <p style="margin-bottom:1.5rem">Flocking emerge de aplicar los tres behaviours juntos ajustando sus pesos relativos. Craig Reynolds demostró que estas tres reglas simples bastan para simular bandadas, cardúmenes y manadas.</p>
+      <svg viewBox="0 0 680 295" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="10">
+        <!-- agente central -->
+        <circle cx="340" cy="148" r="18" fill="none" stroke="#7effd4" stroke-width="2"></circle>
+        <text x="326" y="152" fill="#7effd4">agente</text>
+        <!-- controller box -->
+        <rect x="240" y="218" width="200" height="58" rx="8" fill="#060810" stroke="#7effd4" stroke-width="1.5"></rect>
+        <text x="340" y="238" fill="#7effd4" text-anchor="middle">SteeringController</text>
+        <text x="340" y="253" fill="#6b7a96" text-anchor="middle" font-size="9">Σ (force * weight)</text>
+        <text x="340" y="266" fill="#6b7a96" text-anchor="middle" font-size="9">→ aplica a transform</text>
+        <!-- Separation -->
+        <rect x="20" y="38" width="150" height="72" rx="8" fill="#060810" stroke="#fd79a8" stroke-width="1.5"></rect>
+        <text x="95" y="58" fill="#fd79a8" text-anchor="middle">Separation</text>
+        <text x="95" y="73" fill="#6b7a96" text-anchor="middle" font-size="9">aleja de vecinos</text>
+        <text x="95" y="88" fill="#ff9f43" text-anchor="middle" font-size="9">peso recomendado: 1.5</text>
+        <text x="95" y="100" fill="#ff9f43" text-anchor="middle" font-size="9">(dominante)</text>
+        <line x1="170" y1="78" x2="323" y2="142" stroke="#fd79a8" stroke-width="1.5" stroke-dasharray="4"></line>
+        <text x="208" y="118" fill="#fd79a8" font-size="8">wSep = 1.5</text>
+        <!-- Cohesion -->
+        <rect x="265" y="10" width="150" height="72" rx="8" fill="#060810" stroke="#a29bfe" stroke-width="1.5"></rect>
+        <text x="340" y="30" fill="#a29bfe" text-anchor="middle">Cohesion</text>
+        <text x="340" y="46" fill="#6b7a96" text-anchor="middle" font-size="9">atrae al centroide</text>
+        <text x="340" y="62" fill="#ff9f43" text-anchor="middle" font-size="9">peso recomendado:</text>
+        <text x="340" y="74" fill="#ff9f43" text-anchor="middle" font-size="9">1.0</text>
+        <line x1="340" y1="82" x2="340" y2="130" stroke="#a29bfe" stroke-width="1.5" stroke-dasharray="4"></line>
+        <text x="344" y="108" fill="#a29bfe" font-size="8">wCoh = 1.0</text>
+        <!-- Alignment -->
+        <rect x="510" y="38" width="150" height="72" rx="8" fill="#060810" stroke="#74b9ff" stroke-width="1.5"></rect>
+        <text x="585" y="58" fill="#74b9ff" text-anchor="middle">Alignment</text>
+        <text x="585" y="73" fill="#6b7a96" text-anchor="middle" font-size="9">iguala dirección</text>
+        <text x="585" y="88" fill="#ff9f43" text-anchor="middle" font-size="9">peso recomendado:</text>
+        <text x="585" y="100" fill="#ff9f43" text-anchor="middle" font-size="9">0.8</text>
+        <line x1="510" y1="78" x2="357" y2="142" stroke="#74b9ff" stroke-width="1.5" stroke-dasharray="4"></line>
+        <text x="438" y="108" fill="#74b9ff" font-size="8">wAli = 0.8</text>
+        <!-- to controller -->
+        <line x1="340" y1="166" x2="340" y2="218" stroke="#7effd4" stroke-width="2"></line>
+        <polygon points="340,218 334,208 346,208" fill="#7effd4"></polygon>
+        <text x="340" y="290" fill="#6b7a96" text-anchor="middle" font-size="8">Ajusta los 3 pesos en el inspector para cambiar el carácter del grupo</text>
+      </svg>
+      <table style="margin-top:1.5rem">
+        <tbody><tr><th>wSep</th><th>wCoh</th><th>wAli</th><th>Comportamiento emergente</th></tr>
+        <tr><td>1.5</td><td>1.0</td><td>0.8</td><td>Bandada/cardumen típico — balance natural</td></tr>
+        <tr><td>3.0</td><td>0.5</td><td>0.5</td><td>Muy dispersos, apenas se agrupan</td></tr>
+        <tr><td>0.5</td><td>2.0</td><td>0.5</td><td>Se agrupan fuerte pero se superponen</td></tr>
+        <tr><td>0.5</td><td>0.5</td><td>3.0</td><td>Alineados pero sin cohesión — "fila de patos"</td></tr>
+      </tbody></table>
+      <div class="ca tip" style="margin-top:1.25rem">
+        <span class="cai">💡</span>
+        <p><strong>En Unity:</strong> Agrega Separation, Cohesion y Alignment al mismo SteeringController. Los tres llaman a <code>Physics.OverlapSphere()</code> para encontrar vecinos — considera cachearlo en el controller para no hacer tres Physics queries por frame.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA RESUMEN -->
+  <div style="background:var(--surf);border:1px solid var(--bord);border-radius:14px;overflow:hidden;margin-top:1rem">
+    <div style="padding:1.25rem 1.75rem;border-bottom:1px solid var(--bord);background:var(--surf2)">
+      <h2 style="font-family:var(--fd);font-size:1.2rem;color:var(--txt)">Resumen de Integración</h2>
+      <p style="color:var(--muted);font-size:.82rem;margin:0">Cómo agregar cada behaviour al sistema del HTML anterior.</p>
+    </div>
+    <div style="padding:1.25rem 1.75rem">
+      <table>
+        <tbody><tr><th>Behaviour</th><th>Clase base</th><th>Campos en inspector</th></tr>
+        <tr><td>Pursuit</td><td>SteeringBehavior (POCO)</td><td>Transform target + SteeringController targetCtrl</td></tr>
+        <tr><td>Evade</td><td>SteeringBehavior (POCO)</td><td>Transform pursuer + panicDistance</td></tr>
+        <tr><td>Collision Avoidance</td><td>SteeringBehavior (POCO)</td><td>LayerMask agents + combineRadius</td></tr>
+        <tr><td>Path Following</td><td>MonoBehaviourSteeringBehavior</td><td>List&lt;Transform&gt; waypoints + pathRadius + lookAheadDist</td></tr>
+        <tr><td>Leader Following</td><td>MonoBehaviourSteeringBehavior</td><td>Transform leader + followDist + brakingDist</td></tr>
+        <tr><td>Queue</td><td>MonoBehaviourSteeringBehavior</td><td>Transform destination + neighborDist + brakeFactor</td></tr>
+        <tr><td>Separation</td><td>SteeringBehavior (POCO)</td><td>LayerMask neighbors + separationRadius</td></tr>
+        <tr><td>Cohesion</td><td>SteeringBehavior (POCO)</td><td>LayerMask neighbors + cohesionRadius</td></tr>
+        <tr><td>Alignment</td><td>SteeringBehavior (POCO)</td><td>LayerMask neighbors + alignRadius</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+</div>
+</div><!-- end tab-exercise -->
+
+<script>
+// ─── TAB SWITCH ───────────────────────────────
+function switchTab(t,btn){
+  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  btn.classList.add('active');
+  if(t==='exercise' && typeof initBhSims==='function') setTimeout(initBhSims, 80);
+  if(t==='concepts' && typeof stopBhSims==='function') stopBhSims();
+}
+function toggleBs(h){ h.parentElement.classList.toggle('open'); }
+
+// ─── CANVAS HELPERS ───────────────────────────
+function gc(id){ return document.getElementById(id).getContext('2d'); }
+function v(id){ return parseFloat(document.getElementById(id).value); }
+function sv(id,val){ document.getElementById(id).textContent=val; }
+
+function setupC(ctx){
+  ctx.clearRect(0,0,220,220);
+  ctx.lineWidth=1; ctx.strokeStyle='#1e2535';
+  ctx.beginPath(); ctx.moveTo(110,0); ctx.lineTo(110,220); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,110); ctx.lineTo(220,110); ctx.stroke();
+  ctx.globalAlpha=.12;
+  for(let i=10;i<=210;i+=20){
+    ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,220); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(220,i); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+}
+
+function arrow(ctx,ox,oy,dx,dy,sc,col,lbl=''){
+  const ex=ox+dx*sc, ey=oy-dy*sc;
+  const len=Math.sqrt(dx*dx+dy*dy); if(len<.001)return;
+  const nx=dx/len*8, ny=dy/len*8;
+  ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ex,ey); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(ex,ey);
+  ctx.lineTo(ex-nx+ny*.5, ey+ny+nx*.5);
+  ctx.lineTo(ex-nx-ny*.5, ey+ny-nx*.5);
+  ctx.closePath(); ctx.fill();
+  if(lbl){ ctx.font='bold 10px JetBrains Mono'; ctx.fillStyle=col; ctx.fillText(lbl,ex+4,ey-4); }
+}
+function dot(ctx,x,y,col,r=4){ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=col; ctx.fill(); }
+
+// ─── SUM ──────────────────────────────────────
+function dSum(){
+  const ax=v('s-ax'),ay=v('s-ay'),bx=v('s-bx'),by=v('s-by');
+  sv('v-ax',ax.toFixed(1)); sv('v-ay',ay.toFixed(1));
+  sv('v-bx',bx.toFixed(1)); sv('v-by',by.toFixed(1));
+  const ctx=gc('cv-sum'), s=18, ox=110, oy=110;
+  setupC(ctx);
+  arrow(ctx,ox,oy,ax,ay,s,'#7effd4','A');
+  const tipX=ox+ax*s, tipY=oy-ay*s;
+  arrow(ctx,tipX,tipY,bx,by,s,'#ff9f43','B');
+  arrow(ctx,ox,oy,ax+bx,ay+by,s,'#74b9ff','C');
+  dot(ctx,ox,oy,'#7effd4',3);
+  const cx=ax+bx,cy=ay+by,mag=Math.sqrt(cx*cx+cy*cy);
+  document.getElementById('r-sum').textContent=`C = (${cx.toFixed(1)}, ${cy.toFixed(1)})  |C| = ${mag.toFixed(2)}`;
+}
+
+// ─── SUB ──────────────────────────────────────
+function dSub(){
+  const ax=v('s-sax'),ay=v('s-say'),bx=v('s-sbx'),by=v('s-sby');
+  sv('v-sax',ax.toFixed(1)); sv('v-say',ay.toFixed(1));
+  sv('v-sbx',bx.toFixed(1)); sv('v-sby',by.toFixed(1));
+  const ctx=gc('cv-sub'), s=22, ox=110, oy=110;
+  setupC(ctx);
+  dot(ctx,ox+ax*s,oy-ay*s,'#7effd4',6);
+  ctx.font='10px JetBrains Mono'; ctx.fillStyle='#7effd4'; ctx.fillText('A',ox+ax*s+7,oy-ay*s-4);
+  dot(ctx,ox+bx*s,oy-by*s,'#ff9f43',6);
+  ctx.fillStyle='#ff9f43'; ctx.fillText('B',ox+bx*s+7,oy-by*s-4);
+  const dx=bx-ax, dy=by-ay, mag=Math.sqrt(dx*dx+dy*dy);
+  arrow(ctx,ox+ax*s,oy-ay*s,dx,dy,s,'#74b9ff','B−A');
+  document.getElementById('r-sub').textContent=`B−A = (${dx.toFixed(1)}, ${dy.toFixed(1)})  |B−A| = ${mag.toFixed(2)}`;
+}
+
+// ─── MAG ──────────────────────────────────────
+function dMag(){
+  const vx=v('s-mx'),vy=v('s-my');
+  sv('v-mx',vx.toFixed(1)); sv('v-my',vy.toFixed(1));
+  const ctx=gc('cv-mag'), s=18, ox=110, oy=110;
+  setupC(ctx);
+  const mag=Math.sqrt(vx*vx+vy*vy);
+  // unit circle
+  ctx.beginPath(); ctx.arc(ox,oy,35,0,Math.PI*2); ctx.strokeStyle='#2a3347'; ctx.lineWidth=1; ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
+  ctx.font='8px JetBrains Mono'; ctx.fillStyle='#3a4560'; ctx.fillText('|V̂|=1',ox+37,oy-4);
+  // components dashed
+  ctx.strokeStyle='#ff9f43'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+vx*s,oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox+vx*s,oy); ctx.lineTo(ox+vx*s,oy-vy*s); ctx.stroke();
+  ctx.setLineDash([]);
+  // original vector
+  arrow(ctx,ox,oy,vx,vy,s,'#dde6f0','V');
+  // normalized
+  if(mag>.001) arrow(ctx,ox,oy,vx/mag,vy/mag,35,'#7effd4','V̂');
+  dot(ctx,ox,oy,'#ff9f43',3);
+  document.getElementById('r-mag').textContent=`|V| = ${mag.toFixed(2)}  V̂ = (${mag>.001?(vx/mag).toFixed(2):'0'}, ${mag>.001?(vy/mag).toFixed(2):'0'})`;
+}
+
+// ─── DOT ──────────────────────────────────────
+function dDot(){
+  const da=v('s-da')*Math.PI/180, db=v('s-db')*Math.PI/180;
+  sv('v-da',v('s-da')+'°'); sv('v-db',v('s-db')+'°');
+  const ctx=gc('cv-dot'), r=72, ox=110, oy=110;
+  setupC(ctx);
+  const ax=Math.cos(da),ay=Math.sin(da),bx=Math.cos(db),by=Math.sin(db);
+  // angle arc
+  const s1=Math.min(-da,-db), e1=Math.max(-da,-db);
+  ctx.beginPath(); ctx.arc(ox,oy,30,s1,e1,false); ctx.strokeStyle='#a29bfe'; ctx.lineWidth=1.5; ctx.stroke();
+  const mid=(da+db)/2;
+  ctx.font='9px JetBrains Mono'; ctx.fillStyle='#a29bfe'; ctx.fillText('θ',ox+32*Math.cos(-mid)-4,oy+32*Math.sin(-mid)+4);
+  arrow(ctx,ox,oy,ax,-ay,r,'#7effd4','A');
+  arrow(ctx,ox,oy,bx,-by,r,'#ff9f43','B');
+  dot(ctx,ox,oy,'#dde6f0',3);
+  const dotVal=ax*bx+ay*by;
+  const theta=Math.abs(v('s-da')-v('s-db'));
+  const col=dotVal>.3?'#7effd4':dotVal<-.3?'#fd79a8':'#ff9f43';
+  const badge=document.getElementById('r-dot');
+  badge.textContent=`A·B = ${dotVal.toFixed(2)}  θ = ${theta.toFixed(0)}°`;
+  badge.style.color=col; badge.style.borderColor=col;
+  badge.style.background=col==='#7effd4'?'rgba(126,255,212,.08)':col==='#fd79a8'?'rgba(253,121,168,.08)':'rgba(255,159,67,.08)';
+}
+
+// ─── CROSS ────────────────────────────────────
+function dCross(){
+  const da=v('s-ca')*Math.PI/180, db=v('s-cb')*Math.PI/180;
+  sv('v-ca',v('s-ca')+'°'); sv('v-cb',v('s-cb')+'°');
+  const ctx=gc('cv-cross'), r=75, ox=110, oy=110;
+  setupC(ctx);
+  const ax=Math.cos(da),ay=Math.sin(da),bx=Math.cos(db),by=Math.sin(db);
+  const cross2D=ax*by-ay*bx;
+  const s1=Math.min(-da,-db), e1=Math.max(-da,-db);
+  ctx.beginPath(); ctx.arc(ox,oy,28,s1,e1,false); ctx.strokeStyle=cross2D>0?'#7effd4':'#fd79a8'; ctx.lineWidth=2; ctx.stroke();
+  arrow(ctx,ox,oy,ax,-ay,r,'#7effd4','A');
+  arrow(ctx,ox,oy,bx,-by,r,'#ff9f43','B');
+  dot(ctx,ox,oy,'#dde6f0',3);
+  const side=cross2D>.01?'izquierda':cross2D<-.01?'derecha':'colineales';
+  const badge=document.getElementById('r-cross');
+  badge.textContent=`cross2D = ${cross2D.toFixed(2)} — B a la ${side}`;
+  badge.style.color=cross2D>0?'#7effd4':cross2D<0?'#fd79a8':'#ff9f43';
+}
+
+// ─── PROJECTION ───────────────────────────────
+function dProj(){
+  const px=v('s-px'),py=v('s-py'),la=v('s-la');
+  sv('v-px',px.toFixed(1)); sv('v-py',py.toFixed(1)); sv('v-la',la.toFixed(1));
+  const ctx=gc('cv-proj'), s=22, ox=110, oy=110;
+  setupC(ctx);
+  // fixed segment A=-3,-2 to B=3,1.5
+  const ax=-3,ay=-2,bx=3,by=1.5;
+  const tax=ox+ax*s,tay=oy-ay*s,tbx=ox+bx*s,tby=oy-by*s;
+  ctx.strokeStyle='#2a3347'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(tax,tay); ctx.lineTo(tbx,tby); ctx.stroke();
+  ctx.font='9px JetBrains Mono'; ctx.fillStyle='#3a4560';
+  ctx.fillText('A',tax-12,tay+4); ctx.fillText('B',tbx+4,tby+4);
+  // agent
+  const pagx=ox+px*s, pagy=oy-py*s;
+  ctx.beginPath(); ctx.arc(pagx,pagy,7,0,Math.PI*2); ctx.strokeStyle='#7effd4'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#7effd4'; ctx.fillText('P',pagx+8,pagy-4);
+  // projection math
+  const dx=bx-ax,dy=by-ay,segLen=Math.sqrt(dx*dx+dy*dy),ndx=dx/segLen,ndy=dy/segLen;
+  const t_raw=(px-ax)*ndx+(py-ay)*ndy;
+  const t=Math.max(0,Math.min(t_raw,segLen));
+  const projx=ax+ndx*t,projy=ay+ndy*t;
+  const tpx=ox+projx*s,tpy=oy-projy*s;
+  // look-ahead
+  const tla=Math.min(t+la,segLen);
+  const lax=ax+ndx*tla,lay=ay+ndy*tla;
+  const tlax=ox+lax*s,tlay=oy-lay*s;
+  // dashed perp line
+  ctx.strokeStyle='#a29bfe'; ctx.lineWidth=1.5; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(pagx,pagy); ctx.lineTo(tpx,tpy); ctx.stroke();
+  ctx.setLineDash([]);
+  dot(ctx,tpx,tpy,'#ff9f43',5); ctx.fillStyle='#ff9f43'; ctx.fillText('proj',tpx+6,tpy-4);
+  dot(ctx,tlax,tlay,'#7effd4',5); ctx.fillStyle='#7effd4'; ctx.fillText('ahead',tlax+6,tlay-4);
+  // look-ahead dist line
+  ctx.strokeStyle='#ff9f43'; ctx.lineWidth=1; ctx.setLineDash([2,2]);
+  ctx.beginPath(); ctx.moveTo(tpx,tpy); ctx.lineTo(tlax,tlay); ctx.stroke();
+  ctx.setLineDash([]);
+  const distPP=Math.sqrt((px-projx)**2+(py-projy)**2);
+  document.getElementById('r-proj').textContent=`dist = ${distPP.toFixed(2)}  t = ${t.toFixed(2)}`;
+}
+
+// ─── FUTURE POS ───────────────────────────────
+function dFut(){
+  const tx=v('s-tx'),tvx=v('s-tvx'),tvy=v('s-tvy'),sp=v('s-sp');
+  sv('v-tx',tx.toFixed(1)); sv('v-tvx',tvx.toFixed(1)); sv('v-tvy',tvy.toFixed(1)); sv('v-sp',sp.toFixed(1));
+  const ctx=gc('cv-fut'), s=20, ox=110, oy=110;
+  setupC(ctx);
+  // agent fixed
+  const agx=-3,agy=-2;
+  const pagx=ox+agx*s, pagy=oy-agy*s;
+  ctx.beginPath(); ctx.arc(pagx,pagy,8,0,Math.PI*2); ctx.strokeStyle='#7effd4'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.font='9px JetBrains Mono'; ctx.fillStyle='#7effd4'; ctx.fillText('agente',pagx+10,pagy);
+  // target current
+  const ptx=ox+tx*s, pty=oy;
+  dot(ctx,ptx,pty,'#ff9f43',7);
+  ctx.fillStyle='#ff9f43'; ctx.fillText('target',ptx+8,pty-6);
+  // vel arrow from target
+  arrow(ctx,ptx,pty,tvx,-tvy,s*.7,'#ff9f43','vel');
+  // t calculation
+  const dist=Math.sqrt((agx-tx)**2+(agy)**2);
+  const t=dist/sp;
+  // future pos
+  const fx=tx+tvx*t, fy_world=tvy*t;
+  const pfx=ox+fx*s, pfy=oy-fy_world*s;
+  // trajectory line dashed
+  ctx.strokeStyle='#ff9f43'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(ptx,pty); ctx.lineTo(pfx,pfy); ctx.stroke();
+  ctx.setLineDash([]);
+  dot(ctx,pfx,pfy,'#fd79a8',6); ctx.fillStyle='#fd79a8'; ctx.fillText('futuro',pfx+6,pfy-4);
+  // seek from agent to futurePos
+  const sdx=fx-agx, sdy=fy_world-(-agy);
+  const sl=Math.sqrt(sdx*sdx+sdy*sdy);
+  if(sl>.1) arrow(ctx,pagx,pagy,sdx/sl,-sdy/sl,55,'#74b9ff','seek');
+  document.getElementById('r-fut').textContent=`t = ${t.toFixed(2)}s  futurePos ≈ (${fx.toFixed(1)}, ${fy_world.toFixed(1)})`;
+}
+
+// ─── LOCAL SPACE ──────────────────────────────
+function dLoc(){
+  const rot=v('s-rot')*Math.PI/180, lx=v('s-lx'), ly=v('s-ly');
+  sv('v-rot',v('s-rot')+'°'); sv('v-lx',lx.toFixed(1)); sv('v-ly',ly.toFixed(1));
+  const ctx=gc('cv-loc'), s=22, ox=110, oy=110;
+  setupC(ctx);
+  // agent
+  ctx.beginPath(); ctx.arc(ox,oy,10,0,Math.PI*2); ctx.strokeStyle='#7effd4'; ctx.lineWidth=1.5; ctx.stroke();
+  // forward
+  const fwx=Math.cos(-rot),fwy=Math.sin(-rot);
+  arrow(ctx,ox,oy,fwx,fwy,45,'#7effd4','fwd');
+  // right (dashed)
+  const rx=Math.cos(-rot+Math.PI/2),ry=Math.sin(-rot+Math.PI/2);
+  ctx.strokeStyle='#2a3347'; ctx.lineWidth=1; ctx.setLineDash([2,2]);
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+rx*35,oy+ry*35); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.font='8px JetBrains Mono'; ctx.fillStyle='#2a3347'; ctx.fillText('right',ox+rx*37,oy+ry*37);
+  // point P
+  const pwx=ox+lx*s, pwy=oy-ly*s;
+  dot(ctx,pwx,pwy,'#ff9f43',6);
+  ctx.fillStyle='#ff9f43'; ctx.fillText('P',pwx+7,pwy-4);
+  // dashed line agent to P
+  ctx.strokeStyle='#a29bfe'; ctx.lineWidth=1; ctx.setLineDash([2,2]);
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(pwx,pwy); ctx.stroke();
+  ctx.setLineDash([]);
+  // compute local coords (InverseTransformPoint equivalent in 2D)
+  const wox=lx*s, woy=-(ly*s);
+  const locX=(wox*Math.cos(rot)+woy*Math.sin(rot))/s;
+  const locY=(-wox*Math.sin(rot)+woy*Math.cos(rot))/s;
+  const unityRight=locX, unityFwd=-locY;
+  const side=unityRight>.1?'derecha':unityRight<-.1?'izquierda':'centro';
+  const fwdStr=unityFwd>.1?'enfrente':unityFwd<-.1?'detrás':'lado';
+  document.getElementById('r-loc').textContent=`local: (${unityRight.toFixed(1)}, ${unityFwd.toFixed(1)}) — ${fwdStr}/${side}`;
+}
+
+// ─── FEELER ───────────────────────────────────
+function dFeel(){
+  const rot=v('s-frot')*Math.PI/180, spd=v('s-fspd');
+  sv('v-frot',v('s-frot')+'°'); sv('v-fspd',parseFloat(spd).toFixed(2));
+  const ctx=gc('cv-feel');
+  ctx.clearRect(0,0,220,220);
+  const ox=110,oy=155;
+  ctx.beginPath(); ctx.arc(ox,oy,14,0,Math.PI*2); ctx.strokeStyle='#7effd4'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.font='9px JetBrains Mono'; ctx.fillStyle='#7effd4'; ctx.fillText('NPC',ox-12,oy+4);
+  const fl=70*spd;
+  const fwx=Math.cos(-rot),fwy=Math.sin(-rot);
+  const lx=Math.cos(-rot+Math.PI*.28),ly=Math.sin(-rot+Math.PI*.28);
+  const rx=Math.cos(-rot-Math.PI*.28),ry=Math.sin(-rot-Math.PI*.28);
+  ctx.setLineDash([4,3]);
+  ctx.strokeStyle='#7effd4'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+fwx*fl,oy+fwy*fl); ctx.stroke();
+  ctx.strokeStyle='#ff9f43'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+lx*fl*.75,oy+ly*fl*.75); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+rx*fl*.75,oy+ry*fl*.75); ctx.stroke();
+  ctx.setLineDash([]);
+  dot(ctx,ox+fwx*fl,oy+fwy*fl,'#7effd4',4);
+  dot(ctx,ox+lx*fl*.75,oy+ly*fl*.75,'#ff9f43',3);
+  dot(ctx,ox+rx*fl*.75,oy+ry*fl*.75,'#ff9f43',3);
+  ctx.font='8px JetBrains Mono'; ctx.fillStyle='#3a4560';
+  ctx.fillText(`len = ${fl.toFixed(0)}px (${(spd*100).toFixed(0)}% del base)`,10,16);
+}
+
+// ─── SIDEBAR HIGHLIGHT ────────────────────────
+document.addEventListener('DOMContentLoaded', ()=>{
+  dSum(); dSub(); dMag(); dDot(); dCross(); dProj(); dFut(); dLoc(); dFeel();
+  const secs=document.querySelectorAll('.csec');
+  const lnks=document.querySelectorAll('.slnk');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        lnks.forEach(l=>l.classList.remove('active'));
+        const a=document.querySelector(`.slnk[href="#${e.target.id}"]`);
+        if(a) a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-58px 0px -60% 0px'});
+  secs.forEach(s=>obs.observe(s));
+});
+</script>
+<script src="./steering-behaviours.js.descarga"></script>
+
+
+</body></html>
