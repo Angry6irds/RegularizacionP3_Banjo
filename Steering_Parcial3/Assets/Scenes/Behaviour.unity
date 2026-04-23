@@ -458,7 +458,7 @@ PrefabInstance:
     - target: {fileID: 713392043359004138, guid: 47e42c8a931886a4982778dd142ee229, type: 3}
       propertyPath: managedReferences[4350053351226343501].target
       value: 
-      objectReference: {fileID: 1286205219}
+      objectReference: {fileID: 0}
     - target: {fileID: 713392043359004138, guid: 47e42c8a931886a4982778dd142ee229, type: 3}
       propertyPath: managedReferences[4350053351226343501].weight
       value: 1
@@ -470,10 +470,6 @@ PrefabInstance:
     - target: {fileID: 1224802795977170906, guid: 47e42c8a931886a4982778dd142ee229, type: 3}
       propertyPath: m_Name
       value: NPC
-      objectReference: {fileID: 0}
-    - target: {fileID: 2332067969018291453, guid: 47e42c8a931886a4982778dd142ee229, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7768546934871829711, guid: 47e42c8a931886a4982778dd142ee229, type: 3}
       propertyPath: m_Enabled
