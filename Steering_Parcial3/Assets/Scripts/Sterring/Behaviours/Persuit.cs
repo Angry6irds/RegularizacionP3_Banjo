@@ -22,15 +22,13 @@ namespace Sterring.Behaviours
             return desired - ctx.velocity;
         }
         
-        // ReSharper disable Unity.PerformanceAnalysis
         public Vector2 TargetVelocity()
         {
            //v = km/h
-           /*Rigidbody2D rb = target.GetComponent<Rigidbody2D>();
-           Vector2 targetVelocity = rb.linearVelocity;*/
-           Vector2 targetVelocity = (futureTarget - lastPosition).normalized / Time.deltaTime;
-           futureTarget = target.position;
-           return targetVelocity;
+           Rigidbody2D rb = agent.GetComponent<Rigidbody2D>();
+           float targetVelocity = rb.linearVelocity.magnitude;
+           /*Vector2 targetVelocity = (lastPosition - futureTarget).normalized * anticipationTime;*/
+           
         }
         
         
