@@ -7,35 +7,31 @@ namespace Sterring.Behaviours
     public class Persuit : SteeringBehaviour
     {
         public float distance;
-        public float time;
+        public float maxSpeed;
+        public float anticipationTime;
         public Transform target;
         public Transform agent;
+        public Vector2 lastPosition;
+        public Vector2 futureTarget;
 
         public override Vector2 GetSteering(SterringContext ctx)
         {
             distance = Vector2.Distance(agent.position, target.position);
-            time = distance / ctx.maxSpeed;
-            Vector2 futureTarget = new Vector2(target.position.x, target.position.y);
-            Vector2 desire = (futureTarget - agent.position);
-            
-        }
-
-       /* Vector2 Persuit(Vector2 targetPos, Vector2 targerVel)
-        {
-            var dist = Vector2.Distance(targetPos, agent.position);
-            Vector2 futureTarget = new Vector2(target.position.x, target.position.y + dist);
-            return futureTarget - targetPos;
-        }*/
-
-        public void PlayerMovement(SterringContext ctx)
-        {
-           v = km/h 
-               
-               
+            Vector2 futurePos = new Vector2(target.position.x, target.position.y) + TargetVelocity() * anticipationTime;
+            Vector2 desired = (futurePos - ctx.position).normalized * maxSpeed;
+            return desired - ctx.velocity;
         }
         
-        
-        
+        // ReSharper disable Unity.PerformanceAnalysis
+        public Vector2 TargetVelocity()
+        {
+           //v = km/h
+           /*Rigidbody2D rb = target.GetComponent<Rigidbody2D>();
+           Vector2 targetVelocity = rb.linearVelocity;*/
+           Vector2 targetVelocity = (futureTarget - lastPosition).normalized / Time.deltaTime;
+           futureTarget = target.position;
+           return targetVelocity;
+        }
         
         
     }
