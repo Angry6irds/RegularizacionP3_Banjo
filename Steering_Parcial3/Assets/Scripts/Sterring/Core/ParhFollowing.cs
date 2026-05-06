@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Sterring.Behaviours
 {
-    public class ParhFollowing : MonoBehaviourSteeringBehaviour
+    public class PathFollowing : MonoBehaviourSteeringBehaviour
     {
         public List<Transform> waypoints;
         public float pathRadius;
@@ -19,6 +19,11 @@ namespace Sterring.Behaviours
             
             float closesDist = float.MaxValue;
             Vector2 targetLookAhead = Vector2.zero;
+
+            for (int i = 0; i < waypoints.Count - 1; i++)
+            {
+                
+            }
         }
     }
 }
