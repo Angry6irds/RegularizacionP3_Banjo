@@ -17,6 +17,6 @@ namespace Sterring.Behaviours
             Vector2 desired = (targetPos - ctx.position).normalized
                 * ctx.maxSpeed;
             return desired - ctx.velocity;
-        }
+        } 
     }
 }

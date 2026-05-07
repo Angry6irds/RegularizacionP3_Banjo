@@ -7,6 +7,7 @@ public struct SterringContext
     public float maxSpeed;
     public float maxForce;
     
+    
     public SterringContext(Vector2 pos, Vector2 vel, float spd, float frc)
     {
         position = pos;

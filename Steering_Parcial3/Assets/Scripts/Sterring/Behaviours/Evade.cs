@@ -6,7 +6,7 @@ namespace Sterring.Behaviours
     public class Evade : SteeringBehaviour
     {
         public Transform pursuer;
-        public SteeringBehaviour pursuerCtrl;
+        public SteeringBehaviour evadeCtrl;
         public float panicDistance = 5f;
 
         public override Vector2 GetSteering(SterringContext ctx)
@@ -20,7 +20,7 @@ namespace Sterring.Behaviours
             }
 
             float t = distance / ctx.maxSpeed;
-            Vector2 futurePos = (Vector2)pursuer.position + pursuerCtrl.velocity * t;
+            Vector2 futurePos = (Vector2)pursuer.position + evadeCtrl.velocity* t;
             
             Vector2 desired = (ctx.position - futurePos).normalized *  ctx.maxSpeed;
             return desired -  ctx.velocity;
